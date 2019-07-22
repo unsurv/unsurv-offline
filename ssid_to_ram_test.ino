@@ -23,6 +23,7 @@ class CapturedWifi{
 
   String ssid;
   String bssid[20];
+  int uniqueBssids;
   unsigned long firstSeen;
   unsigned long lastSeen;
 
@@ -40,7 +41,7 @@ class CapturedWifi{
     ssid + "\n" + 
     bssids +  // newline already at the end of bssids
     String(firstSeen) + "\n" +
-    String(lastSeen);
+    String(lastSeen) + "\n";
     
     return representation;
   }
@@ -65,7 +66,7 @@ void setup()
 void loop()
 {
   
-    Serial.println(ESP.getFreeHeap());
+    //Serial.println(ESP.getFreeHeap());
 
     Serial.println("scan start");
 
@@ -101,26 +102,51 @@ void loop()
 }
 
 void processWifiCapture(int index){
-
-  std::map <String, CapturedWifi>::iterator it = observedNetworks.find(WiFi.SSID(index));
-  if (it != observedNetworks.end()) {  // if network seen before
-
+  String ssid = WiFi.SSID(index);
+  String bssid = WiFi.BSSIDstr(index);
+  std::map <String, CapturedWifi>::iterator it = observedNetworks.find(ssid);
+  
+  if (it != observedNetworks.end()) {  // if network seen before, 
+    //what if network is at last index??
+    
     //TODO check if bssid in array, add to array if not, if yes alarm
     //TODO if array of size 20 full, delete first element and add to end
-    //TODO use firstSeen lastSeen
+    //TODO use firstSeen lastSee
 
-    //if (capture.bssid)
-    //Serial.println(capture.ssid + " seen before");
+    // get previous capture
+    CapturedWifi seenWifi = observedNetworks[ssid];
+
+    boolean newBssidForSsid = true;
+
+    for (int i=0; i < seenWifi.uniqueBssids; i++) {
+      if (bssid == seenWifi.bssid[i]){
+        newBssidForSsid = false;
+      }
+    }
+
+    if (newBssidForSsid){
+      seenWifi.bssid[seenWifi.uniqueBssids] = bssid;
+      
+      seenWifi.uniqueBssids += 1;
+      seenWifi.lastSeen = millis();
+      // notifyUser();
+      Serial.println("Found SSID with multiple APs");
+      Serial.print(seenWifi.toString());
+      //update original map
+      observedNetworks[ssid] = seenWifi;
+    }
+    
   } else {
     CapturedWifi unseenWifiCapture;
 
     unseenWifiCapture.ssid = WiFi.SSID(index);
     unseenWifiCapture.bssid[0]= WiFi.BSSIDstr(index);
+    unseenWifiCapture.uniqueBssids = 1;
     unseenWifiCapture.firstSeen = millis();
     observedNetworks[WiFi.SSID(index)] = unseenWifiCapture;
     
     Serial.println(WiFi.SSID(index) + " not seen before, adding to db");
-    Serial.print(unseenWifiCapture.toString());
+    // Serial.print(unseenWifiCapture.toString());
   }
   
 };
