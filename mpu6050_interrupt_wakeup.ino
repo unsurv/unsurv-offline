@@ -121,14 +121,19 @@ void setup() {
     delay(100);
     accelgyro.setZeroMotionDetectionThreshold(20);
     delay(100);
+    // counts no motion events, this counting is slowed 
+    // because a low frequency of measurements is used
     accelgyro.setZeroMotionDetectionDuration(20);
     delay(100);
+    // interrupts twice, on no motion + on motion
     accelgyro.setIntZeroMotionEnabled(true);
     delay(100);
+    // enables low power only accelerator mode
     accelgyro.setWakeCycleEnabled(true);
     delay(100);
-    accelgyro.setIntZeroMotionEnabled(true);
-    delay(100);
+    // frequency of measurements
+    // 0 = 1.25 Hz, 1 = 2.5 Hz, 2 = 5 Hz, 3 = 10 Hz
+    // this does seem to slow counting of motion events used for DetectionDuration above
     accelgyro.setWakeFrequency(3);
 
     int16_t oldax, olday, oldaz;
