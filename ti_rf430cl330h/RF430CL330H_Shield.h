@@ -149,16 +149,18 @@
 0xE1, 0x04,                                                                             \
                                                                                         \
 /* NDEF File for Hello World  (48 bytes total length) */                                \
-0x00, 0x14, /* NLEN; NDEF length (2 byte long message) */                               \
+0x00, 0x2A, /* NLEN; NDEF length (2 byte long message) */                               \
 0xD1, /* Record Header  */                                                              \ 
 0x01, /* Type Length */                                                                 \
-0x10, /* bytes after this -1 byte for type*/                                            \
+0x26, /* bytes after this -1 byte  = NLEN - 4*/                                 \
 0x54, /* type  T = text */                                                              \
 0x02,  /* ID length  */                                                                 \
 0x65, 0x6E, /* 'e', 'n', */                                                             \
                                                                                         \
 /* 'Hello, world!' NDEF data; Empty NDEF message, length should match NLEN*/            \
-0x48, 0x65, 0x6C, 0x6C, 0x6f, 0x2c, 0x20, 0x77, 0x6f, 0x72, 0x6c, 0x64, 0x21            \
+0x68, 0x65, 0x72, 0x65, 0x20, 0x63, 0x6f, 0x75, 0x6c, 0x64, 0x20, 0x62, 0x65, 0x20,     \
+0x61, 0x20, 0x6a, 0x73, 0x6f, 0x6e, 0x20, 0x66, 0x69, 0x6c, 0x65, 0x20, 0x77, 0x69,     \
+0x74, 0x68, 0x20, 0x69, 0x6e, 0x66, 0x6f      \
 }
 
 class RF430CL330H_Shield
