@@ -38,6 +38,8 @@ static inline uint8_t wirerecv(void)
 }
 
 
+
+
 /**
 **  @brief  Instantiates a new RF430 class
 **  @param  irq       Location of the IRQ pin
@@ -97,7 +99,7 @@ void RF430CL330H_Shield::begin()
     //Upon exit of this block, the control register is set to 0x0
     /** Fix end */
     
-    byte NDEF_Application_Data[] = RF430_DEFAULT_DATA;
+    byte NDEF_Application_Data[] = RF430_TEST;
     //write NDEF memory with Capability Container + NDEF message
     Write_Continuous(0, NDEF_Application_Data, sizeof(NDEF_Application_Data));
 

@@ -83,6 +83,38 @@ byte NDEF_BASE[] = {
 
 };
 
+byte nfcTemplate[] = {
+/*NDEF Tag Application Name*/                                                           \
+0xD2, 0x76, 0x00, 0x00, 0x85, 0x01, 0x01,                                               \
+                                                                                        \
+/*Capability Container ID*/                                                             \
+0xE1, 0x03,                                                                             \
+0x00, 0x0F, /* CCLEN */                                                                 \
+0x20,       /* Mapping version 2.0 */                                                   \
+0x00, 0xF9, /* MLe (249 bytes); Maximum R-APDU data size */                             \
+0x00, 0xF6, /* MLc (246 bytes); Maximum C-APDU data size */                             \
+0x04,       /* Tag, File Control TLV (4 = NDEF file) */                                 \
+0x06,       /* Length, File Control TLV (6 = 6 bytes of data for this tag) */           \
+0xE1, 0x04, /* File Identifier */                                                       \
+0x0B, 0xDF, /* Max NDEF size (3037 bytes of useable memory) */                          \
+0x00,       /* NDEF file read access condition, read access without any security */     \
+0x00,       /* NDEF file write access condition; write access without any security */   \
+                                                                                        \
+/* NDEF File ID */                                                                      \
+0xE1, 0x04,                                                                             \
+                                                                                        \
+/* NDEF File for Hello World  (48 bytes total length) */                                \
+0x00, 0x12, /* NLEN; NDEF length (2 byte long message) */                               \
+0xD1, /* Record Header  */                                                              \ 
+0x01, /* Type Length */                                                                 \
+0x0E, /* bytes after this -1  = NLEN - 4*/                                              \
+0x54, /* type  T = text */                                                              \
+0x02,  /* ID length  */                                                                 \
+0x65, 0x6E, /* 'e', 'n', */                                                             \
+                                                                                        \
+/* PAYLOAD NDEF data;*/            
+};
+
 void setup(void)
 {
     Serial.begin(115200);
@@ -92,81 +124,60 @@ void setup(void)
     digitalWrite(led, HIGH);
     //reset RF430
     nfc.begin();
-    delay(1000);
+    delay(500);
+    
 }
-
-
 
 
 void loop(void)
-{
-  while (Serial.available())
-  {
-    Serial.println("Available!");
-    byte cmd = Serial.read();
-    if (cmd == 94) //^
-      updateURL();
-  }
+{ 
+    Serial.println("Updating!");
+
+    updateNFC("this is a test nfc payload \" test231");
+    delay(10000);
 }
 
-void updateURL()
+void updateNFC(String nfcString)
 {
-  Serial.println("Reading URL until ^...");
-  byte buffer[255];
-  byte pos = 0;
-  byte urlByte = -1;
+    int rawDataSize = nfcString.length() + 1; // strings are null terminated
+    int templateSize = sizeof(nfcTemplate);
+    byte nfcPayload[rawDataSize];
+    nfcString.getBytes(nfcPayload, rawDataSize);
 
-  while (urlByte != 94) //while not ^
-  {
-    if (Serial.available())
-    {
-      urlByte = Serial.read();
+    
+    //fix the length fields in the NFC tag
+    
+    int payloadSize = 3 + rawDataSize - 1; // -1 to remove null termated string
+    int nlen = payloadSize + 4;
+    Serial.println(payloadSize);
+    Serial.println(nlen);
 
-       if (urlByte != 94)
-         buffer[pos++] = urlByte;
+    nfcTemplate[27] = nlen;
+    nfcTemplate[30] = payloadSize;
+
+    byte nfcTag[templateSize + rawDataSize - 1];
+
+    int pointer;
+    for (int i = 0 ; i < templateSize; i++) {
+      nfcTag[i] = nfcTemplate[i];
+      pointer = i;
+      }
+    for (int f = 0; f < rawDataSize; f++){
+      // Serial.println(nfcPayload[f]);
     }
-  }
 
-  Serial.println("Received second ^. Creating new byte array with this size:");
-  Serial.println(pos, DEC);
+    for (int i = 0, j = pointer + 1; i < rawDataSize ,  j < pointer + rawDataSize; i++, j++) { // -1 removes null terminating string
+      nfcTag[j] = nfcPayload[i];
+      Serial.println(nfcPayload[i]);
+      }
 
-  byte urlPart[pos]; //we expect hybris.com (no http://)
-
-   //copy to final part array
-   for (int i = 0; i < pos; i++)
-   {
-     Serial.println(buffer[i], HEX);
-     urlPart[i] = buffer[i];
-   }
-
-   byte BASE_SIZE = sizeof(NDEF_BASE);
-   byte ndef[pos+BASE_SIZE];
-   byte ndefPos = 0;
-
-   for (int i = 0; i < BASE_SIZE; i++)
-   {
-     ndef[i] = NDEF_BASE[i];
-   }
-
-   //add url part
-   byte partPos = 0;
-   for (int i = BASE_SIZE; i < (pos+BASE_SIZE); i++)
-   {
-     ndef[i] = urlPart[partPos++];
-   }
-
-   //fix the length fields
-
-   ndef[27] = 5+pos;
-   ndef[30] = 1+pos;
-
-   //update nfc tag
+    // update nfc tag
 
     while(!(nfc.Read_Register(STATUS_REG) & READY)); //wait until READY bit has been set
     Serial.print("Firmware Version:"); Serial.println(nfc.Read_Register(VERSION_REG), HEX);
 
     //write NDEF memory with Capability Container + NDEF message
-    nfc.Write_Continuous(0, ndef, sizeof(ndef));
+    nfc.Write_Continuous(0, nfcTag, sizeof(nfcTag));
 
     //Enable interrupts for End of Read and End of Write
     nfc.Write_Register(INT_ENABLE_REG, EOW_INT_ENABLE + EOR_INT_ENABLE);

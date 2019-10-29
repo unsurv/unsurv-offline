@@ -127,7 +127,7 @@
 
 #define TEST_MODE_KEY           0x004E
 
-#define RF430_DEFAULT_DATA                                                              \
+#define RF430_TEST                                                                      \
 {                                                                                       \
 /*NDEF Tag Application Name*/                                                           \
 0xD2, 0x76, 0x00, 0x00, 0x85, 0x01, 0x01,                                               \
@@ -152,12 +152,12 @@
 0x00, 0x2A, /* NLEN; NDEF length (2 byte long message) */                               \
 0xD1, /* Record Header  */                                                              \ 
 0x01, /* Type Length */                                                                 \
-0x26, /* bytes after this -1 byte  = NLEN - 4*/                                 \
+0x26, /* bytes after this -1  = NLEN - 4*/                                              \
 0x54, /* type  T = text */                                                              \
 0x02,  /* ID length  */                                                                 \
 0x65, 0x6E, /* 'e', 'n', */                                                             \
                                                                                         \
-/* 'Hello, world!' NDEF data; Empty NDEF message, length should match NLEN*/            \
+/* PAYLOAD NDEF data; Empty NDEF message, length should match NLEN*/            \
 0x68, 0x65, 0x72, 0x65, 0x20, 0x63, 0x6f, 0x75, 0x6c, 0x64, 0x20, 0x62, 0x65, 0x20,     \
 0x61, 0x20, 0x6a, 0x73, 0x6f, 0x6e, 0x20, 0x66, 0x69, 0x6c, 0x65, 0x20, 0x77, 0x69,     \
 0x74, 0x68, 0x20, 0x69, 0x6e, 0x66, 0x6f      \
