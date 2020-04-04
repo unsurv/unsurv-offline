@@ -1,0 +1,325 @@
+EESchema Schematic File Version 4
+EELAYER 30 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L RF_GPS:ublox_SAM-M8Q U?
+U 1 1 5E88E491
+P 5000 5850
+F 0 "U?" H 5000 5261 50  0000 C CNN
+F 1 "ublox_SAM-M8Q" H 5000 5170 50  0000 C CNN
+F 2 "RF_GPS:ublox_SAM-M8Q" H 5500 5400 50  0001 C CNN
+F 3 "https://www.u-blox.com/sites/default/files/SAM-M8Q_DataSheet_%28UBX-16012619%29.pdf" H 5000 5850 50  0001 C CNN
+	1    5000 5850
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector:DF12-20DP CN?
+U 1 1 5E8926C4
+P 8550 4000
+F 0 "CN?" H 8978 5396 50  0000 L CNN
+F 1 "DF12-20DP" H 8978 5305 50  0000 L CNN
+F 2 "" H 8500 6850 50  0001 C CNN
+F 3 "" H 8500 6850 50  0001 C CNN
+	1    8550 4000
+	1    0    0    -1  
+$EndComp
+$Comp
+L nfc-gps_symbols:NfcAntenna26mmx26mm AE?
+U 1 1 5E895848
+P 1800 3800
+F 0 "AE?" H 1608 4315 50  0000 C CNN
+F 1 "NfcAntenna26mmx26mm" H 1608 4224 50  0000 C CNN
+F 2 "" H 1800 4200 50  0001 C CNN
+F 3 "" H 1800 4200 50  0001 C CNN
+	1    1800 3800
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C C?
+U 1 1 5E89AF57
+P 2100 2950
+F 0 "C?" H 2215 2996 50  0000 L CNN
+F 1 "100nF" H 2215 2905 50  0000 L CNN
+F 2 "" H 2138 2800 50  0001 C CNN
+F 3 "~" H 2100 2950 50  0001 C CNN
+	1    2100 2950
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C C?
+U 1 1 5E89BC9C
+P 3850 2800
+F 0 "C?" H 3965 2846 50  0000 L CNN
+F 1 "470nF" H 3965 2755 50  0000 L CNN
+F 2 "" H 3888 2650 50  0001 C CNN
+F 3 "~" H 3850 2800 50  0001 C CNN
+	1    3850 2800
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5E89DB12
+P 3200 2500
+F 0 "#PWR?" H 3200 2250 50  0001 C CNN
+F 1 "GND" H 3205 2327 50  0000 C CNN
+F 2 "" H 3200 2500 50  0001 C CNN
+F 3 "" H 3200 2500 50  0001 C CNN
+	1    3200 2500
+	-1   0    0    1   
+$EndComp
+$Comp
+L Device:C C?
+U 1 1 5E896908
+P 2550 2950
+F 0 "C?" H 2435 2904 50  0000 R CNN
+F 1 "1yF" H 2435 2995 50  0000 R CNN
+F 2 "" H 2588 2800 50  0001 C CNN
+F 3 "~" H 2550 2950 50  0001 C CNN
+	1    2550 2950
+	-1   0    0    1   
+$EndComp
+$Comp
+L nfc-gps_symbols:RF430CL330H U?
+U 1 1 5E8906CA
+P 3250 3450
+F 0 "U?" H 3225 4165 50  0000 C CNN
+F 1 "RF430CL330H" H 3225 4074 50  0000 C CNN
+F 2 "" H 3250 4000 50  0001 C CNN
+F 3 "" H 3250 4000 50  0001 C CNN
+	1    3250 3450
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3600 3100 3850 3100
+Wire Wire Line
+	3850 3100 3850 2950
+Wire Wire Line
+	3850 2650 3850 2500
+Wire Wire Line
+	3850 2500 3200 2500
+Wire Wire Line
+	2100 2800 2550 2800
+Wire Wire Line
+	2550 2800 2850 2800
+Wire Wire Line
+	2850 2800 2850 2500
+Wire Wire Line
+	2850 2500 3200 2500
+Connection ~ 2550 2800
+Connection ~ 3200 2500
+Wire Wire Line
+	2850 3100 2550 3100
+Wire Wire Line
+	2100 3100 2550 3100
+Connection ~ 2550 3100
+$Comp
+L power:+3.3V #PWR?
+U 1 1 5E8A3E89
+P 1650 3100
+F 0 "#PWR?" H 1650 2950 50  0001 C CNN
+F 1 "+3.3V" H 1665 3273 50  0000 C CNN
+F 2 "" H 1650 3100 50  0001 C CNN
+F 3 "" H 1650 3100 50  0001 C CNN
+	1    1650 3100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1650 3100 2100 3100
+Connection ~ 2100 3100
+Wire Wire Line
+	1800 3550 2350 3550
+Wire Wire Line
+	2350 3550 2350 3200
+Wire Wire Line
+	2350 3200 2850 3200
+Wire Wire Line
+	1800 3650 2450 3650
+Wire Wire Line
+	2450 3650 2450 3300
+Wire Wire Line
+	2450 3300 2850 3300
+Text GLabel 2850 3400 0    50   Input ~ 0
+NRST
+Text GLabel 3600 3700 2    50   Input ~ 0
+NINT
+Text GLabel 3600 3300 2    50   Input ~ 0
+SDA
+Text GLabel 3600 3400 2    50   Input ~ 0
+SCL
+Text GLabel 5500 5950 2    50   Input ~ 0
+SDA
+Text GLabel 5500 6050 2    50   Input ~ 0
+SCL
+Text GLabel 5500 5650 2    50   Input ~ 0
+GRX
+Text GLabel 5500 5750 2    50   Input ~ 0
+GTX
+$Comp
+L power:+3.3V #PWR?
+U 1 1 5E8A6D6A
+P 4900 5150
+F 0 "#PWR?" H 4900 5000 50  0001 C CNN
+F 1 "+3.3V" H 4915 5323 50  0000 C CNN
+F 2 "" H 4900 5150 50  0001 C CNN
+F 3 "" H 4900 5150 50  0001 C CNN
+	1    4900 5150
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4900 5150 4900 5350
+Wire Wire Line
+	4900 5150 5000 5150
+Wire Wire Line
+	5000 5150 5000 5350
+Connection ~ 4900 5150
+Wire Wire Line
+	5000 5150 5100 5150
+Wire Wire Line
+	5100 5150 5100 5350
+Connection ~ 5000 5150
+$Comp
+L Device:R R?
+U 1 1 5E8A8696
+P 4050 5850
+F 0 "R?" V 3843 5850 50  0000 C CNN
+F 1 "1k" V 3934 5850 50  0000 C CNN
+F 2 "" V 3980 5850 50  0001 C CNN
+F 3 "~" H 4050 5850 50  0001 C CNN
+	1    4050 5850
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:LED D?
+U 1 1 5E8A9A15
+P 3500 5850
+F 0 "D?" H 3493 6066 50  0000 C CNN
+F 1 "LED" H 3493 5975 50  0000 C CNN
+F 2 "" H 3500 5850 50  0001 C CNN
+F 3 "~" H 3500 5850 50  0001 C CNN
+	1    3500 5850
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5E8AA5C2
+P 3050 5850
+F 0 "#PWR?" H 3050 5600 50  0001 C CNN
+F 1 "GND" H 3055 5677 50  0000 C CNN
+F 2 "" H 3050 5850 50  0001 C CNN
+F 3 "" H 3050 5850 50  0001 C CNN
+	1    3050 5850
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4500 5850 4200 5850
+Wire Wire Line
+	3900 5850 3650 5850
+Wire Wire Line
+	3350 5850 3050 5850
+$Comp
+L power:+3.3V #PWR?
+U 1 1 5E8ACA9C
+P 8300 1700
+F 0 "#PWR?" H 8300 1550 50  0001 C CNN
+F 1 "+3.3V" H 8315 1873 50  0000 C CNN
+F 2 "" H 8300 1700 50  0001 C CNN
+F 3 "" H 8300 1700 50  0001 C CNN
+	1    8300 1700
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8550 1700 8400 1700
+Wire Wire Line
+	8550 1800 8400 1800
+Wire Wire Line
+	8400 1800 8400 1700
+Connection ~ 8400 1700
+Wire Wire Line
+	8400 1700 8300 1700
+Text GLabel 8550 1900 0    50   Input ~ 0
+SCL
+Text GLabel 8550 2000 0    50   Input ~ 0
+SDA
+Text GLabel 8550 2100 0    50   Input ~ 0
+GRX
+Text GLabel 8550 2200 0    50   Input ~ 0
+GTX
+Text GLabel 8550 2300 0    50   Input ~ 0
+GRST
+Text GLabel 8550 2400 0    50   Input ~ 0
+NINT
+Text GLabel 8550 2600 0    50   Input ~ 0
+NRST
+$Comp
+L power:GND #PWR?
+U 1 1 5E8AE54F
+P 8400 3650
+F 0 "#PWR?" H 8400 3400 50  0001 C CNN
+F 1 "GND" H 8405 3477 50  0000 C CNN
+F 2 "" H 8400 3650 50  0001 C CNN
+F 3 "" H 8400 3650 50  0001 C CNN
+	1    8400 3650
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8550 2700 8400 2700
+Wire Wire Line
+	8400 2700 8400 2800
+Wire Wire Line
+	8550 2800 8400 2800
+Connection ~ 8400 2800
+Wire Wire Line
+	8400 2800 8400 2900
+Wire Wire Line
+	8550 2900 8400 2900
+Connection ~ 8400 2900
+Wire Wire Line
+	8400 2900 8400 3000
+Wire Wire Line
+	8550 3000 8400 3000
+Connection ~ 8400 3000
+Wire Wire Line
+	8400 3000 8400 3100
+Wire Wire Line
+	8550 3100 8400 3100
+Connection ~ 8400 3100
+Wire Wire Line
+	8400 3100 8400 3200
+Wire Wire Line
+	8550 3200 8400 3200
+Connection ~ 8400 3200
+Wire Wire Line
+	8400 3200 8400 3300
+Wire Wire Line
+	8550 3300 8400 3300
+Connection ~ 8400 3300
+Wire Wire Line
+	8400 3300 8400 3400
+Wire Wire Line
+	8550 3400 8400 3400
+Connection ~ 8400 3400
+Wire Wire Line
+	8400 3400 8400 3500
+Wire Wire Line
+	8550 3500 8400 3500
+Connection ~ 8400 3500
+Wire Wire Line
+	8400 3500 8400 3600
+Wire Wire Line
+	8550 3600 8400 3600
+Connection ~ 8400 3600
+Wire Wire Line
+	8400 3600 8400 3650
+$EndSCHEMATC
