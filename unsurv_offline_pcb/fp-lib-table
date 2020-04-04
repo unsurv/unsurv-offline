@@ -1,4 +1,0 @@
-(fp_lib_table
-  (lib (name digikey-footprints)(type KiCad)(uri C:/Users/Martin/Documents/KiCad/libraries/digikey-kicad-library-master/digikey-footprints.pretty)(options "")(descr ""))
-  (lib (name unsurv_offline_footprints)(type KiCad)(uri ${KIPRJMOD}/unsurv_offline_footprints.pretty)(options "")(descr ""))
-)
