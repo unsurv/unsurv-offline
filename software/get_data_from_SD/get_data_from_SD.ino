@@ -17,7 +17,7 @@ class SurveillanceCamera{
 
 
 int nearCameraCounter = 0;
-SurveillanceCamera nearCameras[1000];
+SurveillanceCamera nearCameras[100];
 
 
 bool readLine(File &f, char* line, size_t maxLen) {

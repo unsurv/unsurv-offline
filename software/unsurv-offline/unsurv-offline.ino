@@ -9,6 +9,9 @@
 
 #include <Wire.h> //Needed for I2C to GPS
 #include "BluetoothSerial.h"
+#include "LocationUtils.h"
+
+LocationUtils locUtils;
 
 
 #include "SparkFun_Ublox_Arduino_Library.h" //http://librarymanager/All#SparkFun_Ublox_GPS
@@ -19,6 +22,7 @@ long lastTime = 0; //Simple local timer. Limits amount if I2C traffic to Ublox m
 void setup()
 {
   Serial.begin(9600);
+  
   Serial.println("SparkFun Ublox Example");
   
   ESP_BT.begin("test");
