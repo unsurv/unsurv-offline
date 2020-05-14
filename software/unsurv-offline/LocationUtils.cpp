@@ -26,7 +26,7 @@ boolean LocationUtils::checkIfCameraInRange(int range, double deviceLatitude, do
   return false;
 }
 
-float LocationUtils::getDistanceToCamera(int range, double deviceLatitude, double deviceLongitude, double cameraLatitude,  double cameraLongitude){
+float LocationUtils::getDistanceToCamera(double deviceLatitude, double deviceLongitude, double cameraLatitude,  double cameraLongitude){
 
   float verticalDistanceInMeters = (deviceLatitude - cameraLatitude)*latitudeDegreeToMetersRatio();
   float horizontalDistanceInMeters = (deviceLongitude - cameraLongitude)*longitudeDegreesToMetersRatio(deviceLatitude);
