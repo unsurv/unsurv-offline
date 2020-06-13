@@ -1,66 +1,55 @@
-#include <SD.h>
+/*
+  SD card read/write
+
+ This example shows how to read and write data to and from an SD card file
+
+
+ created   Nov 2010
+ by David A. Mellis
+ modified 9 Apr 2012
+ by Tom Igoe
+
+ This example code is in the public domain.
+
+ File needs to have a blank line at the end!
+ */
+
 #include <SPI.h>
+//#include <SD.h>
+#include <SdFat.h>
+SdFat SD;
 
-File file;
+// from sdfat example
+// Test with reduced SPI speed for breadboards.  SD_SCK_MHZ(4) will select
+// the highest speed supported by the board that is not over 4 MHz.
+// Change SPI_SPEED to SD_SCK_MHZ(50) for best performance.
+#define SPI_SPEED SD_SCK_MHZ(32)
 
-class SurveillanceCamera{
+#define MAXNEARCAMERAS 100
+
+File myFile;
+int fileSize;
+
+class SurveillanceCamera
+{
   public:
 
   double latitude;
   double longitude;
 
-  String cameraType;
-  String id;
+  unsigned short int cameraType;
+  unsigned short int id; //  id is randomized for local area
   
   
 };
 
-
 int nearCameraCounter = 0;
-SurveillanceCamera nearCameras[100];
+SurveillanceCamera nearCameras[MAXNEARCAMERAS];
 
 
-bool readLine(File &f, char* line, size_t maxLen) {
-  for (size_t n = 0; n < maxLen; n++) {
-    int c = f.read();
-    if ( c < 0 && n == 0) return false;  // EOF
-    if (c < 0 || c == '\n') {
-      line[n] = 0;
-      return true;
-    }
-    line[n] = c;
-  }
-  return false; // line too long
-}
 
-bool readDataFromSdCard(double* v1, double* v2, String* loc,String* loc2) {
-  char line[100], *pointer, *str;
-  if (!readLine(file, line, sizeof(line))) {
-    return false;  // EOF or too long
-  }
-  
-  *v1 = strtod(line, &pointer);
-  if (pointer == line) return false;  // bad number if equal
-  while (*pointer) {
-    if (*pointer++ == ',') break;
-  }
-  
-  *v2 = strtod(pointer, &str);
-  //Serial.println(String(*v2, 7));
-  while (*pointer) {
-    if (*pointer++ == ',') break;
-  }
-  
-  String a = strtok_r(pointer, ",", &str);
-  String first(str);
-  *loc = first;
-  String let(a);
-  *loc2 = let;
-  
-  return str != pointer;  // true if number found
-}
-
-double longitudeDegreesToMetersRatio(double latitude){
+double longitudeDegreesToMetersRatio(double latitude)
+{
   int earthRadius = 6371000;
   double latitudeAsRad = latitude * DEG_TO_RAD;
 
@@ -68,90 +57,197 @@ double longitudeDegreesToMetersRatio(double latitude){
   
 }
 
-int latitudeDegreeToMetersRatio() {
+int latitudeDegreeToMetersRatio() 
+{
   return 110574;
 }
 
-boolean checkIfCameraInRange(int range, double deviceLatitude, double deviceLongitude, double cameraLatitude,  double cameraLongitude){
+boolean checkIfCameraInRange(int range, double deviceLatitude, double deviceLongitude, double cameraLatitude,  double cameraLongitude)
+{
 
   float verticalDistanceInMeters = (deviceLatitude - cameraLatitude)*latitudeDegreeToMetersRatio();
   float horizontalDistanceInMeters = (deviceLongitude - cameraLongitude)*longitudeDegreesToMetersRatio(deviceLatitude);
 
   float distance = sqrt(sq(verticalDistanceInMeters) + sq(horizontalDistanceInMeters));
   
-  if (distance < range) {
+  if (distance < range) 
+  {
     return true;
   }
+  
   return false;
 }
 
-void getNearCamerasFromSdCard(double deviceLatitude, double deviceLongitude, int radiusInMeters){
+int getCamerasFromSD(double deviceLatitude, double deviceLongitude, short radiusInMeters)
+{
+
+  char curr;
+  char info[18];
+  int valueStart, index;
 
   double latitude, longitude;
-  String cameraType,cameraId;
-  int datapointsChecked = 0;
+  short int cameraType, dataType, cameraId;
+  String id;
 
-  while (readDataFromSdCard(&latitude, &longitude, &cameraType, &cameraId)) {
-    datapointsChecked++;
-    if (datapointsChecked == 1 || datapointsChecked == 10000){
-      Serial.println(datapointsChecked);
-    }
-    
-    if (checkIfCameraInRange(radiusInMeters, deviceLatitude, deviceLongitude, latitude, longitude)) {
-      SurveillanceCamera tmpCamera;
-      tmpCamera.latitude = latitude;
-      tmpCamera.longitude = longitude;
-      tmpCamera.cameraType = cameraType;
-      tmpCamera.id = cameraId;
-
-      nearCameras[nearCameraCounter] = tmpCamera;
-      nearCameraCounter++;
-
-      // TODO if near cameras over length 1000 do again with smaller radius so less than 1000 cameras are "near"
-
-      Serial.println("-----------------------");
-      Serial.println("Camera added at: ");
-      Serial.println(String(latitude, 5));
-      Serial.println(String(longitude, 5));
-      Serial.println(String(nearCameraCounter));
-      Serial.println("-----------------------");
-    }
-    
-    //First 2 double datatype variables 
-    //Serial.println("-----------------------");
-    //Serial.println(String(latitude, 5));
-    //Serial.println(String(longitude, 5));
-
-    //Last 2 String type variables
-    //Serial.println(cameraType);
-    //Serial.println(cameraId);
-  } 
+  short int nearCamerasCounter;
   
+  
+  Serial.print("Initializing SD card...");
+
+  if (!SD.begin(4, SPI_SPEED)) 
+  {
+    Serial.println("initialization failed!");
+    while (1);
+  }
+  Serial.println("initialization done.");
+
+  // open the file. note that only one file can be open at a time,
+  // so you have to close this one before opening another.
+  
+  
+  // re-open the file for reading:
+  myFile = SD.open("/data.csv");
+  if (myFile) 
+  {
+    Serial.println("data.csv");
+
+    // fileSize = myFile.size();
+    // Serial.println(fileSize);
+
+    // myFile.seek(fileSize / 2);
+
+    valueStart = 0;
+    index = 0;
+    dataType = 0;
+
+    // read from the file until there's nothing else in it:
+    while (myFile.available()) 
+    {
+      
+      curr = myFile.read();
+      
+      if (curr == ',' || curr == '\n' || curr == '\n') 
+      {
+        
+        info[index - valueStart] = '\0';
+        valueStart = index + 1;
+        
+        // TODO check strtox for SECURITY!!!
+        switch(dataType) {
+          case 0:
+            latitude = strtod(info, NULL);
+            break;
+
+          case 1:
+            longitude = strtod(info, NULL);
+            break;
+
+          case 2: 
+            cameraType = strtol(info, NULL, 10);
+            break;
+            
+          case 3:
+            cameraId = strtol(info, NULL, 10);
+            break;
+
+        }
+
+        
+        if(dataType == 3) // line of csv data completed
+        {
+
+          // if too many cameras in radius around device, half the radius
+          if (nearCameraCounter == MAXNEARCAMERAS) {
+            Serial.println("RADIUS HALVED ---------------");
+            return radiusInMeters / 2;
+          }
+
+          
+          if (checkIfCameraInRange(radiusInMeters, deviceLatitude, deviceLongitude, latitude, longitude))
+          {
+          SurveillanceCamera tmpCamera;
+          tmpCamera.latitude = latitude;
+          tmpCamera.longitude = longitude;
+          tmpCamera.cameraType = cameraType;
+          tmpCamera.id = cameraId;
+
+          nearCameras[nearCameraCounter] = tmpCamera;
+          nearCameraCounter++;
+
+          //Serial.println("-----------------------");
+          //Serial.println("Camera added at: ");
+          //Serial.println(String(latitude, 5));
+          //Serial.println(String(longitude, 5));
+          //Serial.println(String(cameraType));
+          //Serial.println(cameraId);
+          //Serial.print("Nearcameras: ");
+          //Serial.println(nearCameraCounter);
+          //Serial.println("-----------------------");
+          
+          }
+        }
+
+        
+
+        // 4 types of data in csv
+        dataType < 3 ? ++dataType: dataType = 0;
+        
+        info[0] = '\0';
+
+        
+      } else 
+      {
+        info[index - valueStart] = curr;
+        
+      }
+
+      index++;
+
+      // Serial.println(myFile.position());
+      
+           
+    }
+
+    
+    // close the file:
+    myFile.close();
+
+    return 0; // success
+    
+  } else 
+  {
+    // if the file didn't open, print an error:
+    Serial.println("error opening data.csv");
+    return -1;
+  }
 }
+
 
 
 void setup() {
   // Open serial communications and wait for port to open:
-  //SD Card Reader Setup
   Serial.begin(9600);
-  if (!SD.begin()) {
-    Serial.println("begin error");
-    return;
-  }
-  file = SD.open("/data.csv");
-  if (!file) {
-    Serial.println("open error");
-    return;
+
+
+  unsigned long start = millis();
+  // Call to your function
+  
+  int returnCode = getCamerasFromSD(50.0, 8.2590, 250);
+  while (returnCode > 0) 
+  {
+    returnCode = getCamerasFromSD(50.0, 8.2590, returnCode);
   }
   
-  Serial.println("start");
-
-  getNearCamerasFromSdCard(50.00659,  8.27667, 10000);
-
+  // Compute the time it took
+  unsigned long endop = millis();
+  unsigned long delta = endop - start;
+  Serial.println(delta);
+  
+  
+  
+  
 }
 
 void loop() {
-   
-
- 
+  // nothing happens after setup
 }
