@@ -69,14 +69,14 @@ void loop()
     Serial.print(F("Lat: "));
     Serial.print(String(latitude, 5));
     ESP_BT.print(F("Lat: "));
-    ESP_BT.print(latitude);
+    ESP_BT.print(String(latitude, 5));
 
     double longitude = (double) myGPS.getLongitude() / 10000000;
     Serial.print(F(" Lon: "));
     Serial.print(String(longitude, 5));
 
     ESP_BT.print(F(" Lon: "));
-    ESP_BT.print(longitude);
+    ESP_BT.print(String(latitude, 5));
 
     long altitude = myGPS.getAltitude();
     Serial.print(F(" Alt: "));
@@ -109,14 +109,19 @@ void loop()
         Serial.println(String(radius));
         nearCameraCounter = storageUtils.getCamerasFromSD(latitude, longitude, radius, nearCameras);
         }
+      Serial.print("Distances: ");
+      delay(50);
+      ESP_BT.println("Distances: ");
       
       // check distance for all debug cameras and print id + distance
       for (int i = 0; i < nearCameraCounter; i++) {
         currentCamera = nearCameras[i];
 
         distance = locUtils.getDistanceToCamera(latitude, longitude, currentCamera.latitude, currentCamera.longitude);
+        
         Serial.println(String(distance, 3));
         delay(50);
+        ESP_BT.println(String(distance, 3));
 
         /*
         Serial.print("Distance to " + currentCamera.id);
@@ -132,7 +137,7 @@ void loop()
       }
     }
 
-    delay(10000);
+    delay(20000);
     
   
 }
