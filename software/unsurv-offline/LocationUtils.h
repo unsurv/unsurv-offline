@@ -1,6 +1,7 @@
 #ifndef LocationUtils_h
 #define LocationUtils_h
 
+#include <Arduino.h>
 
 class LocationUtils {
   public:

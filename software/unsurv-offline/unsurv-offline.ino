@@ -7,77 +7,30 @@
   basically do whatever you want with this code.
 */
 
+#include <Arduino.h>
 #include <Wire.h> //Needed for I2C to GPS
-#include "BluetoothSerial.h"
+#include <BluetoothSerial.h>
 #include "LocationUtils.h"
+#include "StorageUtils.h"
+#include "SurveillanceCamera.h"
 
-LocationUtils locUtils;
 
 
 #include "SparkFun_Ublox_Arduino_Library.h" //http://librarymanager/All#SparkFun_Ublox_GPS
 SFE_UBLOX_GPS myGPS;
 BluetoothSerial ESP_BT;
 
-class SurveillanceCamera{
-  public:
+LocationUtils locUtils;
+StorageUtils storageUtils;
 
-  double latitude;
-  double longitude;
-
-  String cameraType;
-  String id;
-  
-};
 
 int nearCameraCounter = 0;
-SurveillanceCamera nearCameras[5];
+SurveillanceCamera nearCameras[MAXNEARCAMERAS];
 
 long lastTime = 0; //Simple local timer. Limits amount if I2C traffic to Ublox module.
 
 float distance;
 SurveillanceCamera currentCamera; 
-
-
-// populate nearCameras with 5 cameras for debugging
-void populateCameras(){
-  
-  // populate with your own debug coordinates example  {52.51859, 13.37611, lat2.0, lon3.0 ... }
-  double latLonPairs[10] = 
-  {lat1.0, lon1.0,
-  lat2.0, lon2.0,
-  lat3.0, lon3.0,
-  lat4.0, lon4.0,
-  lat5.0, lon5.0};
-
-  SurveillanceCamera tmpCam;
-  tmpCam.cameraType = "dome";
-  
-  for (int i = 0; i < 10; i++) {
-
-    // lat/lon is saved in pairs of two and ordered: lat1,lon1,lat2,lon2
-
-    Serial.println(i);
-    Serial.println(latLonPairs[i]);
-    
-    if (i%2 == 0) {
-      tmpCam.latitude = latLonPairs[i];
-    } else {
-      tmpCam.longitude = latLonPairs[i];
-      
-      // add cam after every second loop, casting to int floors value
-      nearCameras[(int) i / 2] = tmpCam;
-      nearCameraCounter++;
-      
-    }
-  }
-
-  nearCameras[0].id = "name1";
-  nearCameras[1].id = "name2";
-  nearCameras[2].id = "name3";
-  nearCameras[3].id = "name4";
-  nearCameras[4].id = "name5";
-    
-  }
 
 
 
@@ -91,7 +44,7 @@ void setup()
   ESP_BT.begin("test");
 
   // add debugging cameras
-  populateCameras();
+  //populateCameras();
 
   Wire.begin();
 
@@ -109,19 +62,18 @@ void loop()
 {
   //Query module only every 10 seconds. Doing it more often will just cause I2C traffic.
   //The module only responds when a new position is available
-  if (millis() - lastTime > 10000)
-  {
-    lastTime = millis(); //Update the timer
+
+  
     
-    long latitude = myGPS.getLatitude();
+    double latitude = (double) myGPS.getLatitude() / 10000000;
     Serial.print(F("Lat: "));
-    Serial.print(latitude);
+    Serial.print(String(latitude, 5));
     ESP_BT.print(F("Lat: "));
     ESP_BT.print(latitude);
 
-    long longitude = myGPS.getLongitude();
+    double longitude = (double) myGPS.getLongitude() / 10000000;
     Serial.print(F(" Lon: "));
-    Serial.print(longitude);
+    Serial.print(String(longitude, 5));
 
     ESP_BT.print(F(" Lon: "));
     ESP_BT.print(longitude);
@@ -147,27 +99,40 @@ void loop()
 
     // min satellite in view for relatively accurate pos
     if (SIV > 2){
+      short int radius = 250;
+
+      nearCameraCounter = storageUtils.getCamerasFromSD(latitude, longitude, radius, nearCameras);
+      while (nearCameraCounter < 0) // differ between sucess and fail here
+ 
+        {
+        radius = radius / 2;
+        Serial.println(String(radius));
+        nearCameraCounter = storageUtils.getCamerasFromSD(latitude, longitude, radius, nearCameras);
+        }
+      
       // check distance for all debug cameras and print id + distance
-      for (int i = 0; i < 5; i++) {
+      for (int i = 0; i < nearCameraCounter; i++) {
         currentCamera = nearCameras[i];
 
-        distance = locUtils.getDistanceToCamera((double) latitude / 10000000, (double) longitude / 10000000, currentCamera.latitude, currentCamera.longitude);
+        distance = locUtils.getDistanceToCamera(latitude, longitude, currentCamera.latitude, currentCamera.longitude);
+        Serial.println(String(distance, 3));
+        delay(50);
 
-        Serial.println(latitude / 10000000);
-        Serial.println(longitude / 10000000);
-        Serial.println(String(currentCamera.latitude, 10));
-        Serial.println(String(currentCamera.longitude, 10));
-
-        
+        /*
         Serial.print("Distance to " + currentCamera.id);
         Serial.print(": " + String(distance, 3) + " m");
         Serial.println();
 
+        delay(50);
+
         ESP_BT.print("Distance to " + currentCamera.id);
         ESP_BT.print(": " + String(distance, 3) + " m");
         ESP_BT.println();
+        */
       }
     }
+
+    delay(10000);
     
-  }
+  
 }

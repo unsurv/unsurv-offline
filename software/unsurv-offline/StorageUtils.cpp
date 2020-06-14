@@ -1,21 +1,7 @@
-/*
-  SD card read/write
-
- This example shows how to read and write data to and from an SD card file
-
-
- created   Nov 2010
- by David A. Mellis
- modified 9 Apr 2012
- by Tom Igoe
-
- This example code is in the public domain.
-
- File needs to have a blank line at the end!
- */
-
+#include "StorageUtils.h"
+#include "LocationUtils.h"
+#include "SurveillanceCamera.h"
 #include <SPI.h>
-//#include <SD.h>
 #include <SdFat.h>
 SdFat SD;
 
@@ -25,60 +11,13 @@ SdFat SD;
 // Change SPI_SPEED to SD_SCK_MHZ(50) for best performance.
 #define SPI_SPEED SD_SCK_MHZ(32)
 
-#define MAXNEARCAMERAS 100
+LocationUtils locationUtils;
 
 File myFile;
 int fileSize;
 
-class SurveillanceCamera
-{
-  public:
 
-  double latitude;
-  double longitude;
-
-  unsigned short int cameraType;
-  unsigned short int id; //  id is randomized for local area
-  
-  
-};
-
-
-
-
-
-
-double longitudeDegreesToMetersRatio(double latitude)
-{
-  int earthRadius = 6371000;
-  double latitudeAsRad = latitude * DEG_TO_RAD;
-
-  return PI/180*earthRadius*cos(latitudeAsRad);
-  
-}
-
-int latitudeDegreeToMetersRatio() 
-{
-  return 110574;
-}
-
-boolean checkIfCameraInRange(int range, double deviceLatitude, double deviceLongitude, double cameraLatitude,  double cameraLongitude)
-{
-
-  float verticalDistanceInMeters = (deviceLatitude - cameraLatitude)*latitudeDegreeToMetersRatio();
-  float horizontalDistanceInMeters = (deviceLongitude - cameraLongitude)*longitudeDegreesToMetersRatio(deviceLatitude);
-
-  float distance = sqrt(sq(verticalDistanceInMeters) + sq(horizontalDistanceInMeters));
-  
-  if (distance < range) 
-  {
-    return true;
-  }
-  
-  return false;
-}
-
-int getCamerasFromSD(double deviceLatitude, double deviceLongitude, short radiusInMeters, SurveillanceCamera cameras[MAXNEARCAMERAS])
+int StorageUtils::getCamerasFromSD(double deviceLatitude, double deviceLongitude, short radiusInMeters, SurveillanceCamera cameras[MAXNEARCAMERAS])
 {
 
   char curr;
@@ -99,7 +38,7 @@ int getCamerasFromSD(double deviceLatitude, double deviceLongitude, short radius
     Serial.println("initialization failed!");
     while (1);
   }
-  Serial.println("initialization done.");
+  Serial.println("accessing SD");
 
   // open the file. note that only one file can be open at a time,
   // so you have to close this one before opening another.
@@ -109,8 +48,6 @@ int getCamerasFromSD(double deviceLatitude, double deviceLongitude, short radius
   myFile = SD.open("/data.csv");
   if (myFile) 
   {
-    Serial.println("data.csv");
-
     // fileSize = myFile.size();
     // Serial.println(fileSize);
 
@@ -163,7 +100,7 @@ int getCamerasFromSD(double deviceLatitude, double deviceLongitude, short radius
           }
 
           
-          if (checkIfCameraInRange(radiusInMeters, deviceLatitude, deviceLongitude, latitude, longitude))
+          if (locationUtils.checkIfCameraInRange(radiusInMeters, deviceLatitude, deviceLongitude, latitude, longitude))
           {
           SurveillanceCamera tmpCamera;
           tmpCamera.latitude = latitude;
@@ -220,46 +157,4 @@ int getCamerasFromSD(double deviceLatitude, double deviceLongitude, short radius
     Serial.println("error opening data.csv");
     return -1;
   }
-}
-
-
-
-void setup() {
-  // Open serial communications and wait for port to open:
-  Serial.begin(9600);
-
-  SurveillanceCamera nearCameras[MAXNEARCAMERAS];
-
-  int radius = 5000;
-  unsigned long start = millis();
-  // Call to your function
-
-  
-  int returnCode = getCamerasFromSD(50.0, 8.2590, radius, nearCameras);
-  while (returnCode < 0) // differ between sucess and fail here
-  {
-    radius = radius / 2;
-    Serial.println(String(radius));
-    returnCode = getCamerasFromSD(50.0, 8.2590, radius, nearCameras);
-  }
-
-
-  
-  
-  // Compute the time it took
-  unsigned long endop = millis();
-  unsigned long delta = endop - start;
-  Serial.println("Operation took: " + String(delta) + " ms");
-
-  Serial.println("Cameras added: " + String(returnCode));
-
-  
-  
-  
-  
-  
-}
-
-void loop() {
-  // nothing happens after setup
 }
