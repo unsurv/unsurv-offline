@@ -13,10 +13,11 @@
 #include "LocationUtils.h"
 #include "StorageUtils.h"
 #include "SurveillanceCamera.h"
-
-
-
+#include "NfcUtils.h"
 #include "SparkFun_Ublox_Arduino_Library.h" //http://librarymanager/All#SparkFun_Ublox_GPS
+
+#define PROXIMITY_ALERT_RADIUS 100 // in m
+
 SFE_UBLOX_GPS myGPS;
 BluetoothSerial ESP_BT;
 
@@ -30,7 +31,10 @@ SurveillanceCamera nearCameras[MAXNEARCAMERAS];
 long lastTime = 0; //Simple local timer. Limits amount if I2C traffic to Ublox module.
 
 float distance;
-SurveillanceCamera currentCamera; 
+SurveillanceCamera currentCamera;
+
+String prePayload = "Ids in proximity\n";
+String nfcData = "";
 
 
 
@@ -76,7 +80,7 @@ void loop()
     Serial.print(String(longitude, 5));
 
     ESP_BT.print(F(" Lon: "));
-    ESP_BT.print(String(latitude, 5));
+    ESP_BT.print(String(longitude, 5));
 
     long altitude = myGPS.getAltitude();
     Serial.print(F(" Alt: "));
@@ -112,16 +116,23 @@ void loop()
       Serial.print("Distances: ");
       delay(50);
       ESP_BT.println("Distances: ");
+
       
+      nfcData = "";
       // check distance for all debug cameras and print id + distance
       for (int i = 0; i < nearCameraCounter; i++) {
         currentCamera = nearCameras[i];
 
         distance = locUtils.getDistanceToCamera(latitude, longitude, currentCamera.latitude, currentCamera.longitude);
+
+        if (distance < PROXIMITY_ALERT_RADIUS) 
+        {
+          nfcData += String(currentCamera.id) + '\n';  
+        }
         
-        Serial.println(String(distance, 3));
+        Serial.println("Id: " + String(currentCamera.id) + " Distance:" + String(distance, 3));
         delay(50);
-        ESP_BT.println(String(distance, 3));
+        ESP_BT.println("Id: " + String(currentCamera.id) + " Distance:" + String(distance, 3));
 
         /*
         Serial.print("Distance to " + currentCamera.id);
@@ -136,6 +147,14 @@ void loop()
         */
       }
     }
+
+    Serial.println(prePayload + nfcData);
+    delay(50);
+    ESP_BT.println(prePayload + nfcData);
+
+
+    updateNFC(prePayload + nfcData);
+
 
     delay(20000);
     
