@@ -117,7 +117,7 @@ byte nfcTemplate[] = {
 
 void setup(void)
 {
-    Serial.begin(115200);
+    Serial.begin(9600);
     while (!Serial);
     Serial.println("Hello!");
     pinMode(led, OUTPUT);
@@ -189,7 +189,7 @@ void updateNFC(String nfcString)
     
     //enable interrupt 1
     attachInterrupt(1, RF430_Interrupt, FALLING);
-    /*
+    
     Serial.println("Wait for read or write...");
     
     while(1)
@@ -235,7 +235,7 @@ void updateNFC(String nfcString)
 
         
     }
-    */
+    
 
 }
 
