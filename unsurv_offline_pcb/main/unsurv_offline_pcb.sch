@@ -683,12 +683,6 @@ F 3 "" H 6600 5000 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	6600 5000 6450 5000
-Wire Wire Line
-	6150 5000 6050 5000
-Connection ~ 6150 5000
-Connection ~ 6050 5000
-Wire Wire Line
-	6050 5000 6050 5150
 $Comp
 L Device:C C10
 U 1 1 5E43E1E6
@@ -756,8 +750,6 @@ F 3 "~" H 5900 4700 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	6050 4550 6050 4700
-Wire Wire Line
-	6050 4700 6050 5000
 Connection ~ 6050 4700
 $Comp
 L power:GND #PWR030
@@ -1251,9 +1243,9 @@ Wire Wire Line
 	1850 5100 1850 5150
 Wire Wire Line
 	2300 5100 2300 5150
-Text GLabel 9400 1500 0    50   Input ~ 0
-SCL
 Text GLabel 9400 1400 0    50   Input ~ 0
+SCL
+Text GLabel 9400 1500 0    50   Input ~ 0
 SDA
 $Comp
 L power:+3.3V #PWR038
@@ -1364,24 +1356,34 @@ Wire Wire Line
 Wire Wire Line
 	10050 3350 9550 3350
 Text GLabel 8900 2750 0    50   Input ~ 0
-19
+16
 Wire Wire Line
 	8900 2750 9050 2750
-Text GLabel 7250 2350 2    50   Input ~ 0
-16
-Text GLabel 7250 2450 2    50   Input ~ 0
-17
-Text GLabel 10250 2750 2    50   Input ~ 0
-16
-Text GLabel 10250 2650 2    50   Input ~ 0
-17
-Wire Wire Line
-	10050 2650 10250 2650
-Wire Wire Line
-	10050 2750 10250 2750
 Wire Wire Line
 	9550 2350 9550 2250
 Connection ~ 9550 2250
 Wire Wire Line
 	9550 2250 9650 2250
+Text GLabel 7250 2350 2    50   Input ~ 0
+16
+Wire Wire Line
+	6050 4700 6050 5150
+$Comp
+L power:+3.3V #PWR?
+U 1 1 5F00156D
+P 6200 4700
+F 0 "#PWR?" H 6200 4550 50  0001 C CNN
+F 1 "+3.3V" H 6215 4873 50  0000 C CNN
+F 2 "" H 6200 4700 50  0001 C CNN
+F 3 "" H 6200 4700 50  0001 C CNN
+	1    6200 4700
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6200 4700 6200 4850
+Wire Wire Line
+	6200 4850 6150 4850
+Wire Wire Line
+	6150 4850 6150 5000
+Connection ~ 6150 5000
 $EndSCHEMATC
