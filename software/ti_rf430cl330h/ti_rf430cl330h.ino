@@ -37,8 +37,8 @@
 #include <Wire.h>
 #include "RF430CL330H_Shield.h"
 
-#define IRQ   (32)
-#define RESET (34)
+#define IRQ   (12)
+#define RESET (15)
 int led = 5;
 RF430CL330H_Shield nfc(IRQ, RESET);
 

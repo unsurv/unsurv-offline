@@ -95,7 +95,7 @@ void setup() {
     // initialize serial communication
     // (38400 chosen because it works as well at 8MHz as it does at 16MHz, but
     // it's really up to you depending on your project)
-    Serial.begin(38400);
+    Serial.begin(9600);
 
     //Print the wakeup reason for ESP32
     print_wakeup_reason();
@@ -123,7 +123,7 @@ void setup() {
     delay(100);
     // counts no motion events, this counting is slowed 
     // because a low frequency of measurements is used
-    accelgyro.setZeroMotionDetectionDuration(20);
+    accelgyro.setZeroMotionDetectionDuration(5);
     delay(100);
     // interrupts twice, on no motion + on motion
     accelgyro.setIntZeroMotionEnabled(true);
@@ -204,7 +204,7 @@ void loop() {
       Serial.println("Zero motion detected");
       
       // wire mpu6050 int pin to GPIO33
-      esp_sleep_enable_ext0_wakeup(GPIO_NUM_33,1); //1 = High, 0 = Low
+      esp_sleep_enable_ext0_wakeup(GPIO_NUM_25,1); //1 = High, 0 = Low
 
       // lower sensitivity to allow low frequency wakeups
       accelgyro.setZeroMotionDetectionDuration(3);
