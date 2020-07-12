@@ -1352,51 +1352,51 @@ Connection ~ 6150 5000
 $Comp
 L Mechanical:MountingHole_Pad H1
 U 1 1 5EFDDF31
-P 3300 1750
-F 0 "H1" H 3400 1799 50  0000 L CNN
-F 1 "MountingHole_Pad" H 3400 1708 50  0000 L CNN
-F 2 "MountingHole:MountingHole_2.2mm_M2_Pad" H 3300 1750 50  0001 C CNN
-F 3 "~" H 3300 1750 50  0001 C CNN
-	1    3300 1750
+P 3450 1850
+F 0 "H1" H 3550 1899 50  0000 L CNN
+F 1 "MountingHole_Pad" H 3550 1808 50  0000 L CNN
+F 2 "MountingHole:MountingHole_2.2mm_M2_Pad" H 3450 1850 50  0001 C CNN
+F 3 "~" H 3450 1850 50  0001 C CNN
+	1    3450 1850
 	1    0    0    -1  
 $EndComp
 $Comp
 L Mechanical:MountingHole_Pad H2
 U 1 1 5EFDF865
-P 3300 2150
-F 0 "H2" H 3400 2199 50  0000 L CNN
-F 1 "MountingHole_Pad" H 3400 2108 50  0000 L CNN
-F 2 "MountingHole:MountingHole_2.2mm_M2_Pad" H 3300 2150 50  0001 C CNN
-F 3 "~" H 3300 2150 50  0001 C CNN
-	1    3300 2150
+P 3450 2250
+F 0 "H2" H 3550 2299 50  0000 L CNN
+F 1 "MountingHole_Pad" H 3550 2208 50  0000 L CNN
+F 2 "MountingHole:MountingHole_2.2mm_M2_Pad" H 3450 2250 50  0001 C CNN
+F 3 "~" H 3450 2250 50  0001 C CNN
+	1    3450 2250
 	1    0    0    -1  
 $EndComp
 $Comp
 L power:GND #PWR018
 U 1 1 5EFE62C4
-P 3050 1850
-F 0 "#PWR018" H 3050 1600 50  0001 C CNN
-F 1 "GND" H 3055 1677 50  0000 C CNN
-F 2 "" H 3050 1850 50  0001 C CNN
-F 3 "" H 3050 1850 50  0001 C CNN
-	1    3050 1850
+P 3200 1950
+F 0 "#PWR018" H 3200 1700 50  0001 C CNN
+F 1 "GND" H 3205 1777 50  0000 C CNN
+F 2 "" H 3200 1950 50  0001 C CNN
+F 3 "" H 3200 1950 50  0001 C CNN
+	1    3200 1950
 	1    0    0    -1  
 $EndComp
 $Comp
 L power:GND #PWR019
 U 1 1 5EFEC240
-P 3050 2250
-F 0 "#PWR019" H 3050 2000 50  0001 C CNN
-F 1 "GND" H 3055 2077 50  0000 C CNN
-F 2 "" H 3050 2250 50  0001 C CNN
-F 3 "" H 3050 2250 50  0001 C CNN
-	1    3050 2250
+P 3200 2350
+F 0 "#PWR019" H 3200 2100 50  0001 C CNN
+F 1 "GND" H 3205 2177 50  0000 C CNN
+F 2 "" H 3200 2350 50  0001 C CNN
+F 3 "" H 3200 2350 50  0001 C CNN
+	1    3200 2350
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	3300 2250 3050 2250
+	3450 2350 3200 2350
 Wire Wire Line
-	3300 1850 3050 1850
+	3450 1950 3200 1950
 $Comp
 L Device:D_Schottky D1
 U 1 1 5EF00E40
@@ -1440,7 +1440,7 @@ Connection ~ 850  4850
 Wire Wire Line
 	850  4850 1000 4850
 Wire Wire Line
-	1450 4500 1450 4650
+	1450 4500 1450 4600
 Wire Wire Line
 	1450 5050 1450 5150
 Wire Wire Line
@@ -1460,8 +1460,6 @@ F 3 "~" H 1350 4850 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	1000 4850 1000 5500
-Wire Wire Line
-	1000 5500 1300 5500
 Connection ~ 1000 4850
 Wire Wire Line
 	1000 4850 1150 4850
@@ -1471,7 +1469,7 @@ Wire Wire Line
 	2000 5500 2000 5150
 Connection ~ 2000 5150
 Wire Wire Line
-	2000 5150 2200 5150
+	2000 5150 2150 5150
 $Comp
 L Device:LED D3
 U 1 1 5F0139A0
@@ -1601,15 +1599,13 @@ Wire Wire Line
 Wire Wire Line
 	4700 2700 4700 2850
 Connection ~ 4700 2850
-Wire Wire Line
-	4700 2850 5050 2850
 Text GLabel 6050 1350 0    50   Input ~ 0
 RESET
 $Comp
-L power:GND #PWR?
+L power:GND #PWR053
 U 1 1 5F2E78E5
 P 5100 5550
-F 0 "#PWR?" H 5100 5300 50  0001 C CNN
+F 0 "#PWR053" H 5100 5300 50  0001 C CNN
 F 1 "GND" H 5105 5377 50  0000 C CNN
 F 2 "" H 5100 5550 50  0001 C CNN
 F 3 "" H 5100 5550 50  0001 C CNN
@@ -1618,4 +1614,188 @@ F 3 "" H 5100 5550 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	5550 5550 5100 5550
+$Comp
+L Connector:TestPoint 5V1
+U 1 1 5F0B7D93
+P 1700 3500
+F 0 "5V1" H 1758 3618 50  0000 L CNN
+F 1 "TestPoint" H 1758 3527 50  0000 L CNN
+F 2 "unsurv_offline_pcb_footprints:TestPoint_Pad_D0.7mm" H 1900 3500 50  0001 C CNN
+F 3 "~" H 1900 3500 50  0001 C CNN
+	1    1700 3500
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1350 3500 1700 3500
+Connection ~ 1350 3500
+$Comp
+L Connector:TestPoint BAT1
+U 1 1 5F0C8B82
+P 2900 1600
+F 0 "BAT1" H 2958 1718 50  0000 L CNN
+F 1 "TestPoint" H 2958 1627 50  0000 L CNN
+F 2 "unsurv_offline_pcb_footprints:TestPoint_Pad_D0.7mm" H 3100 1600 50  0001 C CNN
+F 3 "~" H 3100 1600 50  0001 C CNN
+	1    2900 1600
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector:TestPoint 3V3
+U 1 1 5F0CC83B
+P 5250 4600
+F 0 "3V3" H 5308 4718 50  0000 L CNN
+F 1 "TestPoint" H 5308 4627 50  0000 L CNN
+F 2 "unsurv_offline_pcb_footprints:TestPoint_Pad_D0.7mm" H 5450 4600 50  0001 C CNN
+F 3 "~" H 5450 4600 50  0001 C CNN
+	1    5250 4600
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector:TestPoint TX1
+U 1 1 5F0CDF2C
+P 7700 3600
+F 0 "TX1" H 7758 3718 50  0000 L CNN
+F 1 "TestPoint" H 7758 3627 50  0000 L CNN
+F 2 "unsurv_offline_pcb_footprints:TestPoint_Pad_D0.7mm" H 7900 3600 50  0001 C CNN
+F 3 "~" H 7900 3600 50  0001 C CNN
+	1    7700 3600
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector:TestPoint RX1
+U 1 1 5F0CECD7
+P 8150 3600
+F 0 "RX1" H 8208 3718 50  0000 L CNN
+F 1 "TestPoint" H 8208 3627 50  0000 L CNN
+F 2 "unsurv_offline_pcb_footprints:TestPoint_Pad_D0.7mm" H 8350 3600 50  0001 C CNN
+F 3 "~" H 8350 3600 50  0001 C CNN
+	1    8150 3600
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector:TestPoint SCL1
+U 1 1 5F0E0AAF
+P 7700 4050
+F 0 "SCL1" H 7758 4168 50  0000 L CNN
+F 1 "TestPoint" H 7758 4077 50  0000 L CNN
+F 2 "unsurv_offline_pcb_footprints:TestPoint_Pad_D0.7mm" H 7900 4050 50  0001 C CNN
+F 3 "~" H 7900 4050 50  0001 C CNN
+	1    7700 4050
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector:TestPoint SDA1
+U 1 1 5F0E0AB5
+P 8150 4050
+F 0 "SDA1" H 8208 4168 50  0000 L CNN
+F 1 "TestPoint" H 8208 4077 50  0000 L CNN
+F 2 "unsurv_offline_pcb_footprints:TestPoint_Pad_D0.7mm" H 8350 4050 50  0001 C CNN
+F 3 "~" H 8350 4050 50  0001 C CNN
+	1    8150 4050
+	1    0    0    -1  
+$EndComp
+Text GLabel 7700 3600 3    50   Input ~ 0
+TX0
+Text GLabel 8150 3600 3    50   Input ~ 0
+RX0
+Text GLabel 8150 4050 3    50   Input ~ 0
+SDA
+Text GLabel 7700 4050 3    50   Input ~ 0
+SCL
+Wire Wire Line
+	5250 4600 5050 4600
+Connection ~ 5050 4600
+Wire Wire Line
+	2900 1600 2650 1600
+Connection ~ 2650 1600
+$Comp
+L Connector:TestPoint GINT1
+U 1 1 5F15AD06
+P 8150 4500
+F 0 "GINT1" H 8208 4618 50  0000 L CNN
+F 1 "TestPoint" H 8208 4527 50  0000 L CNN
+F 2 "unsurv_offline_pcb_footprints:TestPoint_Pad_D0.7mm" H 8350 4500 50  0001 C CNN
+F 3 "~" H 8350 4500 50  0001 C CNN
+	1    8150 4500
+	1    0    0    -1  
+$EndComp
+Text GLabel 8150 4500 3    50   Input ~ 0
+16
+$Comp
+L Connector:TestPoint RST1
+U 1 1 5F189A70
+P 8150 2900
+F 0 "RST1" H 8208 3018 50  0000 L CNN
+F 1 "TestPoint" H 8208 2927 50  0000 L CNN
+F 2 "unsurv_offline_pcb_footprints:TestPoint_Pad_D0.7mm" H 8350 2900 50  0001 C CNN
+F 3 "~" H 8350 2900 50  0001 C CNN
+	1    8150 2900
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4700 2850 5050 2850
+Text GLabel 8150 2900 3    50   Input ~ 0
+RESET
+Text GLabel 7700 2900 3    50   Input ~ 0
+0
+$Comp
+L Connector:TestPoint IO0
+U 1 1 5F1B71D0
+P 7700 2900
+F 0 "IO0" H 7758 3018 50  0000 L CNN
+F 1 "TestPoint" H 7758 2927 50  0000 L CNN
+F 2 "unsurv_offline_pcb_footprints:TestPoint_Pad_D0.7mm" H 7900 2900 50  0001 C CNN
+F 3 "~" H 7900 2900 50  0001 C CNN
+	1    7700 2900
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector:TestPoint IN2
+U 1 1 5F1C8690
+P 2400 5350
+F 0 "IN2" H 2458 5468 50  0000 L CNN
+F 1 "TestPoint" H 2458 5377 50  0000 L CNN
+F 2 "unsurv_offline_pcb_footprints:TestPoint_Pad_D0.7mm" H 2600 5350 50  0001 C CNN
+F 3 "~" H 2600 5350 50  0001 C CNN
+	1    2400 5350
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2400 5350 2150 5350
+Wire Wire Line
+	2150 5350 2150 5150
+Connection ~ 2150 5150
+Wire Wire Line
+	2150 5150 2200 5150
+$Comp
+L Connector:TestPoint IN1
+U 1 1 5F25C56C
+P 1000 4650
+F 0 "IN1" H 1058 4768 50  0000 L CNN
+F 1 "TestPoint" H 1058 4677 50  0000 L CNN
+F 2 "unsurv_offline_pcb_footprints:TestPoint_Pad_D0.7mm" H 1200 4650 50  0001 C CNN
+F 3 "~" H 1200 4650 50  0001 C CNN
+	1    1000 4650
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector:TestPoint IN3
+U 1 1 5F2708DE
+P 1750 4600
+F 0 "IN3" H 1808 4718 50  0000 L CNN
+F 1 "TestPoint" H 1808 4627 50  0000 L CNN
+F 2 "unsurv_offline_pcb_footprints:TestPoint_Pad_D0.7mm" H 1950 4600 50  0001 C CNN
+F 3 "~" H 1950 4600 50  0001 C CNN
+	1    1750 4600
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1750 4600 1450 4600
+Connection ~ 1450 4600
+Wire Wire Line
+	1450 4600 1450 4650
+Wire Wire Line
+	1000 5500 1300 5500
+Wire Wire Line
+	1000 4650 1000 4850
 $EndSCHEMATC
