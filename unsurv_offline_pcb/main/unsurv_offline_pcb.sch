@@ -1706,7 +1706,7 @@ Wire Wire Line
 	5250 4600 5050 4600
 Connection ~ 5050 4600
 Wire Wire Line
-	2900 1600 2650 1600
+	2900 1600 2750 1600
 Connection ~ 2650 1600
 $Comp
 L Connector:TestPoint GINT1
@@ -1798,4 +1798,55 @@ Wire Wire Line
 	1000 5500 1300 5500
 Wire Wire Line
 	1000 4650 1000 4850
+$Comp
+L Device:R R15
+U 1 1 5F0CC6B1
+P 2750 2100
+F 0 "R15" H 2820 2146 50  0000 L CNN
+F 1 "100k" H 2820 2055 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 2680 2100 50  0001 C CNN
+F 3 "~" H 2750 2100 50  0001 C CNN
+	1    2750 2100
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R16
+U 1 1 5F0D6240
+P 2750 2600
+F 0 "R16" H 2820 2646 50  0000 L CNN
+F 1 "100k" H 2820 2555 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 2680 2600 50  0001 C CNN
+F 3 "~" H 2750 2600 50  0001 C CNN
+	1    2750 2600
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR054
+U 1 1 5F0DFB7C
+P 2750 2800
+F 0 "#PWR054" H 2750 2550 50  0001 C CNN
+F 1 "GND" H 2755 2627 50  0000 C CNN
+F 2 "" H 2750 2800 50  0001 C CNN
+F 3 "" H 2750 2800 50  0001 C CNN
+	1    2750 2800
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2750 2250 2750 2350
+Wire Wire Line
+	2750 2750 2750 2800
+Text GLabel 2850 2350 2    50   Input ~ 0
+35
+Text GLabel 7250 3650 2    50   Input ~ 0
+35
+Wire Wire Line
+	2850 2350 2750 2350
+Connection ~ 2750 2350
+Wire Wire Line
+	2750 2350 2750 2450
+Wire Wire Line
+	2750 1600 2750 1950
+Connection ~ 2750 1600
+Wire Wire Line
+	2750 1600 2650 1600
 $EndSCHEMATC
