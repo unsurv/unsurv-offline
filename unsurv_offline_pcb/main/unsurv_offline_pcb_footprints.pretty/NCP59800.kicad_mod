@@ -1,4 +1,4 @@
-(module NCP59800 (layer F.Cu) (tedit 5E861466)
+(module NCP59800 (layer F.Cu) (tedit 5F12D8A5)
   (fp_text reference REF** (at 0.508 -3.302) (layer F.SilkS)
     (effects (font (size 1 1) (thickness 0.15)))
   )

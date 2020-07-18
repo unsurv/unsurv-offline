@@ -1270,7 +1270,7 @@ U 1 1 5F0D188A
 P 9550 2850
 F 0 "U6" H 9550 2261 50  0000 C CNN
 F 1 "ublox_SAM-M8Q" H 9550 2170 50  0000 C CNN
-F 2 "RF_GPS:ublox_SAM-M8Q_HandSolder" H 10050 2400 50  0001 C CNN
+F 2 "unsurv_offline_pcb_footprints:ublox_SAM-M8Q_HandSolder" H 10050 2400 50  0001 C CNN
 F 3 "https://www.u-blox.com/sites/default/files/SAM-M8Q_DataSheet_%28UBX-16012619%29.pdf" H 9550 2850 50  0001 C CNN
 	1    9550 2850
 	1    0    0    -1  
@@ -1355,7 +1355,7 @@ U 1 1 5EFDDF31
 P 3450 1850
 F 0 "H1" H 3550 1899 50  0000 L CNN
 F 1 "MountingHole_Pad" H 3550 1808 50  0000 L CNN
-F 2 "MountingHole:MountingHole_2.2mm_M2_Pad" H 3450 1850 50  0001 C CNN
+F 2 "unsurv_offline_pcb_footprints:MountingHole_1.5mm_hole_in_FPaste" H 3450 1850 50  0001 C CNN
 F 3 "~" H 3450 1850 50  0001 C CNN
 	1    3450 1850
 	1    0    0    -1  
@@ -1366,7 +1366,7 @@ U 1 1 5EFDF865
 P 3450 2250
 F 0 "H2" H 3550 2299 50  0000 L CNN
 F 1 "MountingHole_Pad" H 3550 2208 50  0000 L CNN
-F 2 "MountingHole:MountingHole_2.2mm_M2_Pad" H 3450 2250 50  0001 C CNN
+F 2 "unsurv_offline_pcb_footprints:MountingHole_1.5mm_hole_in_FPaste" H 3450 2250 50  0001 C CNN
 F 3 "~" H 3450 2250 50  0001 C CNN
 	1    3450 2250
 	1    0    0    -1  
@@ -1849,4 +1849,45 @@ Wire Wire Line
 Connection ~ 2750 1600
 Wire Wire Line
 	2750 1600 2650 1600
+$Comp
+L Device:LED D4
+U 1 1 5F139FB7
+P 8850 3650
+F 0 "D4" V 8797 3728 50  0000 L CNN
+F 1 "LED" V 8888 3728 50  0000 L CNN
+F 2 "digikey-footprints:LED_0603" H 8850 3650 50  0001 C CNN
+F 3 "~" H 8850 3650 50  0001 C CNN
+	1    8850 3650
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	8850 3800 8850 3950
+$Comp
+L Device:R R17
+U 1 1 5F1450A8
+P 8850 3300
+F 0 "R17" H 8920 3346 50  0000 L CNN
+F 1 "1k" H 8920 3255 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 8780 3300 50  0001 C CNN
+F 3 "~" H 8850 3300 50  0001 C CNN
+	1    8850 3300
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8850 3450 8850 3500
+Wire Wire Line
+	9050 2850 8850 2850
+$Comp
+L power:GND #PWR055
+U 1 1 5F1640D6
+P 8850 3950
+F 0 "#PWR055" H 8850 3700 50  0001 C CNN
+F 1 "GND" H 8855 3777 50  0000 C CNN
+F 2 "" H 8850 3950 50  0001 C CNN
+F 3 "" H 8850 3950 50  0001 C CNN
+	1    8850 3950
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8850 2850 8850 3150
 $EndSCHEMATC
