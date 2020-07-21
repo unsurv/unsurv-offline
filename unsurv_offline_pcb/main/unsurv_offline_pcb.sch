@@ -1149,8 +1149,6 @@ F 3 "" H 8900 800 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	8900 800  9400 800 
-Text GLabel 9400 1000 0    50   Input ~ 0
-12
 Text GLabel 9400 1100 0    50   Input ~ 0
 13
 Text GLabel 9400 1200 0    50   Input ~ 0
@@ -1804,10 +1802,10 @@ $EndComp
 Wire Wire Line
 	4800 4950 4800 5050
 $Comp
-L Connector:TestPoint GND
+L Connector:TestPoint GND1
 U 1 1 5F26849B
 P 2150 3750
-F 0 "GND" H 2208 3868 50  0000 L CNN
+F 0 "GND1" H 2208 3868 50  0000 L CNN
 F 1 "TestPoint" H 2208 3777 50  0000 L CNN
 F 2 "unsurv_offline_pcb_footprints:TestPoint_Pad_D0.7mm" H 2350 3750 50  0001 C CNN
 F 3 "~" H 2350 3750 50  0001 C CNN
@@ -1817,14 +1815,18 @@ $EndComp
 Wire Wire Line
 	2150 3750 1900 3750
 $Comp
-L power:GND #PWR?
+L power:GND #PWR030
 U 1 1 5F271CC0
 P 1900 3750
-F 0 "#PWR?" H 1900 3500 50  0001 C CNN
+F 0 "#PWR030" H 1900 3500 50  0001 C CNN
 F 1 "GND" H 1905 3577 50  0000 C CNN
 F 2 "" H 1900 3750 50  0001 C CNN
 F 3 "" H 1900 3750 50  0001 C CNN
 	1    1900 3750
 	1    0    0    -1  
 $EndComp
+Text Notes 9700 1000 0    50   ~ 0
+ DO NOT CONN PIN 12  at boot
+Text GLabel 9400 1000 0    50   Input ~ 0
+27
 $EndSCHEMATC
