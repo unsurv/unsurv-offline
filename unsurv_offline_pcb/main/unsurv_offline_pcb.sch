@@ -1538,17 +1538,6 @@ $EndComp
 Wire Wire Line
 	5550 5550 5100 5550
 $Comp
-L Connector:TestPoint 3V3
-U 1 1 5F0CC83B
-P 5250 4600
-F 0 "3V3" H 5308 4718 50  0000 L CNN
-F 1 "TestPoint" H 5308 4627 50  0000 L CNN
-F 2 "unsurv_offline_pcb_footprints:TestPoint_Pad_D0.7mm" H 5450 4600 50  0001 C CNN
-F 3 "~" H 5450 4600 50  0001 C CNN
-	1    5250 4600
-	1    0    0    -1  
-$EndComp
-$Comp
 L Connector:TestPoint TX1
 U 1 1 5F0CDF2C
 P 7700 3600
@@ -1600,9 +1589,6 @@ Text GLabel 8150 4050 3    50   Input ~ 0
 SDA
 Text GLabel 7700 4050 3    50   Input ~ 0
 SCL
-Wire Wire Line
-	5250 4600 5050 4600
-Connection ~ 5050 4600
 Connection ~ 2650 1600
 $Comp
 L Connector:TestPoint GINT1
