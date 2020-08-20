@@ -43,8 +43,8 @@ THE SOFTWARE.
 // specific I2C addresses may be passed as a parameter here
 // AD0 low = 0x68 (default for InvenSense evaluation board)
 // AD0 high = 0x69
-MPU6050 accelgyro;
-//MPU6050 accelgyro(0x69); // <-- use for AD0 high
+MPU6050 accelgyro(0x68);
+// MPU6050 accelgyro(0x69); // <-- use for AD0 high
 
 int16_t oldax, olday, oldaz;
 int16_t oldgx, oldgy, oldgz;
@@ -141,7 +141,7 @@ void setup() {
 
     // initialize with values that wont be equal to a measurement
     oldax = 0; 
-    olday = 0; 
+    olday = 0;
     oldaz = 0;
 
     // use the code below to change accel/gyro offset values
