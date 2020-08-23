@@ -1166,9 +1166,9 @@ Wire Wire Line
 	9450 2000 9550 2000
 Wire Wire Line
 	9650 2000 9650 2100
-Text GLabel 7800 2300 0    50   Input ~ 0
+Text GLabel 8650 2400 0    50   Input ~ 0
 SDA
-Text GLabel 7800 2400 0    50   Input ~ 0
+Text GLabel 8650 2500 0    50   Input ~ 0
 SCL
 $Comp
 L power:GND #PWR051
@@ -1181,17 +1181,15 @@ F 3 "" H 8850 3900 50  0001 C CNN
 	1    8850 3900
 	1    0    0    -1  
 $EndComp
-Text GLabel 8500 2600 0    50   Input ~ 0
-16
-Wire Wire Line
-	8500 2600 8650 2600
+Text GLabel 8650 2600 0    50   Input ~ 0
+5
 Wire Wire Line
 	9550 2100 9550 2000
 Connection ~ 9550 2000
 Wire Wire Line
 	9550 2000 9650 2000
-Text GLabel 7250 2350 2    50   Input ~ 0
-16
+Text GLabel 7250 2450 2    50   Input ~ 0
+TX2
 Wire Wire Line
 	6050 4700 6050 5150
 $Comp
@@ -1552,39 +1550,39 @@ Wire Wire Line
 $Comp
 L Device:LED D4
 U 1 1 5F139FB7
-P 10600 3600
-F 0 "D4" V 10547 3678 50  0000 L CNN
-F 1 "LED" V 10638 3678 50  0000 L CNN
-F 2 "digikey-footprints:LED_0603" H 10600 3600 50  0001 C CNN
-F 3 "~" H 10600 3600 50  0001 C CNN
-	1    10600 3600
-	0    -1   -1   0   
+P 10900 1950
+F 0 "D4" V 10847 2028 50  0000 L CNN
+F 1 "LED" V 10938 2028 50  0000 L CNN
+F 2 "digikey-footprints:LED_0603" H 10900 1950 50  0001 C CNN
+F 3 "~" H 10900 1950 50  0001 C CNN
+	1    10900 1950
+	0    1    1    0   
 $EndComp
 Wire Wire Line
-	10600 3750 10600 3900
+	10900 1800 10900 1650
 $Comp
 L Device:R R17
 U 1 1 5F1450A8
-P 10600 3250
-F 0 "R17" H 10670 3296 50  0000 L CNN
-F 1 "1k" H 10670 3205 50  0000 L CNN
-F 2 "Resistor_SMD:R_0603_1608Metric" V 10530 3250 50  0001 C CNN
-F 3 "~" H 10600 3250 50  0001 C CNN
-	1    10600 3250
-	1    0    0    -1  
+P 10900 2300
+F 0 "R17" H 10970 2346 50  0000 L CNN
+F 1 "1k" H 10970 2255 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 10830 2300 50  0001 C CNN
+F 3 "~" H 10900 2300 50  0001 C CNN
+	1    10900 2300
+	-1   0    0    1   
 $EndComp
 Wire Wire Line
-	10600 3400 10600 3450
+	10900 2150 10900 2100
 $Comp
 L power:GND #PWR055
 U 1 1 5F1640D6
-P 10600 3900
-F 0 "#PWR055" H 10600 3650 50  0001 C CNN
-F 1 "GND" H 10605 3727 50  0000 C CNN
-F 2 "" H 10600 3900 50  0001 C CNN
-F 3 "" H 10600 3900 50  0001 C CNN
-	1    10600 3900
-	1    0    0    -1  
+P 10900 1650
+F 0 "#PWR055" H 10900 1400 50  0001 C CNN
+F 1 "GND" H 10905 1477 50  0000 C CNN
+F 2 "" H 10900 1650 50  0001 C CNN
+F 3 "" H 10900 1650 50  0001 C CNN
+	1    10900 1650
+	-1   0    0    1   
 $EndComp
 Wire Wire Line
 	10200 4100 10200 4350
@@ -1734,26 +1732,6 @@ F 3 "~" H 1000 3650 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	850  4200 850  4100
-$Comp
-L dk_RF-Receivers:CAM-M8C-0-10 U6
-U 1 1 5F75E10D
-P 9450 2700
-F 0 "U6" H 10394 2553 60  0000 L CNN
-F 1 "CAM-M8C-0-10" H 10394 2447 60  0000 L CNN
-F 2 "digikey-footprints:GPS_Module_CAM-M8C-0" H 9650 2900 60  0001 L CNN
-F 3 "https://www.u-blox.com/sites/default/files/CAM-M8-FW3_DataSheet_%28UBX-15031574%29.pdf" H 9650 3000 60  0001 L CNN
-F 4 "672-CAM-M8C-0-10CT-ND" H 9650 3100 60  0001 L CNN "Digi-Key_PN"
-F 5 "CAM-M8C-0-10" H 9650 3200 60  0001 L CNN "MPN"
-F 6 "RF/IF and RFID" H 9650 3300 60  0001 L CNN "Category"
-F 7 "RF Receivers" H 9650 3400 60  0001 L CNN "Family"
-F 8 "https://www.u-blox.com/sites/default/files/CAM-M8-FW3_DataSheet_%28UBX-15031574%29.pdf" H 9650 3500 60  0001 L CNN "DK_Datasheet_Link"
-F 9 "/product-detail/en/u-blox-america-inc/CAM-M8C-0-10/672-CAM-M8C-0-10CT-ND/6150677" H 9650 3600 60  0001 L CNN "DK_Detail_Page"
-F 10 "RF RCVR GNSS/GPS 1.575GHZ MODULE" H 9650 3700 60  0001 L CNN "Description"
-F 11 "U-Blox America Inc." H 9650 3800 60  0001 L CNN "Manufacturer"
-F 12 "Active" H 9650 3900 60  0001 L CNN "Status"
-	1    9450 2700
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	10350 2600 10600 2600
 Wire Wire Line
@@ -1765,92 +1743,14 @@ Wire Wire Line
 Wire Wire Line
 	8250 2700 8650 2700
 Wire Wire Line
-	8500 2400 8650 2400
-Wire Wire Line
-	10350 2700 10350 3100
-Wire Wire Line
-	10350 3100 10600 3100
-Wire Wire Line
 	8850 3700 8850 3800
-Wire Wire Line
-	10150 3700 10050 3700
-Connection ~ 9050 3700
-Wire Wire Line
-	9050 3700 8950 3700
-Connection ~ 9150 3700
-Wire Wire Line
-	9150 3700 9050 3700
-Connection ~ 9250 3700
-Wire Wire Line
-	9250 3700 9150 3700
-Connection ~ 9350 3700
-Wire Wire Line
-	9350 3700 9250 3700
-Connection ~ 9450 3700
-Wire Wire Line
-	9450 3700 9350 3700
-Connection ~ 9550 3700
-Wire Wire Line
-	9550 3700 9450 3700
-Connection ~ 9650 3700
-Wire Wire Line
-	9650 3700 9550 3700
-Connection ~ 9750 3700
-Wire Wire Line
-	9750 3700 9650 3700
-Connection ~ 9850 3700
-Wire Wire Line
-	9850 3700 9750 3700
-Connection ~ 9950 3700
-Wire Wire Line
-	9950 3700 9850 3700
-Connection ~ 10050 3700
-Wire Wire Line
-	10050 3700 9950 3700
 Wire Wire Line
 	8950 3700 8950 3800
 Wire Wire Line
 	8950 3800 8850 3800
-Connection ~ 8950 3700
 Connection ~ 8850 3800
 Wire Wire Line
 	8850 3800 8850 3900
-$Comp
-L Device:R R19
-U 1 1 5F900D3B
-P 8000 2500
-F 0 "R19" H 8070 2546 50  0000 L CNN
-F 1 "220" H 8070 2455 50  0000 L CNN
-F 2 "Resistor_SMD:R_0603_1608Metric" V 7930 2500 50  0001 C CNN
-F 3 "~" H 8000 2500 50  0001 C CNN
-	1    8000 2500
-	0    1    1    0   
-$EndComp
-$Comp
-L Device:R R18
-U 1 1 5F90C86A
-P 8000 2200
-F 0 "R18" H 8070 2246 50  0000 L CNN
-F 1 "220" H 8070 2155 50  0000 L CNN
-F 2 "Resistor_SMD:R_0603_1608Metric" V 7930 2200 50  0001 C CNN
-F 3 "~" H 8000 2200 50  0001 C CNN
-	1    8000 2200
-	0    1    1    0   
-$EndComp
-Wire Wire Line
-	7800 2300 7800 2200
-Wire Wire Line
-	7800 2200 7850 2200
-Wire Wire Line
-	7800 2400 7800 2500
-Wire Wire Line
-	7800 2500 7850 2500
-Wire Wire Line
-	8150 2200 8500 2200
-Wire Wire Line
-	8500 2200 8500 2400
-Wire Wire Line
-	8150 2500 8650 2500
 $Comp
 L Device:C C12
 U 1 1 5F9619A4
@@ -1891,4 +1791,70 @@ Wire Wire Line
 	9650 1850 9650 2000
 Connection ~ 10000 1850
 Connection ~ 9650 2000
+Connection ~ 8950 3700
+Wire Wire Line
+	10150 3700 10050 3700
+Connection ~ 10050 3700
+Wire Wire Line
+	10050 3700 9950 3700
+Connection ~ 9950 3700
+Wire Wire Line
+	9950 3700 9850 3700
+Connection ~ 9850 3700
+Wire Wire Line
+	9850 3700 9750 3700
+Connection ~ 9750 3700
+Wire Wire Line
+	9750 3700 9650 3700
+Connection ~ 9650 3700
+Wire Wire Line
+	9650 3700 9550 3700
+Connection ~ 9550 3700
+Wire Wire Line
+	9550 3700 9450 3700
+Connection ~ 9450 3700
+Wire Wire Line
+	9450 3700 9350 3700
+Connection ~ 9350 3700
+Wire Wire Line
+	9350 3700 9250 3700
+Connection ~ 9250 3700
+Wire Wire Line
+	9250 3700 9150 3700
+Connection ~ 9150 3700
+Wire Wire Line
+	9150 3700 9050 3700
+Wire Wire Line
+	9050 3700 8950 3700
+Connection ~ 9050 3700
+$Comp
+L dk_RF-Receivers:CAM-M8C-0-10 U6
+U 1 1 5F75E10D
+P 9450 2700
+F 0 "U6" H 10394 2553 60  0000 L CNN
+F 1 "CAM-M8C-0-10" H 10394 2447 60  0000 L CNN
+F 2 "digikey-footprints:GPS_Module_CAM-M8C-0" H 9650 2900 60  0001 L CNN
+F 3 "https://www.u-blox.com/sites/default/files/CAM-M8-FW3_DataSheet_%28UBX-15031574%29.pdf" H 9650 3000 60  0001 L CNN
+F 4 "672-CAM-M8C-0-10CT-ND" H 9650 3100 60  0001 L CNN "Digi-Key_PN"
+F 5 "CAM-M8C-0-10" H 9650 3200 60  0001 L CNN "MPN"
+F 6 "RF/IF and RFID" H 9650 3300 60  0001 L CNN "Category"
+F 7 "RF Receivers" H 9650 3400 60  0001 L CNN "Family"
+F 8 "https://www.u-blox.com/sites/default/files/CAM-M8-FW3_DataSheet_%28UBX-15031574%29.pdf" H 9650 3500 60  0001 L CNN "DK_Datasheet_Link"
+F 9 "/product-detail/en/u-blox-america-inc/CAM-M8C-0-10/672-CAM-M8C-0-10CT-ND/6150677" H 9650 3600 60  0001 L CNN "DK_Detail_Page"
+F 10 "RF RCVR GNSS/GPS 1.575GHZ MODULE" H 9650 3700 60  0001 L CNN "Description"
+F 11 "U-Blox America Inc." H 9650 3800 60  0001 L CNN "Manufacturer"
+F 12 "Active" H 9650 3900 60  0001 L CNN "Status"
+	1    9450 2700
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	10900 2700 10900 2450
+Wire Wire Line
+	10350 2700 10900 2700
+Text GLabel 7250 2350 2    50   Input ~ 0
+RX2
+Text GLabel 8650 3100 0    50   Input ~ 0
+RX2
+Text GLabel 10350 2500 2    50   Input ~ 0
+TX2
 $EndSCHEMATC
