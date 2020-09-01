@@ -1192,7 +1192,7 @@ U 1 1 5F0CDF2C
 P 7700 3600
 F 0 "TX1" H 7758 3718 50  0000 L CNN
 F 1 "TestPoint" H 7758 3627 50  0000 L CNN
-F 2 "unsurv_offline_pcb_footprints:TestPoint_Pad_D0.7mm" H 7900 3600 50  0001 C CNN
+F 2 "TestPoint:TestPoint_Pad_D1.0mm" H 7900 3600 50  0001 C CNN
 F 3 "~" H 7900 3600 50  0001 C CNN
 	1    7700 3600
 	1    0    0    -1  
@@ -1200,17 +1200,17 @@ $EndComp
 $Comp
 L Connector:TestPoint RX1
 U 1 1 5F0CECD7
-P 8150 3600
-F 0 "RX1" H 8208 3718 50  0000 L CNN
-F 1 "TestPoint" H 8208 3627 50  0000 L CNN
-F 2 "unsurv_offline_pcb_footprints:TestPoint_Pad_D0.7mm" H 8350 3600 50  0001 C CNN
-F 3 "~" H 8350 3600 50  0001 C CNN
-	1    8150 3600
+P 8200 3600
+F 0 "RX1" H 8258 3718 50  0000 L CNN
+F 1 "TestPoint" H 8258 3627 50  0000 L CNN
+F 2 "TestPoint:TestPoint_Pad_D1.0mm" H 8400 3600 50  0001 C CNN
+F 3 "~" H 8400 3600 50  0001 C CNN
+	1    8200 3600
 	1    0    0    -1  
 $EndComp
 Text GLabel 7700 3600 3    50   Input ~ 0
 TX0
-Text GLabel 8150 3600 3    50   Input ~ 0
+Text GLabel 8200 3600 3    50   Input ~ 0
 RX0
 Connection ~ 2650 1600
 Wire Wire Line
@@ -1692,4 +1692,80 @@ Wire Wire Line
 	2350 4500 3250 4500
 Wire Wire Line
 	1450 4500 1450 4650
+Text GLabel 8200 4200 3    50   Input ~ 0
+DTR
+Text GLabel 7700 4200 3    50   Input ~ 0
+RTS
+$Comp
+L Connector:TestPoint DTR1
+U 1 1 5F4F8B5B
+P 8200 4200
+F 0 "DTR1" H 8258 4318 50  0000 L CNN
+F 1 "TestPoint" H 8258 4227 50  0000 L CNN
+F 2 "TestPoint:TestPoint_Pad_D1.0mm" H 8400 4200 50  0001 C CNN
+F 3 "~" H 8400 4200 50  0001 C CNN
+	1    8200 4200
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector:TestPoint RTS1
+U 1 1 5F4F8B61
+P 7700 4200
+F 0 "RTS1" H 7758 4318 50  0000 L CNN
+F 1 "TestPoint" H 7758 4227 50  0000 L CNN
+F 2 "TestPoint:TestPoint_Pad_D1.0mm" H 7900 4200 50  0001 C CNN
+F 3 "~" H 7900 4200 50  0001 C CNN
+	1    7700 4200
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector:TestPoint 3V3
+U 1 1 5F546471
+P 7650 4750
+F 0 "3V3" H 7708 4868 50  0000 L CNN
+F 1 "TestPoint" H 7708 4777 50  0000 L CNN
+F 2 "TestPoint:TestPoint_Pad_D1.0mm" H 7850 4750 50  0001 C CNN
+F 3 "~" H 7850 4750 50  0001 C CNN
+	1    7650 4750
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector:TestPoint GND1
+U 1 1 5F547666
+P 8200 4750
+F 0 "GND1" H 8258 4868 50  0000 L CNN
+F 1 "TestPoint" H 8258 4777 50  0000 L CNN
+F 2 "TestPoint:TestPoint_Pad_D1.0mm" H 8400 4750 50  0001 C CNN
+F 3 "~" H 8400 4750 50  0001 C CNN
+	1    8200 4750
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+3.3V #PWR0101
+U 1 1 5F564217
+P 7400 4900
+F 0 "#PWR0101" H 7400 4750 50  0001 C CNN
+F 1 "+3.3V" H 7415 5073 50  0000 C CNN
+F 2 "" H 7400 4900 50  0001 C CNN
+F 3 "" H 7400 4900 50  0001 C CNN
+	1    7400 4900
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0102
+U 1 1 5F56E26E
+P 8200 4850
+F 0 "#PWR0102" H 8200 4600 50  0001 C CNN
+F 1 "GND" H 8205 4677 50  0000 C CNN
+F 2 "" H 8200 4850 50  0001 C CNN
+F 3 "" H 8200 4850 50  0001 C CNN
+	1    8200 4850
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8200 4750 8200 4850
+Wire Wire Line
+	7650 4750 7650 4900
+Wire Wire Line
+	7650 4900 7400 4900
 $EndSCHEMATC

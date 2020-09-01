@@ -153,7 +153,7 @@ void loop()
     ESP_BT.println(prePayload + nfcData);
 
 
-    updateNFC(prePayload + nfcData);
+    // updateNFC(prePayload + nfcData);
 
 
     delay(20000);
