@@ -105,6 +105,12 @@ void loop()
     if (SIV > 2){
       short int radius = 250;
 
+      long accuracy = myGPS.getPositionAccuracy();
+
+      Serial.println("Accuracy: " + String(accuracy, 5));
+      delay(50);
+      ESP_BT.println("Accuracy: " + String(accuracy, 5));
+
       nearCameraCounter = storageUtils.getCamerasFromSD(latitude, longitude, radius, nearCameras);
       while (nearCameraCounter < 0) // differ between sucess and fail here
  
@@ -156,7 +162,7 @@ void loop()
     // updateNFC(prePayload + nfcData);
 
 
-    delay(20000);
+    delay(10000);
     
   
 }
