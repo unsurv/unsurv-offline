@@ -1774,7 +1774,7 @@ U 1 1 5F6CE195
 P 7400 5950
 F 0 "U8" H 7400 6715 50  0000 C CNN
 F 1 "RF430CL330H" H 7400 6624 50  0000 C CNN
-F 2 "" H 7600 5650 50  0001 C CNN
+F 2 "unsurv_offline_pcb_footprints:RF430CL330H" H 7600 5650 50  0001 C CNN
 F 3 "" H 7600 5650 50  0001 C CNN
 	1    7400 5950
 	1    0    0    -1  
@@ -1913,55 +1913,57 @@ Text GLabel 6950 5700 0    50   Input ~ 0
 ANT1
 Text GLabel 6950 5800 0    50   Input ~ 0
 ANT2
-Text GLabel 7350 4550 0    50   Input ~ 0
+Text GLabel 7050 4600 0    50   Input ~ 0
 ANT1
-Text GLabel 7350 4850 0    50   Input ~ 0
+Text GLabel 7050 4900 0    50   Input ~ 0
 ANT2
 $Comp
 L Device:C C14
 U 1 1 5F860850
-P 7750 4700
-F 0 "C14" H 7865 4746 50  0000 L CNN
-F 1 "10pF" H 7865 4655 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0603_1608Metric" H 7788 4550 50  0001 C CNN
-F 3 "~" H 7750 4700 50  0001 C CNN
-	1    7750 4700
+P 7450 4750
+F 0 "C14" H 7565 4796 50  0000 L CNN
+F 1 "10pF" H 7565 4705 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric" H 7488 4600 50  0001 C CNN
+F 3 "~" H 7450 4750 50  0001 C CNN
+	1    7450 4750
 	1    0    0    -1  
 $EndComp
 $Comp
 L Connector:TestPoint ANT1
 U 1 1 5F879317
-P 8300 4500
-F 0 "ANT1" H 8358 4618 50  0000 L CNN
-F 1 "TestPoint" H 8358 4527 50  0000 L CNN
-F 2 "unsurv_offline_pcb_footprints:PogoPin_2_2mm_circular" H 8500 4500 50  0001 C CNN
-F 3 "~" H 8500 4500 50  0001 C CNN
-	1    8300 4500
+P 8000 4550
+F 0 "ANT1" H 8058 4668 50  0000 L CNN
+F 1 "TestPoint" H 8058 4577 50  0000 L CNN
+F 2 "unsurv_offline_pcb_footprints:PogoPin_2_2mm_circular" H 8200 4550 50  0001 C CNN
+F 3 "~" H 8200 4550 50  0001 C CNN
+	1    8000 4550
 	1    0    0    -1  
 $EndComp
 $Comp
 L Connector:TestPoint ANT2
 U 1 1 5F884C06
-P 8300 4900
-F 0 "ANT2" H 8358 5018 50  0000 L CNN
-F 1 "TestPoint" H 8358 4927 50  0000 L CNN
-F 2 "unsurv_offline_pcb_footprints:PogoPin_2_2mm_circular" H 8500 4900 50  0001 C CNN
-F 3 "~" H 8500 4900 50  0001 C CNN
-	1    8300 4900
+P 8000 5000
+F 0 "ANT2" H 8058 5118 50  0000 L CNN
+F 1 "TestPoint" H 8058 5027 50  0000 L CNN
+F 2 "unsurv_offline_pcb_footprints:PogoPin_2_2mm_circular" H 8200 5000 50  0001 C CNN
+F 3 "~" H 8200 5000 50  0001 C CNN
+	1    8000 5000
 	-1   0    0    1   
 $EndComp
 Wire Wire Line
-	8300 4500 7750 4500
+	8000 4550 7450 4550
 Wire Wire Line
-	7750 4500 7750 4550
+	7450 4550 7450 4600
 Wire Wire Line
-	7750 4850 7750 4900
+	7450 4900 7450 4950
 Wire Wire Line
-	7750 4900 8300 4900
+	7450 4950 8000 4950
 Wire Wire Line
-	7350 4850 7750 4850
-Connection ~ 7750 4850
+	7050 4900 7450 4900
+Connection ~ 7450 4900
 Wire Wire Line
-	7350 4550 7750 4550
-Connection ~ 7750 4550
+	7050 4600 7450 4600
+Connection ~ 7450 4600
+Wire Wire Line
+	8000 5000 8000 4950
 $EndSCHEMATC
