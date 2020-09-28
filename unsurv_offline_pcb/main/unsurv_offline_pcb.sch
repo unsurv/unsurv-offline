@@ -25,17 +25,6 @@ F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/20001984g.pdf" H 1650 1800 
 	1    0    0    -1  
 $EndComp
 $Comp
-L Regulator_Linear:APX803L20 U2
-U 1 1 5E303E7E
-P 3500 250
-F 0 "U2" H 3450 1325 50  0000 C CNN
-F 1 "APX803L20" H 3450 1234 50  0000 C CNN
-F 2 "digikey-footprints:SOT-23-3" H 3450 1250 50  0001 C CNN
-F 3 "" H 3450 1250 50  0001 C CNN
-	1    3500 250 
-	-1   0    0    1   
-$EndComp
-$Comp
 L power:GND #PWR07
 U 1 1 5E30F837
 P 850 4200
@@ -195,34 +184,6 @@ Connection ~ 2200 1600
 Wire Wire Line
 	2200 1600 2200 1150
 $Comp
-L power:+BATT #PWR017
-U 1 1 5E33F9F4
-P 3000 1000
-F 0 "#PWR017" H 3000 850 50  0001 C CNN
-F 1 "+BATT" H 3015 1173 50  0000 C CNN
-F 2 "" H 3000 1000 50  0001 C CNN
-F 3 "" H 3000 1000 50  0001 C CNN
-	1    3000 1000
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	3000 1000 3300 1000
-$Comp
-L power:GND #PWR026
-U 1 1 5E3410D6
-P 4000 1100
-F 0 "#PWR026" H 4000 850 50  0001 C CNN
-F 1 "GND" H 4005 927 50  0000 C CNN
-F 2 "" H 4000 1100 50  0001 C CNN
-F 3 "" H 4000 1100 50  0001 C CNN
-	1    4000 1100
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	4000 1100 3800 1100
-Text GLabel 4650 900  2    50   Input ~ 0
-BATTALARM
-$Comp
 L power:+5V #PWR06
 U 1 1 5E34F77A
 P 1350 3500
@@ -246,35 +207,6 @@ F 3 "" H 600 1500 50  0001 C CNN
 	1    600  1500
 	1    0    0    -1  
 $EndComp
-$Comp
-L Device:R R9
-U 1 1 5E35BA68
-P 4300 1050
-F 0 "R9" H 4370 1096 50  0000 L CNN
-F 1 "100k" H 4370 1005 50  0000 L CNN
-F 2 "Resistor_SMD:R_0603_1608Metric" V 4230 1050 50  0001 C CNN
-F 3 "~" H 4300 1050 50  0001 C CNN
-	1    4300 1050
-	1    0    0    -1  
-$EndComp
-$Comp
-L power:+3.3V #PWR028
-U 1 1 5E35CBF5
-P 4300 1350
-F 0 "#PWR028" H 4300 1200 50  0001 C CNN
-F 1 "+3.3V" H 4315 1523 50  0000 C CNN
-F 2 "" H 4300 1350 50  0001 C CNN
-F 3 "" H 4300 1350 50  0001 C CNN
-	1    4300 1350
-	-1   0    0    1   
-$EndComp
-Wire Wire Line
-	4300 1350 4300 1200
-Wire Wire Line
-	3800 900  4300 900 
-Wire Wire Line
-	4650 900  4300 900 
-Connection ~ 4300 900 
 $Comp
 L power:+3.3V #PWR020
 U 1 1 5E3B0DE8
@@ -1575,8 +1507,6 @@ F 3 "" H 4650 4500 50  0001 C CNN
 	1    4650 4500
 	1    0    0    -1  
 $EndComp
-Text Notes 3450 700  0    50   ~ 0
-check if voltage divider works?
 $Comp
 L power:GND #PWR029
 U 1 1 5F61EE73
