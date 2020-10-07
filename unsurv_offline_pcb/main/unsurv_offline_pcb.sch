@@ -159,12 +159,12 @@ Wire Wire Line
 $Comp
 L power:GND #PWR08
 U 1 1 5E33995B
-P 1450 950
-F 0 "#PWR08" H 1450 700 50  0001 C CNN
-F 1 "GND" H 1455 777 50  0000 C CNN
-F 2 "" H 1450 950 50  0001 C CNN
-F 3 "" H 1450 950 50  0001 C CNN
-	1    1450 950 
+P 2600 750
+F 0 "#PWR08" H 2600 500 50  0001 C CNN
+F 1 "GND" H 2605 577 50  0000 C CNN
+F 2 "" H 2600 750 50  0001 C CNN
+F 3 "" H 2600 750 50  0001 C CNN
+	1    2600 750 
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -728,33 +728,7 @@ F 3 "" H 7100 850 50  0001 C CNN
 	1    7100 850 
 	1    0    0    -1  
 $EndComp
-$Comp
-L dk_Rectangular-Connectors-Headers-Male-Pins:S2B-PH-SM4-TB_LF__SN_ J2
-U 1 1 5EA63059
-P 2000 850
-F 0 "J2" H 2178 904 50  0000 L CNN
-F 1 "S2B-PH-SM4-TB_LF__SN_" H 2178 813 50  0000 L CNN
-F 2 "digikey-footprints:PinHeader_2x1mm_P2mm_SMD_RA" H 2200 1050 60  0001 L CNN
-F 3 "http://www.jst-mfg.com/product/pdf/eng/ePH.pdf" H 2200 1150 60  0001 L CNN
-F 4 "455-1749-1-ND" H 2200 1250 60  0001 L CNN "Digi-Key_PN"
-F 5 "S2B-PH-SM4-TB(LF)(SN)" H 2200 1350 60  0001 L CNN "MPN"
-F 6 "Connectors, Interconnects" H 2200 1450 60  0001 L CNN "Category"
-F 7 "Rectangular Connectors - Headers, Male Pins" H 2200 1550 60  0001 L CNN "Family"
-F 8 "http://www.jst-mfg.com/product/pdf/eng/ePH.pdf" H 2200 1650 60  0001 L CNN "DK_Datasheet_Link"
-F 9 "/product-detail/en/jst-sales-america-inc/S2B-PH-SM4-TB(LF)(SN)/455-1749-1-ND/926846" H 2200 1750 60  0001 L CNN "DK_Detail_Page"
-F 10 "CONN HEADER SMD R/A 2POS 2MM" H 2200 1850 60  0001 L CNN "Description"
-F 11 "JST Sales America Inc." H 2200 1950 60  0001 L CNN "Manufacturer"
-F 12 "Active" H 2200 2050 60  0001 L CNN "Status"
-	1    2000 850 
-	-1   0    0    1   
-$EndComp
-Wire Wire Line
-	2200 1150 2200 950 
-Wire Wire Line
-	2200 950  2000 950 
 Connection ~ 2200 1150
-Wire Wire Line
-	1900 950  1450 950 
 $Comp
 L RF_Module:ESP32-WROOM-32 U5
 U 1 1 5E2AB5E3
@@ -1896,4 +1870,28 @@ Wire Wire Line
 Connection ~ 7450 4600
 Wire Wire Line
 	8000 5000 8000 4950
+$Comp
+L dk_Rectangular-Connectors-Headers-Male-Pins:S2B-PH-SM4-TB_LF__SN_ J2
+U 1 1 5EA63059
+P 2300 650
+F 0 "J2" H 2478 704 50  0000 L CNN
+F 1 "S2B-PH-SM4-TB_LF__SN_" H 2478 613 50  0000 L CNN
+F 2 "digikey-footprints:PinHeader_2x1mm_P2mm_SMD_RA" H 2500 850 60  0001 L CNN
+F 3 "http://www.jst-mfg.com/product/pdf/eng/ePH.pdf" H 2500 950 60  0001 L CNN
+F 4 "455-1749-1-ND" H 2500 1050 60  0001 L CNN "Digi-Key_PN"
+F 5 "S2B-PH-SM4-TB(LF)(SN)" H 2500 1150 60  0001 L CNN "MPN"
+F 6 "Connectors, Interconnects" H 2500 1250 60  0001 L CNN "Category"
+F 7 "Rectangular Connectors - Headers, Male Pins" H 2500 1350 60  0001 L CNN "Family"
+F 8 "http://www.jst-mfg.com/product/pdf/eng/ePH.pdf" H 2500 1450 60  0001 L CNN "DK_Datasheet_Link"
+F 9 "/product-detail/en/jst-sales-america-inc/S2B-PH-SM4-TB(LF)(SN)/455-1749-1-ND/926846" H 2500 1550 60  0001 L CNN "DK_Detail_Page"
+F 10 "CONN HEADER SMD R/A 2POS 2MM" H 2500 1650 60  0001 L CNN "Description"
+F 11 "JST Sales America Inc." H 2500 1750 60  0001 L CNN "Manufacturer"
+F 12 "Active" H 2500 1850 60  0001 L CNN "Status"
+	1    2300 650 
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	2600 750  2300 750 
+Wire Wire Line
+	2200 750  2200 1150
 $EndSCHEMATC
