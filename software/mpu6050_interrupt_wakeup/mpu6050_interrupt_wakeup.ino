@@ -30,7 +30,7 @@ THE SOFTWARE.
 
 // I2Cdev and MPU6050 must be installed as libraries, or else the .cpp/.h files
 // for both classes must be in the include path of your project
-#include "I2Cdev.h"
+// #include "I2Cdev.h"
 #include "MPU6050.h"
 
 // Arduino Wire library is required if I2Cdev I2CDEV_ARDUINO_WIRE implementation
@@ -43,12 +43,11 @@ THE SOFTWARE.
 // specific I2C addresses may be passed as a parameter here
 // AD0 low = 0x68 (default for InvenSense evaluation board)
 // AD0 high = 0x69
-// MPU6050 accelgyro(0x68);
+// MPU6050 accelgyro;
 MPU6050 accelgyro(0x69); // <-- use for AD0 high
 
 int16_t oldax, olday, oldaz;
 int16_t oldgx, oldgy, oldgz;
-
 
 int16_t ax, ay, az;
 int16_t gx, gy, gz;
@@ -66,9 +65,8 @@ int16_t gx, gy, gz;
 //#define OUTPUT_BINARY_ACCELGYRO
 
 
-#define LED_PIN 13
+#define LED_PIN 26
 bool blinkState = false;
-uint8_t threshold;
 
 /*
 Method to print the reason by which ESP32
@@ -111,7 +109,7 @@ void setup() {
     delay(500);
 
     // initialize device
-    Serial.println("Initializing I2C devices...");
+    Serial.println("Initializing MPU6050...");
     accelgyro.initialize();
 
     // verify connection
@@ -135,9 +133,6 @@ void setup() {
     // 0 = 1.25 Hz, 1 = 2.5 Hz, 2 = 5 Hz, 3 = 10 Hz
     // this does seem to slow counting of motion events used for DetectionDuration above
     accelgyro.setWakeFrequency(3);
-
-    int16_t oldax, olday, oldaz;
-    int16_t oldgx, oldgy, oldgz;
 
     // initialize with values that wont be equal to a measurement
     oldax = 0; 
@@ -168,7 +163,7 @@ void setup() {
     */
 
     // configure Arduino LED pin for output
-    pinMode(LED_PIN, OUTPUT);
+    // pinMode(LED_PIN, OUTPUT);
 }
 
 void loop() {
@@ -214,6 +209,8 @@ void loop() {
       Serial.println("Going to sleep now");
       esp_deep_sleep_start();
     }
+
+    delay(50);
 
     // blink LED to indicate activity
     //blinkState = !blinkState;
