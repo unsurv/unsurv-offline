@@ -13,7 +13,7 @@
 
 #define PROXIMITY_ALERT_RADIUS 100 // in m
 
-MPU6050 accelgyro(0x69); // <-- use for AD0 high
+MPU6050 accelgyro(0x68); // <-- use for AD0 high
 int16_t ax, ay, az;
 esp_sleep_wakeup_cause_t wakeup_reason;
 
@@ -21,6 +21,7 @@ boolean sleepOnNoMotion = true;
 
 // enables a on/off cycle for the whole device specified with "espSleepDuration" and "wakeTime"
 boolean savePower = true;
+
 int espSleepDuration = 10; // in seconds
 int wakeTime = 20; // in seconds
 
@@ -190,6 +191,8 @@ void loop()
         }
     
       }
+
+      delay(500);
     } 
     else 
     {
