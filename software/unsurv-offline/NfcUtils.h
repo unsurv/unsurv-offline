@@ -76,8 +76,8 @@ void updateNFC(String nfcString)
     
     int payloadSize = 3 + rawDataSize - 1; // -1 to remove null termated string
     int nlen = payloadSize + 4;
-    Serial.println(payloadSize);
-    Serial.println(nlen);
+    // Serial.println(payloadSize);
+    // Serial.println(nlen);
 
     nfcTemplate[27] = nlen;
     nfcTemplate[30] = payloadSize;
