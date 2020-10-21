@@ -19,12 +19,14 @@ MPU6050 accelgyro(0x68); // <-- use for AD0 low
 int16_t ax, ay, az;
 esp_sleep_wakeup_cause_t wakeup_reason;
 
-boolean sleepOnNoMotion = false;
-// enables a on/off cycle for the whole device specified with "espSleepDuration" and "wakeTime"
-boolean savePower = true;
+boolean enableNfc = false;
 
-int espSleepDuration = 10; // in seconds
-int wakeTime = 5; // in seconds
+boolean sleepOnNoMotion = true;
+// enables a on/off cycle for the whole device specified with "espSleepDuration" and "wakeTime"
+boolean savePower = false;
+
+int espSleepDuration = 11; // in seconds
+int wakeTime = 20; // in seconds
 
 SFE_UBLOX_GPS ubloxGPS;
 double latitude, longitude;
@@ -68,10 +70,12 @@ void setup()
   wakeGPS();
   delay(500);
 
-  accelgyro.reset();
-  delay(500);
-
-  Wire.begin();
+  // join I2C bus (I2Cdev library doesn't do this automatically)
+  #if I2CDEV_IMPLEMENTATION == I2CDEV_ARDUINO_WIRE
+      Wire.begin();
+  #elif I2CDEV_IMPLEMENTATION == I2CDEV_BUILTIN_FASTWIRE
+      Fastwire::setup(400, true);
+  #endif
   
   // setting up MPU 6050 accelerometer
   // initialize device
@@ -81,24 +85,29 @@ void setup()
   // verify connection
   Serial.println("Testing device connections...");
   Serial.println(accelgyro.testConnection() ? "MPU6050 connection successful" : "MPU6050 connection failed");
-  
-  delay(100);
-  accelgyro.setZeroMotionDetectionThreshold(20);
-  delay(100);
+
+
+  accelgyro.setXAccelOffset(1324);
+  accelgyro.setYAccelOffset(1300);
+  accelgyro.setZAccelOffset(736);
+  delay(200);
+  accelgyro.setZeroMotionDetectionThreshold(16);
+  delay(200);
   // counts no motion events, this counting is slowed 
   // because a low frequency of measurements is used
-  accelgyro.setZeroMotionDetectionDuration(5);
-  delay(100);
+  accelgyro.setZeroMotionDetectionDuration(200);
+  delay(200);
   // interrupts twice, on no motion + on motion
   accelgyro.setIntZeroMotionEnabled(true);
-  delay(100);
+  delay(200);
   // enables low power only accelerator mode
   accelgyro.setWakeCycleEnabled(true);
-  delay(100);
+  delay(200);
   // frequency of measurements
   // 0 = 1.25 Hz, 1 = 2.5 Hz, 2 = 5 Hz, 3 = 10 Hz
   // this does seem to slow counting of motion events used for DetectionDuration above
-  accelgyro.setWakeFrequency(1);
+  accelgyro.setWakeFrequency(3);
+  delay(200);
 
 
   // setting up ublox GPS
@@ -120,18 +129,17 @@ void setup()
 
 void loop()
 {
-  accelgyro.getAcceleration(&ax, &ay, &az);
-  // printAccellData();
-
-  if (accelgyro.getIntZeroMotionStatus() && sleepOnNoMotion)
+  for (int i = 0; i < 100; i++)
   {
+    if (accelgyro.getZeroMotionDetected() && sleepOnNoMotion)
+    {
     Serial.println("Zero motion detected");
       
     // wire mpu6050 int pin to GPIO25
-    esp_sleep_enable_ext0_wakeup(GPIO_NUM_25,1); //1 = High, 0 = Low
+    esp_sleep_enable_ext0_wakeup(GPIO_NUM_25, 1); //1 = High, 0 = Low
 
     // lower sensitivity to allow low frequency wakeups
-    accelgyro.setZeroMotionDetectionDuration(3);
+    // accelgyro.setZeroMotionDetectionDuration(10);
     
     //Go to sleep now
     Serial.println("Going to sleep now");
@@ -139,94 +147,99 @@ void loop()
     ubloxGPS.powerOff(0); // 0 = indefinetly
     delay(100);
     esp_deep_sleep_start();
+    }
+  }
+  
+  if (millis() < startTime + (wakeTime * 1000) || !savePower)
+  {
+    //The GPS module only responds when a new position is available          
+    latitude = (double) ubloxGPS.getLatitude() / 10000000;
+    longitude = (double) ubloxGPS.getLongitude() / 10000000;
+    deviceAltitude = ubloxGPS.getAltitude(); // in mm
+
+    // satellites in view
+    SIV = ubloxGPS.getSIV();
+
+    Serial.println("-------------------------------");
+    //ESP_BT.println();
+
+    if (SIV > 2) 
+    {
+      printGpsData();
+      short int radius = 100;
+
+      if (firstFix)
+      {
+      nearCameraCounter = storageUtils.getCamerasFromSD(latitude, longitude, radius, nearCameras);
+
+      while (nearCameraCounter < 0) // differ between sucess and fail here
+      {
+      radius = radius / 2;
+      Serial.println(String(radius));
+      nearCameraCounter = storageUtils.getCamerasFromSD(latitude, longitude, radius, nearCameras);
+      }
+
+      firstFix = false;
+      }
+
+
+    Serial.print("Distances: ");
+    delay(50);
+    //ESP_BT.println("Distances: \n");
+
+
+    nfcData = "";
+    nfcData += "timestamp: " + getDateTimeString() + '\n';
+
+    nfcData += "Location: SIV: ";
+    nfcData += String(SIV) + " Lat: " + String(latitude, 5) + " Lon: " + String(longitude, 5) + " Alt: " + String(deviceAltitude) + " mm" + "\n";
+    
+    // check distance for all debug cameras and print id + distance
+    for (int i = 0; i < nearCameraCounter; i++) 
+      {
+        currentCamera = nearCameras[i];
+
+        distance = locUtils.getDistanceToCamera(latitude, longitude, currentCamera.latitude, currentCamera.longitude);
+
+        if (distance < PROXIMITY_ALERT_RADIUS)
+        {
+            // nfcData += "Id: " + String(currentCamera.id) + " Distance: " + String(distance, 3) + '\n';
+        }
+        
+        nfcData += "Id: " + String(currentCamera.id) + " Distance: " + String(distance, 3) + '\n';
+        
+        delay(50);
+        //ESP_BT.println("Id: " + String(currentCamera.id) + " Distance:" + String(distance, 3));
+
+      }
+
+      
+      Serial.println(nfcData);
+
+      if (enableNfc)
+      {
+        updateNFC(nfcData);
+      }      
+  
+    }
+
+    delay(250);
+
   } 
   else 
   {
-    if (millis() < startTime + (wakeTime * 1000) || !savePower)
-    {
-      //The GPS module only responds when a new position is available          
-      latitude = (double) ubloxGPS.getLatitude() / 10000000;
-      longitude = (double) ubloxGPS.getLongitude() / 10000000;
-      deviceAltitude = ubloxGPS.getAltitude(); // in mm
+    ubloxGPS.powerOff(0);
+    esp_sleep_enable_timer_wakeup(espSleepDuration * 1000000);
+    Serial.println("Setup ESP32 to sleep for " + String(espSleepDuration) +" seconds");
+    //ESP_BT.println("Setup ESP32 to sleep for " + String(espSleepDuration) +" seconds");
 
-      // satellites in view
-      SIV = ubloxGPS.getSIV();
-
-      Serial.println("-------------------------------");
-      //ESP_BT.println();
-
-      if (SIV > 2) 
-      {
-        printGpsData();
-        short int radius = 100;
-
-        if (firstFix)
-        {
-        nearCameraCounter = storageUtils.getCamerasFromSD(latitude, longitude, radius, nearCameras);
-
-        while (nearCameraCounter < 0) // differ between sucess and fail here
-        {
-        radius = radius / 2;
-        Serial.println(String(radius));
-        nearCameraCounter = storageUtils.getCamerasFromSD(latitude, longitude, radius, nearCameras);
-        }
-
-        firstFix = false;
-        }
-
-
-      Serial.print("Distances: ");
-      delay(50);
-      //ESP_BT.println("Distances: \n");
-
-
-      nfcData = "";
-      nfcData += "timestamp: " + getDateTimeString() + '\n';
-
-      nfcData += "Location: SIV: ";
-      nfcData += String(SIV) + " Lat: " + String(latitude, 5) + " Lon: " + String(longitude, 5) + " Alt: " + String(deviceAltitude) + " mm" + "\n";
-      
-      // check distance for all debug cameras and print id + distance
-      for (int i = 0; i < nearCameraCounter; i++) 
-        {
-          currentCamera = nearCameras[i];
-
-          distance = locUtils.getDistanceToCamera(latitude, longitude, currentCamera.latitude, currentCamera.longitude);
-
-          if (distance < PROXIMITY_ALERT_RADIUS)
-          {
-              // nfcData += "Id: " + String(currentCamera.id) + " Distance: " + String(distance, 3) + '\n';
-          }
-          
-          nfcData += "Id: " + String(currentCamera.id) + " Distance: " + String(distance, 3) + '\n';
-          
-          delay(50);
-          //ESP_BT.println("Id: " + String(currentCamera.id) + " Distance:" + String(distance, 3));
-
-        }
-
-        
-        Serial.println(nfcData);
-        updateNFC(nfcData);
-    
-      }
-
-      delay(500);
-    } 
-    else 
-    {
-      ubloxGPS.powerOff(0);
-      esp_sleep_enable_timer_wakeup(espSleepDuration * 1000000);
-      Serial.println("Setup ESP32 to sleep for " + String(espSleepDuration) +" seconds");
-      //ESP_BT.println("Setup ESP32 to sleep for " + String(espSleepDuration) +" seconds");
-
-      delay(100);
-      //Go to sleep now
-      digitalWrite(LED, LOW);
-      esp_deep_sleep_start();
-    }
-
+    delay(100);
+    //Go to sleep now
+    digitalWrite(LED, LOW);
+    esp_deep_sleep_start();
   }
+
+  
 
   
 }
@@ -294,9 +307,9 @@ void wakeGPS()
 {
   digitalWrite(GPS_WAKEUP_PIN , LOW);
   Serial.println("WAKING UP GPS VIA EXINT PIN");
-  delay(500);
+  delay(200);
   digitalWrite(GPS_WAKEUP_PIN , HIGH);
-  delay(500);
+  delay(200);
   digitalWrite(GPS_WAKEUP_PIN , LOW);
 
 }
