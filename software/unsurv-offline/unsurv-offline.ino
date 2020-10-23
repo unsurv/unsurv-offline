@@ -5,6 +5,7 @@
 
 #include "MPU6050.h"
 #include "Wire.h"
+#include "driver/adc.h"
 #include "LocationUtils.h"
 #include "StorageUtils.h"
 #include "SurveillanceCamera.h"
@@ -21,12 +22,12 @@ esp_sleep_wakeup_cause_t wakeup_reason;
 
 boolean enableNfc = false;
 
-boolean sleepOnNoMotion = true;
+boolean sleepOnNoMotion = false;
 // enables a on/off cycle for the whole device specified with "espSleepDuration" and "wakeTime"
-boolean savePower = false;
+boolean savePower = true;
 
 int espSleepDuration = 11; // in seconds
-int wakeTime = 20; // in seconds
+int wakeTime = 4; // in seconds
 
 SFE_UBLOX_GPS ubloxGPS;
 double latitude, longitude;
@@ -60,15 +61,14 @@ void setup()
 
   //Print the wakeup reason for ESP32
   printWakeupReason();
-
+  
+  // setCpuFrequencyMhz(160);
+  
+  
   pinMode(LED, OUTPUT); // power LED
   digitalWrite(LED, HIGH);
-
-  pinMode(GPS_WAKEUP_PIN , OUTPUT);
   
-
   wakeGPS();
-  delay(500);
 
   // join I2C bus (I2Cdev library doesn't do this automatically)
   #if I2CDEV_IMPLEMENTATION == I2CDEV_ARDUINO_WIRE
@@ -90,24 +90,24 @@ void setup()
   accelgyro.setXAccelOffset(1324);
   accelgyro.setYAccelOffset(1300);
   accelgyro.setZAccelOffset(736);
-  delay(200);
-  accelgyro.setZeroMotionDetectionThreshold(16);
-  delay(200);
+  delay(50);
+  accelgyro.setZeroMotionDetectionThreshold(50);
+  delay(50);
   // counts no motion events, this counting is slowed 
   // because a low frequency of measurements is used
-  accelgyro.setZeroMotionDetectionDuration(200);
-  delay(200);
+  accelgyro.setZeroMotionDetectionDuration(10);
+  delay(50);
   // interrupts twice, on no motion + on motion
   accelgyro.setIntZeroMotionEnabled(true);
-  delay(200);
+  delay(50);
   // enables low power only accelerator mode
   accelgyro.setWakeCycleEnabled(true);
-  delay(200);
+  delay(50);
   // frequency of measurements
   // 0 = 1.25 Hz, 1 = 2.5 Hz, 2 = 5 Hz, 3 = 10 Hz
   // this does seem to slow counting of motion events used for DetectionDuration above
   accelgyro.setWakeFrequency(3);
-  delay(200);
+  delay(50);
 
 
   // setting up ublox GPS
@@ -129,26 +129,14 @@ void setup()
 
 void loop()
 {
-  for (int i = 0; i < 100; i++)
-  {
-    if (accelgyro.getZeroMotionDetected() && sleepOnNoMotion)
-    {
-    Serial.println("Zero motion detected");
-      
-    // wire mpu6050 int pin to GPIO25
-    esp_sleep_enable_ext0_wakeup(GPIO_NUM_25, 1); //1 = High, 0 = Low
 
-    // lower sensitivity to allow low frequency wakeups
-    // accelgyro.setZeroMotionDetectionDuration(10);
+  if (accelgyro.getZeroMotionDetected() && sleepOnNoMotion)
+  {
+  Serial.println("Zero motion detected");
     
-    //Go to sleep now
-    Serial.println("Going to sleep now");
-    digitalWrite(LED, LOW);
-    ubloxGPS.powerOff(0); // 0 = indefinetly
-    delay(100);
-    esp_deep_sleep_start();
-    }
+  startDeepSleep(0);
   }
+
   
   if (millis() < startTime + (wakeTime * 1000) || !savePower)
   {
@@ -162,6 +150,9 @@ void loop()
 
     Serial.println("-------------------------------");
     //ESP_BT.println();
+
+    nfcData = "";
+    nfcData += "Battery at: " + String(estimateBatteryLevel()) + " %\n";
 
     if (SIV > 2) 
     {
@@ -183,16 +174,16 @@ void loop()
       }
 
 
-    Serial.print("Distances: ");
-    delay(50);
     //ESP_BT.println("Distances: \n");
 
 
     nfcData = "";
     nfcData += "timestamp: " + getDateTimeString() + '\n';
+    nfcData += "Battery at: " + String(estimateBatteryLevel()) + " %\n";
+    
 
-    nfcData += "Location: SIV: ";
-    nfcData += String(SIV) + " Lat: " + String(latitude, 5) + " Lon: " + String(longitude, 5) + " Alt: " + String(deviceAltitude) + " mm" + "\n";
+    nfcData += "Location:";
+    nfcData += " Lat: " + String(latitude, 5) + " Lon: " + String(longitude, 5) + " Alt: " + String(deviceAltitude) + " mm -- SIV: " + String(SIV) + "\n";
     
     // check distance for all debug cameras and print id + distance
     for (int i = 0; i < nearCameraCounter; i++) 
@@ -216,36 +207,64 @@ void loop()
       
       Serial.println(nfcData);
 
-      if (enableNfc)
-      {
-        updateNFC(nfcData);
-      }      
+       
   
     }
 
-    delay(250);
+    if (enableNfc)
+      {
+        updateNFC(nfcData);
+      }     
+
+    delay(200);
 
   } 
   else 
   {
-    ubloxGPS.powerOff(0);
-    esp_sleep_enable_timer_wakeup(espSleepDuration * 1000000);
-    Serial.println("Setup ESP32 to sleep for " + String(espSleepDuration) +" seconds");
-    //ESP_BT.println("Setup ESP32 to sleep for " + String(espSleepDuration) +" seconds");
-
-    delay(100);
-    //Go to sleep now
-    digitalWrite(LED, LOW);
-    esp_deep_sleep_start();
+    startDeepSleep(espSleepDuration);
   }
-
-  
-
-  
 }
 
 
+void startDeepSleep(int timer) {
 
+  if (timer != 0)
+  {
+    esp_sleep_enable_timer_wakeup(timer * 1000000);
+    Serial.println("Setup ESP32 to sleep for " + String(espSleepDuration) +" seconds");
+    //ESP_BT.println("Setup ESP32 to sleep for " + String(espSleepDuration) +" seconds");
+
+    delay(50);
+    //Go to sleep now
+    digitalWrite(LED, LOW);
+    pinMode(LED, INPUT); // power LED
+    ubloxGPS.powerOff(0);
+    delay(100);
+    esp_deep_sleep_start();
+  }
+  else
+  {
+    // wire mpu6050 int pin to GPIO25
+    esp_sleep_enable_ext0_wakeup(GPIO_NUM_25, 1); //1 = High, 0 = Low
+  
+    // lower sensitivity to allow low frequency wakeups
+    accelgyro.setZeroMotionDetectionDuration(10);
+    
+    //Go to sleep now
+    Serial.println("Going to sleep now");
+    digitalWrite(LED, LOW);
+    pinMode(LED, INPUT); // power LED
+  
+    btStop();
+  
+    adc_power_off();
+    
+    delay(200);
+    ubloxGPS.powerOff(0); // 0 = indefinetly
+    delay(200);
+    esp_deep_sleep_start();
+  }
+}
 
 void printWakeupReason(){
 
@@ -305,12 +324,16 @@ void printGpsData()
 
 void wakeGPS() 
 {
+  pinMode(GPS_WAKEUP_PIN , OUTPUT);
+  delay(100);
   digitalWrite(GPS_WAKEUP_PIN , LOW);
   Serial.println("WAKING UP GPS VIA EXINT PIN");
-  delay(200);
+  delay(100);
   digitalWrite(GPS_WAKEUP_PIN , HIGH);
-  delay(200);
+  delay(100);
   digitalWrite(GPS_WAKEUP_PIN , LOW);
+  delay(100);
+  pinMode(GPS_WAKEUP_PIN , INPUT);
 
 }
 
@@ -328,7 +351,37 @@ String getDateTimeString()
   }
 }
 
-String estimateBatteryLevel()
+int estimateBatteryLevel()
 {
   
+  delay(100);
+  float voltage = analogRead(35) * 7.29 / 4096.0;
+  int percentage = 100;
+  float maxChargeVoltage = 4.20;
+
+  
+  // lipo discharges nonlinear
+  Serial.println("Voltage: " + String(voltage));
+  // from 100 to 80 %
+  if (voltage > 4.02)
+  {
+     percentage -= ((maxChargeVoltage - voltage) / 0.12f) * 10.0f;
+  }
+  else if (voltage <= 4.02 && voltage >= 3.87) // 80 - 60 %
+  {
+    percentage = 80;
+    Serial.println(String(((4.02 - voltage) / 0.07f) * 10.0f));
+    percentage -= ((4.02 - voltage) / 0.07f) * 10.0f;
+  }
+  else if (voltage <= 3.87 && voltage >= 3.64) // 60 - 10 %
+  {
+    percentage = 60;
+    percentage -= (int) ((3.87 - voltage) / 0.04f) * 10.0f;
+  }
+  else
+  {
+    percentage = 0;
+  }
+
+  return percentage;
 }

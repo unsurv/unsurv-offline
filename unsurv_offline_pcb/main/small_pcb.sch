@@ -1113,27 +1113,27 @@ F 3 "~" H 1100 5250 50  0001 C CNN
 	-1   0    0    1   
 $EndComp
 Wire Wire Line
-	700  5150 700  5300
+	750  5150 750  5300
 $Comp
 L power:GND #PWR04
 U 1 1 5F03AD41
-P 700 5300
-F 0 "#PWR04" H 700 5050 50  0001 C CNN
-F 1 "GND" H 705 5127 50  0000 C CNN
-F 2 "" H 700 5300 50  0001 C CNN
-F 3 "" H 700 5300 50  0001 C CNN
-	1    700  5300
+P 750 5300
+F 0 "#PWR04" H 750 5050 50  0001 C CNN
+F 1 "GND" H 755 5127 50  0000 C CNN
+F 2 "" H 750 5300 50  0001 C CNN
+F 3 "" H 750 5300 50  0001 C CNN
+	1    750  5300
 	1    0    0    -1  
 $EndComp
 $Comp
 L Device:R R1
 U 1 1 5F02E84F
-P 700 5000
-F 0 "R1" H 770 5046 50  0000 L CNN
-F 1 "10k" H 770 4955 50  0000 L CNN
-F 2 "Resistor_SMD:R_0603_1608Metric" V 630 5000 50  0001 C CNN
-F 3 "~" H 700 5000 50  0001 C CNN
-	1    700  5000
+P 750 5000
+F 0 "R1" H 820 5046 50  0000 L CNN
+F 1 "100k" H 820 4955 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 680 5000 50  0001 C CNN
+F 3 "~" H 750 5000 50  0001 C CNN
+	1    750  5000
 	-1   0    0    1   
 $EndComp
 Wire Wire Line
@@ -1233,12 +1233,7 @@ F 3 "https://www.diodes.com/assets/Datasheets/AP2112.pdf" H 3550 4700 50  0001 C
 $EndComp
 Wire Wire Line
 	600  4800 600  4850
-Wire Wire Line
-	600  4850 700  4850
 Connection ~ 850  4850
-Connection ~ 700  4850
-Wire Wire Line
-	700  4850 850  4850
 $Comp
 L Device:R R7
 U 1 1 5F57130E
@@ -1697,4 +1692,9 @@ F 3 "" H 4150 6100 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	4150 6100 4550 6100
+Connection ~ 750  4850
+Wire Wire Line
+	750  4850 850  4850
+Wire Wire Line
+	600  4850 750  4850
 $EndSCHEMATC
