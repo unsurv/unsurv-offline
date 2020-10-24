@@ -20,9 +20,9 @@ MPU6050 accelgyro(0x68); // <-- use for AD0 low
 int16_t ax, ay, az;
 esp_sleep_wakeup_cause_t wakeup_reason;
 
-boolean enableNfc = false;
+boolean enableNfc = true;
 
-boolean sleepOnNoMotion = false;
+boolean sleepOnNoMotion = true;
 // enables a on/off cycle for the whole device specified with "espSleepDuration" and "wakeTime"
 boolean savePower = true;
 
@@ -154,74 +154,84 @@ void loop()
     nfcData = "";
     nfcData += "Battery at: " + String(estimateBatteryLevel()) + " %\n";
 
-    if (SIV > 2) 
+    if (SIV < 3) // less than 3 satellites in view, scan for 1 minute
+    {
+      int searchDuration = 60;
+      long searchStart = millis();
+      
+      while (searchStart + millis() < searchStart + searchDuration * 1000 && SIV < 3)
+      {
+        Serial.println("scanning for GPS satellites");
+        SIV = ubloxGPS.getSIV();
+        delay(1000);      
+      }
+    }
+    else // minimum 3 sats in view
     {
       printGpsData();
       short int radius = 100;
 
       if (firstFix)
       {
-      nearCameraCounter = storageUtils.getCamerasFromSD(latitude, longitude, radius, nearCameras);
-
-      while (nearCameraCounter < 0) // differ between sucess and fail here
-      {
-      radius = radius / 2;
-      Serial.println(String(radius));
-      nearCameraCounter = storageUtils.getCamerasFromSD(latitude, longitude, radius, nearCameras);
+        nearCameraCounter = storageUtils.getCamerasFromSD(latitude, longitude, radius, nearCameras);
+  
+        while (nearCameraCounter < 0) // differ between sucess and fail here
+        {
+          radius = radius / 2;
+          Serial.println(String(radius));
+          nearCameraCounter = storageUtils.getCamerasFromSD(latitude, longitude, radius, nearCameras);
+        }
+  
+        firstFix = false;
       }
-
-      firstFix = false;
-      }
-
-
-    //ESP_BT.println("Distances: \n");
-
-
-    nfcData = "";
-    nfcData += "timestamp: " + getDateTimeString() + '\n';
-    nfcData += "Battery at: " + String(estimateBatteryLevel()) + " %\n";
-    
-
-    nfcData += "Location:";
-    nfcData += " Lat: " + String(latitude, 5) + " Lon: " + String(longitude, 5) + " Alt: " + String(deviceAltitude) + " mm -- SIV: " + String(SIV) + "\n";
-    
-    // check distance for all debug cameras and print id + distance
-    for (int i = 0; i < nearCameraCounter; i++) 
+  
+      nfcData += "timestamp: " + getDateTimeString() + '\n';
+  
+      nfcData += "Location:";
+      nfcData += " Lat: " + String(latitude, 5) + " Lon: " + String(longitude, 5) + " Alt: " + String(deviceAltitude) + " mm -- SIV: " + String(SIV) + "\n";
+      
+      // check distance for all debug cameras and print id + distance
+      for (int i = 0; i < nearCameraCounter; i++) 
       {
         currentCamera = nearCameras[i];
-
+  
         distance = locUtils.getDistanceToCamera(latitude, longitude, currentCamera.latitude, currentCamera.longitude);
-
+  
         if (distance < PROXIMITY_ALERT_RADIUS)
         {
-            // nfcData += "Id: " + String(currentCamera.id) + " Distance: " + String(distance, 3) + '\n';
+          // nfcData += "Id: " + String(currentCamera.id) + " Distance: " + String(distance, 3) + '\n';
         }
         
         nfcData += "Id: " + String(currentCamera.id) + " Distance: " + String(distance, 3) + '\n';
         
         delay(50);
         //ESP_BT.println("Id: " + String(currentCamera.id) + " Distance:" + String(distance, 3));
-
-      }
-
-      
-      Serial.println(nfcData);
-
-       
   
+      }
+          
+      Serial.println(nfcData);
     }
 
     if (enableNfc)
-      {
-        updateNFC(nfcData);
-      }     
+    {
+      updateNFC(nfcData);
+    }     
 
     delay(200);
 
   } 
-  else 
+  else // not in active state
   {
-    startDeepSleep(espSleepDuration);
+    if (SIV < 3)
+    {
+      // no satellites in view, sleep for 2 mins and try again
+      Serial.println("No Satellites in view, sleeping for 2 minutes.");
+      startDeepSleep(120);
+    }
+    else // regular active/sleep cycle while GPS satellites in view
+    {
+      startDeepSleep(espSleepDuration);
+    }
   }
 }
 
@@ -231,7 +241,7 @@ void startDeepSleep(int timer) {
   if (timer != 0)
   {
     esp_sleep_enable_timer_wakeup(timer * 1000000);
-    Serial.println("Setup ESP32 to sleep for " + String(espSleepDuration) +" seconds");
+    Serial.println("Setup ESP32 to sleep for " + String(timer) +" seconds");
     //ESP_BT.println("Setup ESP32 to sleep for " + String(espSleepDuration) +" seconds");
 
     delay(50);
