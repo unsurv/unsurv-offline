@@ -5,7 +5,6 @@
 
 #include "MPU6050.h"
 #include "Wire.h"
-#include "driver/adc.h"
 #include "LocationUtils.h"
 #include "StorageUtils.h"
 #include "SurveillanceCamera.h"
@@ -16,6 +15,10 @@
 #define LED 26
 #define GPS_WAKEUP_PIN 5
 
+#define SEARCH_DURATION 60
+
+#define BITMASK_PIN_25 0x2000000
+
 MPU6050 accelgyro(0x68); // <-- use for AD0 low
 int16_t ax, ay, az;
 esp_sleep_wakeup_cause_t wakeup_reason;
@@ -24,7 +27,7 @@ boolean enableNfc = true;
 
 boolean sleepOnNoMotion = true;
 // enables a on/off cycle for the whole device specified with "espSleepDuration" and "wakeTime"
-boolean savePower = true;
+boolean savePower = false;
 
 int espSleepDuration = 11; // in seconds
 int wakeTime = 4; // in seconds
@@ -156,10 +159,10 @@ void loop()
 
     if (SIV < 3) // less than 3 satellites in view, scan for 1 minute
     {
-      int searchDuration = 60;
+      
       long searchStart = millis();
       
-      while (searchStart + millis() < searchStart + searchDuration * 1000 && SIV < 3)
+      while (searchStart + millis() < searchStart + SEARCH_DURATION * 1000 && SIV < 3)
       {
         Serial.println("scanning for GPS satellites");
         SIV = ubloxGPS.getSIV();
@@ -255,7 +258,9 @@ void startDeepSleep(int timer) {
   else
   {
     // wire mpu6050 int pin to GPIO25
-    esp_sleep_enable_ext0_wakeup(GPIO_NUM_25, 1); //1 = High, 0 = Low
+    // esp_sleep_enable_ext0_wakeup(GPIO_NUM_25, 1); //1 = High, 0 = Low < This keeps gpio stuff powered, no bueno
+     
+    esp_sleep_enable_ext1_wakeup(BITMASK_PIN_25, ESP_EXT1_WAKEUP_ANY_HIGH);
   
     // lower sensitivity to allow low frequency wakeups
     accelgyro.setZeroMotionDetectionDuration(10);
@@ -265,10 +270,6 @@ void startDeepSleep(int timer) {
     digitalWrite(LED, LOW);
     pinMode(LED, INPUT); // power LED
   
-    btStop();
-  
-    adc_power_off();
-    
     delay(200);
     ubloxGPS.powerOff(0); // 0 = indefinetly
     delay(200);
@@ -302,7 +303,6 @@ void printAccellData()
 void printGpsData()
 {
 
-  
   Serial.println(getDateTimeString());
 
   Serial.print(F(" SIV: "));
@@ -367,7 +367,7 @@ int estimateBatteryLevel()
   delay(100);
   float voltage = analogRead(35) * 7.29 / 4096.0;
   int percentage = 100;
-  float maxChargeVoltage = 4.20;
+  float maxChargeVoltage = 4.18;
 
   
   // lipo discharges nonlinear
@@ -380,7 +380,6 @@ int estimateBatteryLevel()
   else if (voltage <= 4.02 && voltage >= 3.87) // 80 - 60 %
   {
     percentage = 80;
-    Serial.println(String(((4.02 - voltage) / 0.07f) * 10.0f));
     percentage -= ((4.02 - voltage) / 0.07f) * 10.0f;
   }
   else if (voltage <= 3.87 && voltage >= 3.64) // 60 - 10 %
@@ -392,6 +391,8 @@ int estimateBatteryLevel()
   {
     percentage = 0;
   }
+
+  Serial.println("Percentage: " + String(percentage));
 
   return percentage;
 }
