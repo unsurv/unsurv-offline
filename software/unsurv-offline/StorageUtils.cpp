@@ -35,8 +35,8 @@ int StorageUtils::getCamerasFromSD(double deviceLatitude, double deviceLongitude
 
   if (!SD.begin(4, SPI_SPEED)) 
   {
-    Serial.println("initialization failed!");
-    while (1);
+    Serial.println("error initializing SD card.");
+    return -1;
   }
   Serial.println("accessing SD");
 
@@ -96,7 +96,7 @@ int StorageUtils::getCamerasFromSD(double deviceLatitude, double deviceLongitude
           // if too many cameras in radius around device, half the radius
           if (nearCameraCounter == MAXNEARCAMERAS) {
             Serial.println("RADIUS HALVED ---------------");
-            return -1;
+            return -2;
           }
 
           

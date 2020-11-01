@@ -177,8 +177,11 @@ void loop()
       if (firstFix)
       {
         nearCameraCounter = storageUtils.getCamerasFromSD(latitude, longitude, radius, nearCameras);
-  
-        while (nearCameraCounter < 0) // differ between sucess and fail here
+
+        if (nearCameraCounter == -1) {
+          startDeepSleep(0);
+        }
+        while (nearCameraCounter == -2) // returns -2 if radius is too big
         {
           radius = radius / 2;
           Serial.println(String(radius));
