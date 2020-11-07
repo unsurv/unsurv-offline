@@ -10,12 +10,15 @@
 #include "SurveillanceCamera.h"
 #include "NfcUtils.h"
 #include "SparkFun_Ublox_Arduino_Library.h" //http://librarymanager/All#SparkFun_Ublox_GPS
+#include "WiFi.h"
+#include "driver/adc.h"
+#include "esp_sleep.h"
 
 #define PROXIMITY_ALERT_RADIUS 100 // in m
 #define LED 26
 #define GPS_WAKEUP_PIN 5
 
-#define SEARCH_DURATION 60
+#define SEARCH_DURATION 10
 
 #define BITMASK_PIN_25 0x2000000
 
@@ -25,9 +28,9 @@ esp_sleep_wakeup_cause_t wakeup_reason;
 
 boolean enableNfc = true;
 
-boolean sleepOnNoMotion = true;
+boolean sleepOnNoMotion = false;
 // enables a on/off cycle for the whole device specified with "espSleepDuration" and "wakeTime"
-boolean savePower = false;
+boolean savePower = true;
 
 int espSleepDuration = 11; // in seconds
 int wakeTime = 4; // in seconds
@@ -66,12 +69,13 @@ void setup()
   printWakeupReason();
   
   // setCpuFrequencyMhz(160);
-  
-  
+ 
   pinMode(LED, OUTPUT); // power LED
   digitalWrite(LED, HIGH);
   
   wakeGPS();
+    adc_power_on(); 
+  delay(100);
 
   // join I2C bus (I2Cdev library doesn't do this automatically)
   #if I2CDEV_IMPLEMENTATION == I2CDEV_ARDUINO_WIRE
@@ -246,7 +250,8 @@ void startDeepSleep(int timer) {
 
   if (timer != 0)
   {
-    esp_sleep_enable_timer_wakeup(timer * 1000000);
+    
+    
     Serial.println("Setup ESP32 to sleep for " + String(timer) +" seconds");
     //ESP_BT.println("Setup ESP32 to sleep for " + String(espSleepDuration) +" seconds");
 
@@ -254,7 +259,19 @@ void startDeepSleep(int timer) {
     //Go to sleep now
     digitalWrite(LED, LOW);
     pinMode(LED, INPUT); // power LED
+    
+    esp_sleep_enable_timer_wakeup(timer * 1000000); // ys conversion
+    delay(100);
     ubloxGPS.powerOff(0);
+    delay(100);
+    accelgyro.setZeroMotionDetectionDuration(10);
+    WiFi.mode(WIFI_OFF);
+    adc_power_off();
+
+    esp_sleep_pd_config(ESP_PD_DOMAIN_RTC_PERIPH, ESP_PD_OPTION_OFF);
+    esp_sleep_pd_config(ESP_PD_DOMAIN_RTC_SLOW_MEM, ESP_PD_OPTION_OFF);
+    esp_sleep_pd_config(ESP_PD_DOMAIN_RTC_FAST_MEM, ESP_PD_OPTION_OFF);
+    
     delay(100);
     esp_deep_sleep_start();
   }
@@ -273,9 +290,12 @@ void startDeepSleep(int timer) {
     digitalWrite(LED, LOW);
     pinMode(LED, INPUT); // power LED
   
-    delay(200);
+    delay(100);
     ubloxGPS.powerOff(0); // 0 = indefinetly
-    delay(200);
+    delay(100);
+    WiFi.mode(WIFI_OFF);
+    adc_power_off();  
+    delay(100);
     esp_deep_sleep_start();
   }
 }
@@ -366,8 +386,6 @@ String getDateTimeString()
 
 int estimateBatteryLevel()
 {
-  
-  delay(100);
   float voltage = analogRead(35) * 7.29 / 4096.0;
   int percentage = 100;
   float maxChargeVoltage = 4.18;
