@@ -3,19 +3,44 @@
 #include "SurveillanceCamera.h"
 #include <SPI.h>
 #include <SdFat.h>
+
 SdFat SD;
 
 // from sdfat example
 // Test with reduced SPI speed for breadboards.  SD_SCK_MHZ(4) will select
 // the highest speed supported by the board that is not over 4 MHz.
 // Change SPI_SPEED to SD_SCK_MHZ(50) for best performance.
-#define SPI_SPEED SD_SCK_MHZ(32)
+#define SPI_SPEED SD_SCK_MHZ(4)
 
 LocationUtils locationUtils;
 
 File myFile;
 int fileSize;
 
+
+void StorageUtils::logToSd(String logMsg) 
+{
+  if (!SD.begin(4, SPI_SPEED)) 
+  {
+    Serial.println("error initializing SD card.");
+  }
+  Serial.println("logging data");
+
+  File logFile = SD.open("logFile.txt", FILE_WRITE);
+
+  // logFile = SD.open("/logFile.txt", O_WRONLY | O_CREAT | O_EXCL);
+
+  if (logFile) 
+  {
+    logFile.print(logMsg);
+    logFile.println();
+  
+    logFile.close();  
+  }
+
+  
+ 
+}
 
 int StorageUtils::getCamerasFromSD(double deviceLatitude, double deviceLongitude, short radiusInMeters, SurveillanceCamera cameras[MAXNEARCAMERAS])
 {

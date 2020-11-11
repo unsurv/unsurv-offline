@@ -3,6 +3,9 @@
 // 6 mAh over 1h with 28s sleep 2s active
 // 10 mAh over 1h with 13s sleep 2s active
 
+// new USB power meter
+// 13 mah over 1h with gps powerSave 40s sleep 2s active <- good GPS connection?
+
 #include "MPU6050.h"
 #include "Wire.h"
 #include "LocationUtils.h"
@@ -10,7 +13,6 @@
 #include "SurveillanceCamera.h"
 #include "NfcUtils.h"
 #include "SparkFun_Ublox_Arduino_Library.h" //http://librarymanager/All#SparkFun_Ublox_GPS
-#include "WiFi.h"
 #include "driver/adc.h"
 #include "esp_sleep.h"
 
@@ -18,7 +20,7 @@
 #define LED 26
 #define GPS_WAKEUP_PIN 5
 
-#define SEARCH_DURATION 10
+#define SEARCH_DURATION 180
 
 #define BITMASK_PIN_25 0x2000000
 
@@ -26,14 +28,14 @@ MPU6050 accelgyro(0x68); // <-- use for AD0 low
 int16_t ax, ay, az;
 esp_sleep_wakeup_cause_t wakeup_reason;
 
-boolean enableNfc = true;
 
-boolean sleepOnNoMotion = false;
+boolean enableNfc = true;
+boolean sleepOnNoMotion = true;
 // enables a on/off cycle for the whole device specified with "espSleepDuration" and "wakeTime"
 boolean savePower = true;
 
-int espSleepDuration = 11; // in seconds
-int wakeTime = 4; // in seconds
+int espSleepDuration = 40; // in seconds
+int wakeTime = 2; // in seconds
 
 SFE_UBLOX_GPS ubloxGPS;
 double latitude, longitude;
@@ -128,10 +130,13 @@ void setup()
   }
 
   ubloxGPS.setI2COutput(COM_TYPE_UBX); //Set the I2C port to output UBX only (turn off NMEA noise)
+  ubloxGPS.powerSaveMode();
   ubloxGPS.saveConfiguration(); //Save the current settings to flash and BBR
 
   startTime = millis();
-    
+
+  // storageUtils.logToSd("testing SD access");
+  Serial.println("GPS power save: " + String(ubloxGPS.getPowerSaveMode()));
 }
 
 void loop()
@@ -145,7 +150,7 @@ void loop()
   }
 
   
-  if (millis() < startTime + (wakeTime * 1000) || !savePower)
+  if (millis() < startTime + (wakeTime * 1000) || !savePower || firstFix)
   {
     //The GPS module only responds when a new position is available          
     latitude = (double) ubloxGPS.getLatitude() / 10000000;
@@ -156,6 +161,7 @@ void loop()
     SIV = ubloxGPS.getSIV();
 
     Serial.println("-------------------------------");
+    Serial.println("SIV: " + String(SIV));
     //ESP_BT.println();
 
     nfcData = "";
@@ -165,11 +171,17 @@ void loop()
     {
       
       long searchStart = millis();
+
+      firstFix = true;
+
+      Serial.println(searchStart + millis());
+      Serial.println(searchStart + (SEARCH_DURATION * 1000));
       
-      while (searchStart + millis() < searchStart + SEARCH_DURATION * 1000 && SIV < 3)
+      while ((millis() < searchStart + (SEARCH_DURATION * 1000)) && SIV < 3)
       {
-        Serial.println("scanning for GPS satellites");
         SIV = ubloxGPS.getSIV();
+        Serial.println("scanning for GPS satellites: SIV " + String(SIV));
+        // change firstFix state to true here?
         delay(1000);      
       }
     }
@@ -180,6 +192,7 @@ void loop()
 
       if (firstFix)
       {
+        startTime = millis();
         nearCameraCounter = storageUtils.getCamerasFromSD(latitude, longitude, radius, nearCameras);
 
         if (nearCameraCounter == -1) {
@@ -200,6 +213,7 @@ void loop()
       nfcData += "Location:";
       nfcData += " Lat: " + String(latitude, 5) + " Lon: " + String(longitude, 5) + " Alt: " + String(deviceAltitude) + " mm -- SIV: " + String(SIV) + "\n";
       
+     
       // check distance for all debug cameras and print id + distance
       for (int i = 0; i < nearCameraCounter; i++) 
       {
@@ -225,9 +239,16 @@ void loop()
     if (enableNfc)
     {
       updateNFC(nfcData);
-    }     
+    }
+    if (SIV >= 3)
+    {
+      // logging to SD card
+      storageUtils.logToSd(String(latitude, 5) + "," + String(longitude, 5) + "," + String(deviceAltitude) + "," + String(SIV) + "," + getDateTimeString());
+    }
+    
+    
 
-    delay(200);
+    delay(500);
 
   } 
   else // not in active state
@@ -236,6 +257,7 @@ void loop()
     {
       // no satellites in view, sleep for 2 mins and try again
       Serial.println("No Satellites in view, sleeping for 2 minutes.");
+      // todo increase sleep time here depending on number of unsuccessful searches for GPS signal beforehand
       startDeepSleep(120);
     }
     else // regular active/sleep cycle while GPS satellites in view
@@ -262,10 +284,15 @@ void startDeepSleep(int timer) {
     
     esp_sleep_enable_timer_wakeup(timer * 1000000); // ys conversion
     delay(100);
-    ubloxGPS.powerOff(0);
+    
+    // if timer is longer than 45 s switch gps completely off
+    if (timer > 45 * 1000000)
+    {
+      ubloxGPS.powerOff(0);
+    }
+    
     delay(100);
     accelgyro.setZeroMotionDetectionDuration(10);
-    WiFi.mode(WIFI_OFF);
     adc_power_off();
 
     esp_sleep_pd_config(ESP_PD_DOMAIN_RTC_PERIPH, ESP_PD_OPTION_OFF);
@@ -293,7 +320,6 @@ void startDeepSleep(int timer) {
     delay(100);
     ubloxGPS.powerOff(0); // 0 = indefinetly
     delay(100);
-    WiFi.mode(WIFI_OFF);
     adc_power_off();  
     delay(100);
     esp_deep_sleep_start();
