@@ -20,7 +20,7 @@
 #define LED 26
 #define GPS_WAKEUP_PIN 5
 
-#define SEARCH_DURATION 180
+#define SEARCH_DURATION 300
 
 #define BITMASK_PIN_25 0x2000000
 
@@ -104,7 +104,7 @@ void setup()
   delay(50);
   // counts no motion events, this counting is slowed 
   // because a low frequency of measurements is used
-  accelgyro.setZeroMotionDetectionDuration(10);
+  accelgyro.setZeroMotionDetectionDuration(50);
   delay(50);
   // interrupts twice, on no motion + on motion
   accelgyro.setIntZeroMotionEnabled(true);
@@ -115,7 +115,7 @@ void setup()
   // frequency of measurements
   // 0 = 1.25 Hz, 1 = 2.5 Hz, 2 = 5 Hz, 3 = 10 Hz
   // this does seem to slow counting of motion events used for DetectionDuration above
-  accelgyro.setWakeFrequency(3);
+  accelgyro.setWakeFrequency(2);
   delay(50);
 
 
@@ -167,7 +167,7 @@ void loop()
     nfcData = "";
     nfcData += "Battery at: " + String(estimateBatteryLevel()) + " %\n";
 
-    if (SIV < 3) // less than 3 satellites in view, scan for 1 minute
+    if (SIV < 3) // less than 3 satellites in view, scan for SEARCH_DURATION
     {
       
       long searchStart = millis();
@@ -181,6 +181,7 @@ void loop()
       {
         SIV = ubloxGPS.getSIV();
         Serial.println("scanning for GPS satellites: SIV " + String(SIV));
+        Serial.println(accelgyro.getZeroMotionDetected());
         // change firstFix state to true here?
         delay(1000);      
       }
@@ -292,7 +293,7 @@ void startDeepSleep(int timer) {
     }
     
     delay(100);
-    accelgyro.setZeroMotionDetectionDuration(10);
+    // accelgyro.setZeroMotionDetectionDuration(10);
     adc_power_off();
 
     esp_sleep_pd_config(ESP_PD_DOMAIN_RTC_PERIPH, ESP_PD_OPTION_OFF);
@@ -310,7 +311,7 @@ void startDeepSleep(int timer) {
     esp_sleep_enable_ext1_wakeup(BITMASK_PIN_25, ESP_EXT1_WAKEUP_ANY_HIGH);
   
     // lower sensitivity to allow low frequency wakeups
-    accelgyro.setZeroMotionDetectionDuration(10);
+    // accelgyro.setZeroMotionDetectionDuration(10);
     
     //Go to sleep now
     Serial.println("Going to sleep now");
