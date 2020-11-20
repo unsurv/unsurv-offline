@@ -18,7 +18,7 @@ File myFile;
 int fileSize;
 
 
-void StorageUtils::logToSd(String logMsg) 
+void StorageUtils::logToSd(String file, String logMsg) 
 {
   if (!SD.begin(4, SPI_SPEED)) 
   {
@@ -26,7 +26,7 @@ void StorageUtils::logToSd(String logMsg)
   }
   Serial.println("logging data");
 
-  File logFile = SD.open("logFile.txt", FILE_WRITE);
+  File logFile = SD.open(file, FILE_WRITE);
 
   // logFile = SD.open("/logFile.txt", O_WRONLY | O_CREAT | O_EXCL);
 

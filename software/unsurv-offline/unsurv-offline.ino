@@ -15,6 +15,7 @@
 #include "SparkFun_Ublox_Arduino_Library.h" //http://librarymanager/All#SparkFun_Ublox_GPS
 #include "driver/adc.h"
 #include "esp_sleep.h"
+#include "Arduino_JSON.h"
 
 #define PROXIMITY_ALERT_RADIUS 100 // in m
 #define LED 26
@@ -30,9 +31,9 @@ esp_sleep_wakeup_cause_t wakeup_reason;
 
 
 boolean enableNfc = true;
-boolean sleepOnNoMotion = true;
+boolean sleepOnNoMotion = false;
 // enables a on/off cycle for the whole device specified with "espSleepDuration" and "wakeTime"
-boolean savePower = true;
+boolean savePower = false;
 
 int espSleepDuration = 40; // in seconds
 int wakeTime = 2; // in seconds
@@ -59,7 +60,7 @@ float distance;
 SurveillanceCamera currentCamera;
 
 String prePayload = "Ids in proximity\n";
-String nfcData = "";
+
 
 
 void setup()
@@ -76,7 +77,7 @@ void setup()
   digitalWrite(LED, HIGH);
   
   wakeGPS();
-    adc_power_on(); 
+  adc_power_on(); 
   delay(100);
 
   // join I2C bus (I2Cdev library doesn't do this automatically)
@@ -130,7 +131,7 @@ void setup()
   }
 
   ubloxGPS.setI2COutput(COM_TYPE_UBX); //Set the I2C port to output UBX only (turn off NMEA noise)
-  ubloxGPS.powerSaveMode();
+  ubloxGPS.powerSaveMode(true);
   ubloxGPS.saveConfiguration(); //Save the current settings to flash and BBR
 
   startTime = millis();
@@ -164,14 +165,16 @@ void loop()
     Serial.println("SIV: " + String(SIV));
     //ESP_BT.println();
 
-    nfcData = "";
-    nfcData += "Battery at: " + String(estimateBatteryLevel()) + " %\n";
+    JSONVar nfcData;
+    
+    nfcData["battery"] = estimateBatteryLevel();
 
     if (SIV < 3) // less than 3 satellites in view, scan for SEARCH_DURATION
     {
       
       long searchStart = millis();
-
+      ubloxGPS.powerSaveMode(false);
+      delay(100);
       firstFix = true;
 
       Serial.println(searchStart + millis());
@@ -187,7 +190,9 @@ void loop()
       }
     }
     else // minimum 3 sats in view
-    {
+    { 
+      ubloxGPS.powerSaveMode(true);
+      delay(100);
       printGpsData();
       short int radius = 100;
 
@@ -209,13 +214,27 @@ void loop()
         firstFix = false;
       }
   
-      nfcData += "timestamp: " + getDateTimeString() + '\n';
+      nfcData["time"] = getDateTimeString();
   
-      nfcData += "Location:";
-      nfcData += " Lat: " + String(latitude, 5) + " Lon: " + String(longitude, 5) + " Alt: " + String(deviceAltitude) + " mm -- SIV: " + String(SIV) + "\n";
+      JSONVar locations;
+
+      JSONVar current_location;
+
+      current_location["lat"] = latitude;
+      current_location["lon"] = longitude;
+      current_location["alt"] = deviceAltitude;
+      current_location["SIV"] = SIV;
+      current_location["time"] = getDateTimeString();
+  
+      // nfcData += " Lat: " + String(latitude, 5) + " Lon: " + String(longitude, 5) + " Alt: " + String(deviceAltitude) + " mm -- SIV: " + String(SIV) + "\n";
+
+      locations[0] = current_location;
       
+      nfcData["locations"] = locations;
      
       // check distance for all debug cameras and print id + distance
+
+      
       for (int i = 0; i < nearCameraCounter; i++) 
       {
         currentCamera = nearCameras[i];
@@ -226,25 +245,41 @@ void loop()
         {
           // nfcData += "Id: " + String(currentCamera.id) + " Distance: " + String(distance, 3) + '\n';
         }
+
         
-        nfcData += "Id: " + String(currentCamera.id) + " Distance: " + String(distance, 3) + '\n';
+        
+        // nfcData += "Id: " + String(currentCamera.id) + " Distance: " + String(distance, 3) + '\n';
+        JSONVar contact;
+
+        contact["id"] = currentCamera.id;
+        contact["distance"] = distance;
+        
+        nfcData["contacts"][i] = contact;
         
         delay(50);
         //ESP_BT.println("Id: " + String(currentCamera.id) + " Distance:" + String(distance, 3));
   
       }
+
+     
           
-      Serial.println(nfcData);
     }
+
+    String jsonString = JSON.stringify(nfcData);
+
+    Serial.print("JSON.stringify(myObject) = ");
+    Serial.println(jsonString);
 
     if (enableNfc)
     {
-      updateNFC(nfcData);
+      
+      updateNFC(jsonString);
+      
     }
     if (SIV >= 3)
     {
       // logging to SD card
-      storageUtils.logToSd(String(latitude, 5) + "," + String(longitude, 5) + "," + String(deviceAltitude) + "," + String(SIV) + "," + getDateTimeString());
+      storageUtils.logToSd("logFile.txt", String(latitude, 5) + "," + String(longitude, 5) + "," + String(deviceAltitude) + "," + String(SIV) + "," + getDateTimeString());
     }
     
     

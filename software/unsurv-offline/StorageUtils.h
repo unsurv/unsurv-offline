@@ -11,7 +11,7 @@
 class StorageUtils {
   public:
     int getCamerasFromSD(double deviceLatitude, double deviceLongitude, short radiusInMeters, SurveillanceCamera cameras[MAXNEARCAMERAS]);
-    void logToSd(String logMsg);
+    void logToSd(String file, String logMsg);
   };
 
 
