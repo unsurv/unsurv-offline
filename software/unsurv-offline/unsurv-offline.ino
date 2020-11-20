@@ -21,6 +21,8 @@
 #define LED 26
 #define GPS_WAKEUP_PIN 5
 
+#define MIN_SATS_IN_VIEW 4
+
 #define SEARCH_DURATION 300
 
 #define BITMASK_PIN_25 0x2000000
@@ -31,9 +33,11 @@ esp_sleep_wakeup_cause_t wakeup_reason;
 
 
 boolean enableNfc = true;
-boolean sleepOnNoMotion = false;
+boolean sleepOnNoMotion = true;
 // enables a on/off cycle for the whole device specified with "espSleepDuration" and "wakeTime"
-boolean savePower = false;
+boolean savePower = true;
+
+boolean logToSd = true;
 
 int espSleepDuration = 40; // in seconds
 int wakeTime = 2; // in seconds
@@ -169,18 +173,19 @@ void loop()
     
     nfcData["battery"] = estimateBatteryLevel();
 
-    if (SIV < 3) // less than 3 satellites in view, scan for SEARCH_DURATION
+    if (SIV < MIN_SATS_IN_VIEW) // less than 3 satellites in view, scan for SEARCH_DURATION
     {
       
       long searchStart = millis();
       ubloxGPS.powerSaveMode(false);
       delay(100);
+      Serial.println("GPS power save: " + String(ubloxGPS.getPowerSaveMode()));
       firstFix = true;
 
       Serial.println(searchStart + millis());
       Serial.println(searchStart + (SEARCH_DURATION * 1000));
       
-      while ((millis() < searchStart + (SEARCH_DURATION * 1000)) && SIV < 3)
+      while ((millis() < searchStart + (SEARCH_DURATION * 1000)) && SIV < MIN_SATS_IN_VIEW)
       {
         SIV = ubloxGPS.getSIV();
         Serial.println("scanning for GPS satellites: SIV " + String(SIV));
@@ -267,8 +272,8 @@ void loop()
 
     String jsonString = JSON.stringify(nfcData);
 
-    Serial.print("JSON.stringify(myObject) = ");
-    Serial.println(jsonString);
+    // Serial.print("JSON.stringify(myObject) = ");
+    // Serial.println(jsonString);
 
     if (enableNfc)
     {
@@ -276,21 +281,22 @@ void loop()
       updateNFC(jsonString);
       
     }
-    if (SIV >= 3)
+    if (SIV >= MIN_SATS_IN_VIEW && logToSd)
     {
       // logging to SD card
-      storageUtils.logToSd("logFile.txt", String(latitude, 5) + "," + String(longitude, 5) + "," + String(deviceAltitude) + "," + String(SIV) + "," + getDateTimeString());
+      storageUtils.logToSd("logFile.txt", String(latitude, 6) + "," + String(longitude, 6) + "," + String(deviceAltitude) + "," + String(SIV) + "," + getDateTimeString());
     }
     
     
 
-    delay(500);
+    delay(200);
 
   } 
   else // not in active state
   {
-    if (SIV < 3)
+    if (SIV < MIN_SATS_IN_VIEW)
     {
+      // increase sleep time here for each search duration without success
       // no satellites in view, sleep for 2 mins and try again
       Serial.println("No Satellites in view, sleeping for 2 minutes.");
       // todo increase sleep time here depending on number of unsuccessful searches for GPS signal beforehand
