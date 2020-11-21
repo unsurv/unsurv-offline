@@ -232,10 +232,8 @@ void loop()
       current_location["time"] = getDateTimeString();
   
       // nfcData += " Lat: " + String(latitude, 5) + " Lon: " + String(longitude, 5) + " Alt: " + String(deviceAltitude) + " mm -- SIV: " + String(SIV) + "\n";
-
-      locations[0] = current_location;
       
-      nfcData["locations"] = locations;
+      nfcData["location"] = current_location;
      
       // check distance for all debug cameras and print id + distance
 
