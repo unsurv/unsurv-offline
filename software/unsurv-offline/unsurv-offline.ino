@@ -142,6 +142,8 @@ void setup()
 
   // storageUtils.logToSd("testing SD access");
   Serial.println("GPS power save: " + String(ubloxGPS.getPowerSaveMode()));
+
+  Serial.println("Initialization complete...");
 }
 
 void loop()
@@ -194,22 +196,27 @@ void loop()
         delay(1000);      
       }
     }
-    else // minimum 3 sats in view
+    else // more than MIN_SATS_IN_VIEW
     { 
-      ubloxGPS.powerSaveMode(true);
-      delay(100);
       printGpsData();
       short int radius = 100;
 
       if (firstFix)
       {
+        Serial.println("first satellite fix ... querying SD card for data");
+        // switch on power save after sats have been found
+        ubloxGPS.powerSaveMode(true);
+        delay(100);
+
+        
         startTime = millis();
         nearCameraCounter = storageUtils.getCamerasFromSD(latitude, longitude, radius, nearCameras);
 
         if (nearCameraCounter == -1) {
           startDeepSleep(0);
         }
-        while (nearCameraCounter == -2) // returns -2 if radius is too big
+        
+        while (nearCameraCounter == -2) // returns -2 if too many cameras are in current radius
         {
           radius = radius / 2;
           Serial.println(String(radius));
@@ -220,8 +227,6 @@ void loop()
       }
   
       nfcData["time"] = getDateTimeString();
-  
-      JSONVar locations;
 
       JSONVar current_location;
 
@@ -243,42 +248,42 @@ void loop()
         currentCamera = nearCameras[i];
   
         distance = locUtils.getDistanceToCamera(latitude, longitude, currentCamera.latitude, currentCamera.longitude);
-  
-        if (distance < PROXIMITY_ALERT_RADIUS)
-        {
-          // nfcData += "Id: " + String(currentCamera.id) + " Distance: " + String(distance, 3) + '\n';
-        }
-
-        
         
         // nfcData += "Id: " + String(currentCamera.id) + " Distance: " + String(distance, 3) + '\n';
-        JSONVar contact;
-
-        contact["id"] = currentCamera.id;
-        contact["distance"] = distance;
         
-        nfcData["contacts"][i] = contact;
         
         delay(50);
-        //ESP_BT.println("Id: " + String(currentCamera.id) + " Distance:" + String(distance, 3));
+
+         if (distance < PROXIMITY_ALERT_RADIUS)
+        {
+          Serial.println("object in close proximity");
+          JSONVar contact;
+
+          contact["id"] = currentCamera.id;
+          contact["distance"] = distance;
+          
+          nfcData["contacts"][i] = contact;
+          
+        }
   
       }
-
-     
-          
     }
 
     String jsonString = JSON.stringify(nfcData);
-
-    // Serial.print("JSON.stringify(myObject) = ");
     // Serial.println(jsonString);
+
+    if (nfcData["contacts"].length() > 0) {
+      Serial.println("MORE THAN ONE CAMERA IS IN YOUR AREA");
+      storageUtils.logToSd("contatcts.txt", jsonString);
+      
+    }
 
     if (enableNfc)
     {
-      
       updateNFC(jsonString);
-      
     }
+
+    
     if (SIV >= MIN_SATS_IN_VIEW && logToSd)
     {
       // logging to SD card
@@ -287,7 +292,7 @@ void loop()
     
     
 
-    delay(200);
+    delay(100);
 
   } 
   else // not in active state
