@@ -40,7 +40,7 @@ boolean savePower = true;
 boolean logToSd = true;
 
 int espSleepDuration = 40; // in seconds
-int wakeTime = 2; // in seconds
+int wakeTime = 3; // in seconds
 
 SFE_UBLOX_GPS ubloxGPS;
 double latitude, longitude;
@@ -171,11 +171,13 @@ void loop()
     Serial.println("SIV: " + String(SIV));
     //ESP_BT.println();
 
+    // creating a JSON to log to SD and later transmit via nfc
+    // need to keep data as short as possible, we can only transmit 3kb via the RF 430 NFC chip
     JSONVar nfcData;
     
-    nfcData["battery"] = estimateBatteryLevel();
+    nfcData["batt"] = estimateBatteryLevel();
 
-    if (SIV < MIN_SATS_IN_VIEW) // less than 3 satellites in view, scan for SEARCH_DURATION
+    if (SIV < MIN_SATS_IN_VIEW) // less than 3 satellites in view, scan for SEARCH_DURATION in seconds
     {
       
       long searchStart = millis();
@@ -225,8 +227,6 @@ void loop()
   
         firstFix = false;
       }
-  
-      nfcData["time"] = getDateTimeString();
 
       JSONVar current_location;
 
@@ -234,11 +234,11 @@ void loop()
       current_location["lon"] = longitude;
       current_location["alt"] = deviceAltitude;
       current_location["SIV"] = SIV;
-      current_location["time"] = getDateTimeString();
+      current_location["t"] = getDateTimeString();
   
       // nfcData += " Lat: " + String(latitude, 5) + " Lon: " + String(longitude, 5) + " Alt: " + String(deviceAltitude) + " mm -- SIV: " + String(SIV) + "\n";
       
-      nfcData["location"] = current_location;
+      nfcData["loc"] = current_location;
      
       // check distance for all debug cameras and print id + distance
 
@@ -259,10 +259,9 @@ void loop()
           Serial.println("object in close proximity");
           JSONVar contact;
 
-          contact["id"] = currentCamera.id;
-          contact["distance"] = distance;
+          // contact["distance"] = distance;
           
-          nfcData["contacts"][i] = contact;
+          nfcData["ids"][i] = currentCamera.id;
           
         }
   
@@ -272,9 +271,10 @@ void loop()
     String jsonString = JSON.stringify(nfcData);
     // Serial.println(jsonString);
 
-    if (nfcData["contacts"].length() > 0) {
+    if (nfcData["cams"].length() > 0) {
       Serial.println("MORE THAN ONE CAMERA IS IN YOUR AREA");
-      storageUtils.logToSd("contatcts.txt", jsonString);
+      // Serial.println(jsonString);
+      storageUtils.logToSd("contacts.txt", jsonString);
       
     }
 
