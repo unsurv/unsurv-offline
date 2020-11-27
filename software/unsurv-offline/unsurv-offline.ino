@@ -271,7 +271,7 @@ void loop()
     String jsonString = JSON.stringify(nfcData);
     // Serial.println(jsonString);
 
-    if (nfcData["cams"].length() > 0) {
+    if (nfcData["ids"].length() > 0) {
       Serial.println("MORE THAN ONE CAMERA IS IN YOUR AREA");
       // Serial.println(jsonString);
       storageUtils.logToSd("contacts.txt", jsonString);
