@@ -175,7 +175,7 @@ void loop()
     // need to keep data as short as possible, we can only transmit 3kb via the RF 430 NFC chip
     JSONVar nfcData;
     
-    nfcData["batt"] = estimateBatteryLevel();
+   
 
     if (SIV < MIN_SATS_IN_VIEW) // less than 3 satellites in view, scan for SEARCH_DURATION in seconds
     {
@@ -232,9 +232,9 @@ void loop()
 
       current_location["lat"] = latitude;
       current_location["lon"] = longitude;
-      current_location["alt"] = deviceAltitude;
+      // current_location["alt"] = deviceAltitude;
       current_location["SIV"] = SIV;
-      current_location["t"] = getDateTimeString();
+      current_location["t"] = getTimeString();
   
       // nfcData += " Lat: " + String(latitude, 5) + " Lon: " + String(longitude, 5) + " Alt: " + String(deviceAltitude) + " mm -- SIV: " + String(SIV) + "\n";
       
@@ -280,6 +280,9 @@ void loop()
 
     if (enableNfc)
     {
+      nfcData["batt"] = estimateBatteryLevel();
+      jsonString = JSON.stringify(nfcData);
+      
       updateNFC(jsonString);
     }
 
@@ -448,6 +451,19 @@ String getDateTimeString()
   {
     return String(ubloxGPS.getYear()) + "-" + String(ubloxGPS.getMonth()) + "-" + String(ubloxGPS.getDay()) 
     + " " + String(ubloxGPS.getHour()) + ":" + String(ubloxGPS.getMinute()) + ":" + String(ubloxGPS.getSecond());
+  }
+  else 
+  {
+    return "no valid data";
+  }
+}
+
+String getTimeString()
+{
+  // THIS IS UGLY
+  if (ubloxGPS.getDateValid() && ubloxGPS.getTimeValid())
+  {
+    return String(ubloxGPS.getHour()) + ":" + String(ubloxGPS.getMinute()) + ":" + String(ubloxGPS.getSecond());
   }
   else 
   {
