@@ -37,9 +37,77 @@ void StorageUtils::logToSd(String file, String logMsg)
   
     logFile.close();  
   }
+}
 
-  
- 
+
+JSONVar StorageUtils::getContacts(int limit)
+{
+  if (!SD.begin(4, SPI_SPEED)) 
+  {
+    Serial.println("error initializing SD card.");
+  }
+
+  File dataFile = SD.open("contacts.txt");
+
+  if (dataFile) 
+  {
+    
+    int i, j;
+    
+    i = 0;
+    j = 0;
+    char line[150];
+
+    JSONVar contactArray;
+    
+    while (dataFile.available()) {
+
+      int fileRead = dataFile.read();
+      
+      
+      if (fileRead != 0x0A) // \n char
+      {
+        line[i] = fileRead;
+        i++;
+      } 
+      else
+      {
+          
+        JSONVar item = JSON.parse(String(line));
+
+        contactArray[j] = item;
+        j++;
+        
+        i = 0;
+        
+        memset(line, 0, sizeof(line));
+        
+      }
+    }
+    
+    dataFile.close();
+
+    
+    JSONVar recentContacts;
+    int limit = 5;
+
+    int numberOfContacts = contactArray.length();    
+    
+    if (numberOfContacts > limit)
+    {
+      for (int l = numberOfContacts - limit, m = 0; l < numberOfContacts; l++, m++)
+      {
+        JSONVar line = contactArray[l];
+        recentContacts[m] = line;
+      }
+    }
+    else
+    {
+      recentContacts = contactArray;
+    }
+    
+    return recentContacts;
+  }
 }
 
 int StorageUtils::getCamerasFromSD(double deviceLatitude, double deviceLongitude, short radiusInMeters, SurveillanceCamera cameras[MAXNEARCAMERAS])

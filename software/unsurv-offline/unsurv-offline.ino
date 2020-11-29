@@ -6,6 +6,8 @@
 // new USB power meter
 // 13 mah over 1h with gps powerSave 40s sleep 2s active <- good GPS connection?
 
+// TODO validate SD card data
+
 #include "MPU6050.h"
 #include "Wire.h"
 #include "LocationUtils.h"
@@ -156,6 +158,7 @@ void loop()
   startDeepSleep(0);
   }
 
+  Serial.println(storageUtils.getContacts(10));
   
   if (millis() < startTime + (wakeTime * 1000) || !savePower || firstFix)
   {
