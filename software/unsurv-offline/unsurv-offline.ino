@@ -35,7 +35,7 @@ esp_sleep_wakeup_cause_t wakeup_reason;
 
 
 boolean enableNfc = true;
-boolean sleepOnNoMotion = true;
+boolean sleepOnNoMotion = false;
 // enables a on/off cycle for the whole device specified with "espSleepDuration" and "wakeTime"
 boolean savePower = true;
 
@@ -157,8 +157,6 @@ void loop()
     
   startDeepSleep(0);
   }
-
-  Serial.println(storageUtils.getContacts(10));
   
   if (millis() < startTime + (wakeTime * 1000) || !savePower || firstFix)
   {
@@ -177,9 +175,8 @@ void loop()
     // creating a JSON to log to SD and later transmit via nfc
     // need to keep data as short as possible, we can only transmit 3kb via the RF 430 NFC chip
     JSONVar nfcData;
-    
-   
 
+    
     if (SIV < MIN_SATS_IN_VIEW) // less than 3 satellites in view, scan for SEARCH_DURATION in seconds
     {
       
@@ -263,6 +260,10 @@ void loop()
           JSONVar contact;
 
           // contact["distance"] = distance;
+          Serial.println(String(currentCamera.latitude, 5));
+          Serial.println(String(currentCamera.longitude, 5));
+          Serial.println(String(currentCamera.cameraType));
+          Serial.println(String(currentCamera.id));
           
           nfcData["ids"][i] = currentCamera.id;
           
@@ -284,7 +285,11 @@ void loop()
     if (enableNfc)
     {
       nfcData["batt"] = estimateBatteryLevel();
-      jsonString = JSON.stringify(nfcData);
+
+      JSONVar contactArray = storageUtils.getContacts(3);    
+      nfcData["contacts"] = contactArray;
+      // Serial.println(JSON.stringify(nfcData));
+      // jsonString = JSON.stringify(nfcData);
       
       updateNFC(jsonString);
     }

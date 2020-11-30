@@ -14,8 +14,8 @@ class SurveillanceCamera
   double latitude;
   double longitude;
 
-  unsigned short int cameraType;
-  unsigned short int id; //  id is randomized for local area
+  short int cameraType;
+  long id; //  id is randomized for local area
 
 };
 

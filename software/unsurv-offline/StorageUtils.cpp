@@ -118,7 +118,8 @@ int StorageUtils::getCamerasFromSD(double deviceLatitude, double deviceLongitude
   int valueStart, index;
 
   double latitude, longitude;
-  short int cameraType, dataType, cameraId;
+  short int cameraType, dataType;
+  long cameraId;
   String id;
 
   short int nearCameraCounter = 0;
@@ -161,6 +162,7 @@ int StorageUtils::getCamerasFromSD(double deviceLatitude, double deviceLongitude
         
         info[index - valueStart] = '\0';
         valueStart = index + 1;
+
         
         // TODO check strtox for SECURITY!!!
         switch(dataType) {
