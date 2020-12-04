@@ -15,7 +15,7 @@ class SurveillanceCamera
   double longitude;
 
   short int cameraType;
-  long id; //  id is randomized for local area
+  char id[12]; //  id is randomized for local area
 
 };
 

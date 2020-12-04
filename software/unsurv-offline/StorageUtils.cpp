@@ -114,12 +114,12 @@ int StorageUtils::getCamerasFromSD(double deviceLatitude, double deviceLongitude
 {
 
   char curr;
-  char info[18];
+  char info[12];
   int valueStart, index;
 
   double latitude, longitude;
   short int cameraType, dataType;
-  long cameraId;
+  char cameraId[12];
   String id;
 
   short int nearCameraCounter = 0;
@@ -157,7 +157,7 @@ int StorageUtils::getCamerasFromSD(double deviceLatitude, double deviceLongitude
       
       curr = myFile.read();
       
-      if (curr == ',' || curr == '\n' || curr == '\n') 
+      if (curr == ',' || curr == '\n' || curr == '\r') 
       {
         
         info[index - valueStart] = '\0';
@@ -179,7 +179,13 @@ int StorageUtils::getCamerasFromSD(double deviceLatitude, double deviceLongitude
             break;
             
           case 3:
-            cameraId = strtol(info, NULL, 10);
+            // cameraId = strtol(info, NULL, 10);
+
+            // TODO check for security
+            memcpy(cameraId, info, 12);
+            // cameraId[13] = '\0';
+            //Serial.println("Chararray ID:");
+            //Serial.println(String(cameraId));
             break;
 
         }
@@ -201,7 +207,9 @@ int StorageUtils::getCamerasFromSD(double deviceLatitude, double deviceLongitude
           tmpCamera.latitude = latitude;
           tmpCamera.longitude = longitude;
           tmpCamera.cameraType = cameraType;
-          tmpCamera.id = cameraId;
+          // tmpCamera.id = cameraId;
+          memcpy(tmpCamera.id, cameraId, 12);
+
 
           cameras[nearCameraCounter] = tmpCamera;
           nearCameraCounter++;
@@ -246,7 +254,8 @@ int StorageUtils::getCamerasFromSD(double deviceLatitude, double deviceLongitude
 
     return nearCameraCounter; // success
     
-  } else 
+  } 
+  else 
   {
     // if the file didn't open, print an error:
     Serial.println("error opening data.csv");

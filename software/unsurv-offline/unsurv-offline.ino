@@ -41,7 +41,7 @@ boolean savePower = true;
 
 boolean logToSd = true;
 
-int espSleepDuration = 40; // in seconds
+int espSleepDuration = 20; // in seconds
 int wakeTime = 3; // in seconds
 
 SFE_UBLOX_GPS ubloxGPS;
@@ -265,7 +265,7 @@ void loop()
           Serial.println(String(currentCamera.cameraType));
           Serial.println(String(currentCamera.id));
           
-          nfcData["ids"][i] = currentCamera.id;
+          nfcData["ids"][i] = String(currentCamera.id);
           
         }
   
@@ -277,7 +277,7 @@ void loop()
 
     if (nfcData["ids"].length() > 0) {
       Serial.println("MORE THAN ONE CAMERA IS IN YOUR AREA");
-      // Serial.println(jsonString);
+      Serial.println(jsonString);
       storageUtils.logToSd("contacts.txt", jsonString);
       
     }
@@ -286,9 +286,9 @@ void loop()
     {
       nfcData["batt"] = estimateBatteryLevel();
 
-      JSONVar contactArray = storageUtils.getContacts(3);    
+      JSONVar contactArray = storageUtils.getContacts(1);    
       nfcData["contacts"] = contactArray;
-      // Serial.println(JSON.stringify(nfcData));
+      Serial.println(JSON.stringify(nfcData));
       // jsonString = JSON.stringify(nfcData);
       
       updateNFC(jsonString);
