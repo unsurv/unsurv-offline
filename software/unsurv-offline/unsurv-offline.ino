@@ -35,7 +35,7 @@ esp_sleep_wakeup_cause_t wakeup_reason;
 
 
 boolean enableNfc = true;
-boolean sleepOnNoMotion = false;
+boolean sleepOnNoMotion = true;
 // enables a on/off cycle for the whole device specified with "espSleepDuration" and "wakeTime"
 boolean savePower = true;
 
