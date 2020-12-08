@@ -34,7 +34,7 @@ int16_t ax, ay, az;
 esp_sleep_wakeup_cause_t wakeup_reason;
 
 
-boolean enableNfc = true;
+boolean enableNfc = false;
 boolean sleepOnNoMotion = true;
 // enables a on/off cycle for the whole device specified with "espSleepDuration" and "wakeTime"
 boolean savePower = true;
@@ -51,7 +51,6 @@ byte SIV;
 boolean firstFix = true;
 
 int startTime;
-
 
 //BluetoothSerial ESP_BT;
 
@@ -146,6 +145,9 @@ void setup()
   Serial.println("GPS power save: " + String(ubloxGPS.getPowerSaveMode()));
 
   Serial.println("Initialization complete...");
+
+  updateNFC("Natus et libero sed possimus nam. Et illum a voluptas numquam consequatur et cum iure. Voluptas dolorem aspernatur est est neque ut fugit quisquam. Et ut placeat libero est voluptatem necessitatibus eum. ur et cum iure. Voluptas dolorem aspernatur est est neque ut fugit quisquam.  ur et cum iure. Voluptas dolorem aspernatur est est neque ut fugit quisquam.  ur et cum iure. Voluptas dolorem aspernatur est est neque ut fugit quisquam.  ur et cum iure. Voluptas dolorem aspernatur est est neque ut fugit quisquam.");
+  
 }
 
 void loop()
