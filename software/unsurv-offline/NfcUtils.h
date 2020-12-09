@@ -40,20 +40,20 @@ byte nfcTemplate[] = {
 0xE1, 0x04,                                                                             \
                                                                                         \
 /* NDEF File for Hello World  (48 bytes total length) */                                \
-0x00, 0x12, /* NLEN; NDEF length (2 byte long message) all bytes below */                               \
+0x00, 0x00, /* NLEN; NDEF length (2 byte long message) all bytes below, gets set in code below */                               \
 
-
-0xC1, /* Record Header  */                                                              \ 
+0xC1, /* Record Header , not a short record */                                          \
 0x01, /* Type Length */                                                                 \
-0x00, 0x00, 0x00, 0x00, /* bytes after this -1  = NLEN - 4*/                                              \
+0x00, 0x00, 0x00, 0x00, /* bytes after this -1  = NLEN - 4*/                            \
 0x54, /* type  T = text */                                                              \
-/* PAYLOAD NDEF data;*/                                                                
+0x02,  /* ID length  */                                                                 \
 0x65, 0x6E, /* 'e', 'n', */                                                             \
+/* PAYLOAD NDEF data;*/                                                                
+                                                                                        \
                                                                                         \
             
 };
 
-// ndef length is 4 bytes long
 
 byte nfcTemplateBackup[] = {
 /*NDEF Tag Application Name*/                                                           \
@@ -77,7 +77,7 @@ byte nfcTemplateBackup[] = {
                                                                                         \
 /* NDEF File for Hello World  (48 bytes total length) */                                \
 0x00, 0x12, /* NLEN; NDEF length (2 byte long message) */                               \
-0xD1, /* Record Header  */                                                              \ 
+0xD1, /* Record Header  */                                                              \
 0x01, /* Type Length */                                                                 \
 0x0E, /* bytes after this -1  = NLEN - 4*/                                              \
 0x54, /* type  T = text */                                                              \
@@ -102,16 +102,23 @@ void RF430_Interrupt()
 
 void updateNFC(String nfcString)
 {
-    int rawDataSize = nfcString.length(); // strings are null terminated
+    int rawDataSize = nfcString.length() + 3; // strings are null terminated
     int templateSize = sizeof(nfcTemplate);
     byte nfcPayload[rawDataSize];
     nfcString.getBytes(nfcPayload, rawDataSize);
-
+    
+    Serial.println("bytearray nfcpayload");
+    for (int x = 0; x < rawDataSize; x++)
+    {
+      Serial.println(nfcPayload[x]);  
+    }
+    
     
     //fix the length fields in the NFC tag
     
-    int payloadSize = rawDataSize + 2; // -1 to remove null termated string
+    int payloadSize = rawDataSize;
     int nlen = payloadSize + 7;
+    Serial.println("payload nlen ----------");
     Serial.println(payloadSize);
     Serial.println(nlen);
 

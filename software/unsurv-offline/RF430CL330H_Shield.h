@@ -150,7 +150,7 @@
                                                                                         \
 /* NDEF File for Hello World  (48 bytes total length) */                                \
 0x00, 0x2A, /* NLEN; NDEF length (2 byte long message) */                               \
-0xD1, /* Record Header  */                                                              \ 
+0xD1, /* Record Header  */                                                              \
 0x01, /* Type Length */                                                                 \
 0x26, /* bytes after this -1  = NLEN - 4*/                                              \
 0x54, /* type  T = text */                                                              \
