@@ -18,7 +18,6 @@ volatile byte into_fired = 0;
 uint16_t flags = 0;
 
 
-
 byte nfcTemplate[] = {
 /*NDEF Tag Application Name*/                                                           \
 0xD2, 0x76, 0x00, 0x00, 0x85, 0x01, 0x01,                                               \
@@ -39,54 +38,22 @@ byte nfcTemplate[] = {
 /* NDEF File ID */                                                                      \
 0xE1, 0x04,                                                                             \
                                                                                         \
-/* NDEF File for Hello World  (48 bytes total length) */                                \
-0x00, 0x00, /* NLEN; NDEF length (2 byte long message) all bytes below, gets set in code below */                               \
-
-0xC1, /* Record Header , not a short record */                                          \
+/* NDEF File */                                                                         \
+                                                                                        \
+/* NLEN; NDEF length (2 byte long message) all bytes below, gets set in code below */   \
+0x00, 0x00,                                                                             \
+                                                                                        \
+0xC1, /* Record Header , not a short record 11010001*/                                  \
 0x01, /* Type Length */                                                                 \
-0x00, 0x00, 0x00, 0x00, /* bytes after this -1  = NLEN - 4*/                            \
+0x00, 0x00, 0x00, 0x00, /* payload length*/                                             \
 0x54, /* type  T = text */                                                              \
+                                                                                        \
+/* PAYLOAD NDEF data;*/                                                                 \
 0x02,  /* ID length  */                                                                 \
 0x65, 0x6E, /* 'e', 'n', */                                                             \
-/* PAYLOAD NDEF data;*/                                                                
-                                                                                        \
-                                                                                        \
+
             
 };
-
-
-byte nfcTemplateBackup[] = {
-/*NDEF Tag Application Name*/                                                           \
-0xD2, 0x76, 0x00, 0x00, 0x85, 0x01, 0x01,                                               \
-                                                                                        \
-/*Capability Container ID*/                                                             \
-0xE1, 0x03,                                                                             \
-0x00, 0x0F, /* CCLEN */                                                                 \
-0x20,       /* Mapping version 2.0 */                                                   \
-0x00, 0xF9, /* MLe (249 bytes); Maximum R-APDU data size */                             \
-0x00, 0xF6, /* MLc (246 bytes); Maximum C-APDU data size */                             \
-0x04,       /* Tag, File Control TLV (4 = NDEF file) */                                 \
-0x06,       /* Length, File Control TLV (6 = 6 bytes of data for this tag) */           \
-0xE1, 0x04, /* File Identifier */                                                       \
-0x0B, 0xDF, /* Max NDEF size (3037 bytes of useable memory) */                          \
-0x00,       /* NDEF file read access condition, read access without any security */     \
-0x00,       /* NDEF file write access condition; write access without any security */   \
-                                                                                        \
-/* NDEF File ID */                                                                      \
-0xE1, 0x04,                                                                             \
-                                                                                        \
-/* NDEF File for Hello World  (48 bytes total length) */                                \
-0x00, 0x12, /* NLEN; NDEF length (2 byte long message) */                               \
-0xD1, /* Record Header  */                                                              \
-0x01, /* Type Length */                                                                 \
-0x0E, /* bytes after this -1  = NLEN - 4*/                                              \
-0x54, /* type  T = text */                                                              \
-0x02,  /* ID length  */                                                                 \
-0x65, 0x6E, /* 'e', 'n', */                                                             \
-                                                                                        \
-/* PAYLOAD NDEF data;*/            
-};
-
 
 
 
@@ -102,7 +69,7 @@ void RF430_Interrupt()
 
 void updateNFC(String nfcString)
 {
-    int rawDataSize = nfcString.length() + 3; // strings are null terminated
+    int rawDataSize = nfcString.length() + 3; // + 3 -> ID length and "en" are included in payload length
     int templateSize = sizeof(nfcTemplate);
     byte nfcPayload[rawDataSize];
     nfcString.getBytes(nfcPayload, rawDataSize);
@@ -110,7 +77,7 @@ void updateNFC(String nfcString)
     Serial.println("bytearray nfcpayload");
     for (int x = 0; x < rawDataSize; x++)
     {
-      Serial.println(nfcPayload[x]);  
+      // Serial.println(nfcPayload[x]);  
     }
     
     
@@ -122,6 +89,7 @@ void updateNFC(String nfcString)
     Serial.println(payloadSize);
     Serial.println(nlen);
 
+    // ndef len
     if (nlen < 3000) 
     {
 
@@ -139,9 +107,8 @@ void updateNFC(String nfcString)
     }
 
     // ndef payload length
-    // 2nd lowest byte
+   
     nfcTemplate[30] = (payloadSize >> (8*3)) & 0xff;
-    // lowest byte
     nfcTemplate[31] = (payloadSize >> (8*2)) & 0xff;
 
     nfcTemplate[32] = (payloadSize >> (8*1)) & 0xff;
@@ -154,7 +121,9 @@ void updateNFC(String nfcString)
     Serial.println(nfcTemplate[31]);
     Serial.println(nfcTemplate[32]);
     Serial.println(nfcTemplate[33]);
-    
+
+
+    // combine template + payload in single bytearray
     byte nfcTag[templateSize + rawDataSize - 1];
 
     int pointer;
@@ -189,3 +158,37 @@ void updateNFC(String nfcString)
     attachInterrupt(1, RF430_Interrupt, FALLING);
 
 }
+
+
+// working up to 256 bytes payload
+byte nfcTemplateBackup[] = {
+/*NDEF Tag Application Name*/                                                           \
+0xD2, 0x76, 0x00, 0x00, 0x85, 0x01, 0x01,                                               \
+                                                                                        \
+/*Capability Container ID*/                                                             \
+0xE1, 0x03,                                                                             \
+0x00, 0x0F, /* CCLEN */                                                                 \
+0x20,       /* Mapping version 2.0 */                                                   \
+0x00, 0xF9, /* MLe (249 bytes); Maximum R-APDU data size */                             \
+0x00, 0xF6, /* MLc (246 bytes); Maximum C-APDU data size */                             \
+0x04,       /* Tag, File Control TLV (4 = NDEF file) */                                 \
+0x06,       /* Length, File Control TLV (6 = 6 bytes of data for this tag) */           \
+0xE1, 0x04, /* File Identifier */                                                       \
+0x0B, 0xDF, /* Max NDEF size (3037 bytes of useable memory) */                          \
+0x00,       /* NDEF file read access condition, read access without any security */     \
+0x00,       /* NDEF file write access condition; write access without any security */   \
+                                                                                        \
+/* NDEF File ID */                                                                      \
+0xE1, 0x04,                                                                             \
+                                                                                        \
+/* NDEF File for Hello World  (48 bytes total length) */                                \
+0x00, 0x12, /* NLEN; NDEF length (2 byte long message) */                               \
+0xD1, /* Record Header  */                                                              \
+0x01, /* Type Length */                                                                 \
+0x0E, /* bytes after this -1  = NLEN - 4*/                                              \
+0x54, /* type  T = text */                                                              \
+0x02,  /* ID length  */                                                                 \
+0x65, 0x6E, /* 'e', 'n', */                                                             \
+                                                                                        \
+/* PAYLOAD NDEF data;*/            
+};

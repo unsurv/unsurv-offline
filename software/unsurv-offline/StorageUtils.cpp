@@ -56,7 +56,7 @@ JSONVar StorageUtils::getContacts(int limit)
     
     i = 0;
     j = 0;
-    char line[150];
+    char line[300];
 
     JSONVar contactArray;
     
@@ -64,23 +64,32 @@ JSONVar StorageUtils::getContacts(int limit)
 
       int fileRead = dataFile.read();
       
-      
       if (fileRead != 0x0A) // \n char
       {
+        // Serial.println(fileRead);
+        
         line[i] = fileRead;
         i++;
+
+        
       } 
       else
       {
-          
-        JSONVar item = JSON.parse(String(line));
+        // if not single char in line
+        if (i != 1)
+        {
+          JSONVar item; 
+          item = JSON.parse(String(line));
 
-        contactArray[j] = item;
-        j++;
+          contactArray[j] = item;
+          j++;
         
-        i = 0;
+          i = 0;
+
+          // reset array
+          memset(line, 0, sizeof(line));
+        }
         
-        memset(line, 0, sizeof(line));
         
       }
     }
@@ -88,17 +97,29 @@ JSONVar StorageUtils::getContacts(int limit)
     dataFile.close();
 
     
-    JSONVar recentContacts;
-    int limit = 5;
-
+    JSONVar recentContacts = JSON.parse("[]");;
     int numberOfContacts = contactArray.length();    
+
+    Serial.println(String(numberOfContacts));
+    Serial.println(String(limit));
     
     if (numberOfContacts > limit)
     {
-      for (int l = numberOfContacts - limit, m = 0; l < numberOfContacts; l++, m++)
+      for (int l = numberOfContacts - limit, m = 0; l < numberOfContacts, m < limit; l++, m++)
       {
-        JSONVar line = contactArray[l];
-        recentContacts[m] = line;
+        /*
+        Serial.println(JSON.typeof(recentContacts));
+        Serial.println(String(l));
+        Serial.println(String(m));
+        Serial.println(JSON.stringify(contactArray[l]));
+        */
+        String recentContact = JSON.stringify(contactArray[l]);
+        Serial.println(recentContact);
+        recentContact.replace("\\", "");
+        Serial.println(recentContact);
+        
+        
+        recentContacts[m] = recentContact;
       }
     }
     else

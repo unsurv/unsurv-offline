@@ -34,7 +34,7 @@ int16_t ax, ay, az;
 esp_sleep_wakeup_cause_t wakeup_reason;
 
 
-boolean enableNfc = false;
+boolean enableNfc = true;
 boolean sleepOnNoMotion = true;
 // enables a on/off cycle for the whole device specified with "espSleepDuration" and "wakeTime"
 boolean savePower = true;
@@ -63,9 +63,6 @@ SurveillanceCamera nearCameras[MAXNEARCAMERAS];
 
 float distance;
 SurveillanceCamera currentCamera;
-
-String prePayload = "Ids in proximity\n";
-
 
 
 void setup()
@@ -146,8 +143,40 @@ void setup()
 
   Serial.println("Initialization complete...");
 
+  String jsonString;
+  JSONVar nfcData;
+  nfcData["batt"] = 100;
+  JSONVar contactArray;
+  contactArray = storageUtils.getContacts(2);
+          
+  nfcData["c"] = contactArray;
+  jsonString = "{\"b\":100,\"c\":[";
+
+  for (int i = 0; i < contactArray.length(); i++)
+  {
+
+    String con = JSON.stringify(contactArray[i]);
+    con.replace("\\", "");
+    con.remove(0, 1);
+    con.remove(con.length() - 1, 1);
+    Serial.println(con);
+    jsonString.concat(con);
+    
+    if (contactArray.length() - 1 - i != 0)
+    {
+      jsonString.concat(",");  
+    }
+    
+  }
+
+  jsonString.concat("]}");
+  Serial.println(jsonString);
+  
+     
+  updateNFC(jsonString);
+  
   // updateNFC("Natus et libero sed possimus nam. Et illum a voluptas numquam consequatur et cum iure. Voluptas dolorem aspernatur est est neque ut fugit quisquam. Et ut placeat libero est voluptatem necessitatibus eum. ur et cum iure. Voluptas dolorem aspernatur est est neque ut fugit quisquam.  ur et cum iure. Voluptas dolorem aspernatur est est neque ut fugit quisquam.  ur et cum iure. Voluptas dolorem aspernatur est est neque ut fugit quisquam.  ur et cum iure. Voluptas dolorem aspernatur est est neque ut fugit quisquam.");
-  updateNFC("loren ipsum asdasdasd");
+  // updateNFC("loren ipsum asdasdasd");
 }
 
 void loop()
@@ -288,10 +317,10 @@ void loop()
     {
       nfcData["batt"] = estimateBatteryLevel();
 
-      JSONVar contactArray = storageUtils.getContacts(1);    
-      nfcData["contacts"] = contactArray;
+      JSONVar contactArray = storageUtils.getContacts(10);    
+      nfcData["c"] = contactArray;
       Serial.println(JSON.stringify(nfcData));
-      // jsonString = JSON.stringify(nfcData);
+      jsonString = JSON.stringify(nfcData);
       
       updateNFC(jsonString);
     }
