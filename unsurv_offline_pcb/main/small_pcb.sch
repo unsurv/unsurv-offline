@@ -582,17 +582,6 @@ F 3 "" H 4450 7200 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	5050 7200 4450 7200
-$Comp
-L unsurv_offline_symbols:TF-101B CARD1
-U 1 1 5E8A0B52
-P 2250 7350
-F 0 "CARD1" H 1633 8675 50  0000 C CNN
-F 1 "TF-101B" H 1633 8584 50  0000 C CNN
-F 2 "unsurv_offline_pcb_footprints:TF-SMD_TF-101B" H 2250 6950 50  0001 C CNN
-F 3 "" H 2250 6950 50  0001 C CNN
-	1    2250 7350
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	2350 6550 2450 6550
 Wire Wire Line
@@ -621,7 +610,7 @@ Wire Wire Line
 Wire Wire Line
 	1250 3700 1150 3700
 $Comp
-L unsurv_offline_symbols:UMH3N Q2
+L unsurv_offline_pcb_symbols:UMH3N Q2
 U 1 1 5E8E5B40
 P 9250 4400
 F 0 "Q2" H 9275 4725 50  0000 C CNN
@@ -964,17 +953,6 @@ Wire Wire Line
 Wire Wire Line
 	4000 2850 4200 2850
 Connection ~ 4200 2850
-$Comp
-L unsurv_offline_symbols:2x2_switch RESET1
-U 1 1 5F214A9A
-P 5250 3100
-F 0 "RESET1" H 5250 3575 50  0000 C CNN
-F 1 "2x2_switch" H 5250 3484 50  0000 C CNN
-F 2 "unsurv_offline_pcb_footprints:2x2 Switch" H 5250 3500 50  0001 C CNN
-F 3 "" H 5250 3500 50  0001 C CNN
-	1    5250 3100
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	4200 2850 4700 2850
 Wire Wire Line
@@ -1365,42 +1343,6 @@ F 3 "" H 10400 2150 50  0001 C CNN
 	1    10400 2150
 	1    0    0    -1  
 $EndComp
-Connection ~ 8950 3700
-Wire Wire Line
-	10150 3700 10050 3700
-Connection ~ 10050 3700
-Wire Wire Line
-	10050 3700 9950 3700
-Connection ~ 9950 3700
-Wire Wire Line
-	9950 3700 9850 3700
-Connection ~ 9850 3700
-Wire Wire Line
-	9850 3700 9750 3700
-Connection ~ 9750 3700
-Wire Wire Line
-	9750 3700 9650 3700
-Connection ~ 9650 3700
-Wire Wire Line
-	9650 3700 9550 3700
-Connection ~ 9550 3700
-Wire Wire Line
-	9550 3700 9450 3700
-Connection ~ 9450 3700
-Wire Wire Line
-	9450 3700 9350 3700
-Connection ~ 9350 3700
-Wire Wire Line
-	9350 3700 9250 3700
-Connection ~ 9250 3700
-Wire Wire Line
-	9250 3700 9150 3700
-Connection ~ 9150 3700
-Wire Wire Line
-	9050 3700 8950 3700
-Wire Wire Line
-	9150 3700 9050 3700
-Connection ~ 9050 3700
 $Comp
 L dk_RF-Receivers:CAM-M8C-0-10 U6
 U 1 1 5F75E10D
@@ -1454,7 +1396,7 @@ Wire Wire Line
 	1450 4500 1450 4650
 Connection ~ 10450 4900
 $Comp
-L unsurv_offline_symbols:RF430CL330H U5
+L unsurv_offline_pcb_symbols:RF430CL330H U5
 U 1 1 5F6CE195
 P 7400 5950
 F 0 "U5" H 7400 6715 50  0000 C CNN
@@ -1680,10 +1622,10 @@ F 3 "~" H 2400 800 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:GND #PWR?
+L power:GND #PWR0101
 U 1 1 5F80680D
 P 4150 6100
-F 0 "#PWR?" H 4150 5850 50  0001 C CNN
+F 0 "#PWR0101" H 4150 5850 50  0001 C CNN
 F 1 "GND" H 4155 5927 50  0000 C CNN
 F 2 "" H 4150 6100 50  0001 C CNN
 F 3 "" H 4150 6100 50  0001 C CNN
@@ -1697,4 +1639,28 @@ Wire Wire Line
 	750  4850 850  4850
 Wire Wire Line
 	600  4850 750  4850
+Wire Wire Line
+	8950 3700 10150 3700
+$Comp
+L unsurv_offline_pcb_symbols:2x2_switch S1
+U 1 1 604E2649
+P 5250 3100
+F 0 "S1" H 5250 3575 50  0000 C CNN
+F 1 "2x2_switch" H 5250 3484 50  0000 C CNN
+F 2 "" H 5250 3500 50  0001 C CNN
+F 3 "" H 5250 3500 50  0001 C CNN
+	1    5250 3100
+	1    0    0    -1  
+$EndComp
+$Comp
+L unsurv_offline_pcb_symbols:TF-101B CARD1
+U 1 1 5E8A0B52
+P 2250 7350
+F 0 "CARD1" H 1633 8675 50  0000 C CNN
+F 1 "TF-101B" H 1633 8584 50  0000 C CNN
+F 2 "unsurv_offline_pcb_footprints:TF-SMD_TF-101B" H 2250 6950 50  0000 C CNN
+F 3 "" H 2250 6950 50  0001 C CNN
+	1    2250 7350
+	1    0    0    -1  
+$EndComp
 $EndSCHEMATC
