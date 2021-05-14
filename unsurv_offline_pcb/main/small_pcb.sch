@@ -4,11 +4,11 @@ EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
 Sheet 1 1
-Title ""
-Date ""
-Rev ""
-Comp ""
-Comment1 ""
+Title "unsurv offline"
+Date "2021-05-14"
+Rev "0.1"
+Comp "unsurv"
+Comment1 "on 4.5 cm x 3.5 cm PCB"
 Comment2 ""
 Comment3 ""
 Comment4 ""
@@ -775,8 +775,6 @@ Text GLabel 7250 1950 2    50   Input ~ 0
 12
 Text GLabel 7250 2050 2    50   Input ~ 0
 13
-Text GLabel 7250 2150 2    50   Input ~ 0
-14
 Text GLabel 7250 2250 2    50   Input ~ 0
 15
 $Comp
@@ -885,8 +883,6 @@ Wire Wire Line
 	8250 1000 8100 1000
 Text GLabel 7250 3150 2    50   Input ~ 0
 26
-Text GLabel 7250 3250 2    50   Input ~ 0
-27
 $Comp
 L Device:R R11
 U 1 1 5F0C74DA

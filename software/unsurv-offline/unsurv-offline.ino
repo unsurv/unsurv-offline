@@ -138,7 +138,6 @@ void setup()
 
   startTime = millis();
 
-  // storageUtils.logToSd("testing SD access");
   Serial.println("GPS power save: " + String(ubloxGPS.getPowerSaveMode()));
 
   Serial.println("Initialization complete...");
