@@ -771,8 +771,6 @@ F 3 "http://www.datasheet5.com/pdf-local-2195953" H 10100 6400 50  0001 C CNN
 	1    10450 5600
 	1    0    0    -1  
 $EndComp
-Text GLabel 7250 1950 2    50   Input ~ 0
-12
 Text GLabel 7250 2050 2    50   Input ~ 0
 13
 Text GLabel 7250 2250 2    50   Input ~ 0
