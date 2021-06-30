@@ -36,7 +36,7 @@
   )
 
   (setup
-    (last_trace_width 0.35)
+    (last_trace_width 0.25)
     (user_trace_width 0.35)
     (user_trace_width 0.5)
     (user_trace_width 1)
@@ -60,8 +60,8 @@
     (mod_edge_width 0.12)
     (mod_text_size 0.5 0.5)
     (mod_text_width 0.1)
-    (pad_size 2.5 2.5)
-    (pad_drill 1.5)
+    (pad_size 2.2 2.2)
+    (pad_drill 0)
     (pad_to_mask_clearance 0.051)
     (solder_mask_min_width 0.25)
     (aux_axis_origin 0 0)
@@ -2191,7 +2191,7 @@
       (net 68 ANT1))
   )
 
-  (module unsurv_offline_pcb_footprints:PogoPin_2_2mm_circular (layer F.Cu) (tedit 5F68CB1C) (tstamp 5F71FC4F)
+  (module unsurv_offline_pcb_footprints:PogoPin_2_2mm_circular (layer F.Cu) (tedit 60CF7BFC) (tstamp 5F71FC4F)
     (at 71.1 76.7 90)
     (path /5F884C06)
     (fp_text reference ANT2 (at 0 4.2 180) (layer F.SilkS)

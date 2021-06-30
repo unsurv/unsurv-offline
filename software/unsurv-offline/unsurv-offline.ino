@@ -25,7 +25,7 @@
 
 #define MIN_SATS_IN_VIEW 4
 
-#define SEARCH_DURATION 300
+#define SEARCH_DURATION 120
 
 #define BITMASK_PIN_25 0x2000000
 
@@ -34,7 +34,7 @@ int16_t ax, ay, az;
 esp_sleep_wakeup_cause_t wakeup_reason;
 
 
-boolean enableNfc = true;
+boolean enableNfc = false;
 boolean sleepOnNoMotion = true;
 // enables a on/off cycle for the whole device specified with "espSleepDuration" and "wakeTime"
 boolean savePower = true;
@@ -106,7 +106,7 @@ void setup()
   accelgyro.setZeroMotionDetectionThreshold(50);
   delay(50);
   // counts no motion events, this counting is slowed 
-  // because a low frequency of measurements is used
+  // if a low frequency of measurements is used
   accelgyro.setZeroMotionDetectionDuration(50);
   delay(50);
   // interrupts twice, on no motion + on motion
