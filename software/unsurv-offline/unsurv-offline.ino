@@ -17,13 +17,13 @@
 #include "StorageUtils.h"
 #include "SurveillanceCamera.h"
 #include "NfcUtils.h"
-#include "SparkFun_Ublox_Arduino_Library.h" //http://librarymanager/All#SparkFun_Ublox_GPS
+#include "SparkFun_Ublox_Arduino_Library.h" // http://librarymanager/All#SparkFun_Ublox_GPS
 #include "driver/adc.h"
 #include "esp_sleep.h"
 #include "Arduino_JSON.h"
 
 #define PROXIMITY_ALERT_RADIUS 100 // in m
-#define LED 26
+#define LED 27
 #define GPS_WAKEUP_PIN 5
 
 #define MIN_SATS_IN_VIEW 4
@@ -36,6 +36,23 @@
 #define BMA400_intPin1 25   // interrupt1 pin definitions, wake-up from STANDBY pin
 #define BMA400_intPin2 26   // interrupt2 pin definitions, data ready or sleep interrupt
 
+uint8_t Ascale = AFS_2G, SR = SR_200Hz, power_Mode = lowpower_Mode, OSR = osr0, acc_filter = acc_filt2;
+
+float aRes;             // scale resolutions per LSB for the sensor
+int16_t accelCount[3];  // Stores the 16-bit signed accelerometer sensor output
+int16_t tempCount;      // temperature raw count output
+float   temperature;    // Stores the real internal chip temperature in degrees Celsius
+float ax, ay, az;       // variables to hold latest sensor data values 
+float offset[3];        // accel bias offsets
+
+// Logic flags to keep track of device states
+bool BMA400_wake_flag = false;
+bool BMA400_sleep_flag = false;
+bool InMotion = false;
+
+BMA400 BMA400(BMA400_intPin1, BMA400_intPin2); // instantiate BMA400 class
+
+
 // MPU6050 accelgyro(0x68); // <-- use for AD0 low
 // int16_t ax, ay, az;
 esp_sleep_wakeup_cause_t wakeup_reason;
@@ -43,6 +60,7 @@ esp_sleep_wakeup_cause_t wakeup_reason;
 
 boolean enableNfc = false;
 boolean sleepOnNoMotion = true;
+boolean calibrateBMA400 = false;
 // enables a on/off cycle for the whole device specified with "espSleepDuration" and "wakeTime"
 boolean savePower = true;
 
@@ -75,7 +93,7 @@ SurveillanceCamera currentCamera;
 void setup()
 {
   
-  Serial.begin(9600);
+  Serial.begin(115200);
 
   //Print the wakeup reason for ESP32
   printWakeupReason();
@@ -84,6 +102,25 @@ void setup()
  
   pinMode(LED, OUTPUT); // power LED
   digitalWrite(LED, HIGH);
+  
+  // BMA 400 setup
+  pinMode(BMA400_intPin1, INPUT);  // define BMA400 wake and sleep interrupt pins as L082 inputs
+  pinMode(BMA400_intPin2, INPUT);
+
+  if (calibrateBMA400) 
+  {
+   BMA400.selfTestBMA400();                                             // perform sensor self test
+   BMA400.resetBMA400();                                                // software reset before initialization
+   delay(1000);                                                         // give some time to read the screen
+   BMA400.CompensationBMA400(Ascale, SR, normal_Mode, OSR, acc_filter, offset); // quickly estimate offset bias in normal mode
+  }
+
+  BMA400.initBMA400(Ascale, SR, power_Mode, OSR, acc_filter);
+
+  attachInterrupt(BMA400_intPin1, myinthandler1, RISING);  // define wake-up interrupt for INT1 pin output of BMA400
+  attachInterrupt(BMA400_intPin2, myinthandler2, RISING);  // define data ready interrupt for INT2 pin output of BMA400 
+
+  BMA400.getStatus(); // read status of interrupts to clear
   
   wakeGPS();
   adc_power_on(); 
@@ -98,14 +135,22 @@ void setup()
   
   // setting up MPU 6050 accelerometer
   // initialize device
-  Serial.println("Initializing MPU6050...");
-  accelgyro.initialize();
+  // Serial.println("Initializing MPU6050...");
+  // accelgyro.initialize();
 
   // verify connection
-  Serial.println("Testing device connections...");
-  Serial.println(accelgyro.testConnection() ? "MPU6050 connection successful" : "MPU6050 connection failed");
+  // Serial.println("Testing device connections...");
+  // Serial.println(accelgyro.testConnection() ? "MPU6050 connection successful" : "MPU6050 connection failed");
 
+  byte c = BMA400.getChipID();  // Read CHIP_ID register for BMA400
+  if(c == 0x90) // check if all I2C sensors with WHO_AM_I have acknowledged
+  {
+   Serial.println("BMA400 is online..."); Serial.println(" ");
+  }
 
+  BMA400.activateNoMotionInterrupt();  
+
+  /*
   accelgyro.setXAccelOffset(1324);
   accelgyro.setYAccelOffset(1300);
   accelgyro.setZAccelOffset(736);
@@ -127,7 +172,7 @@ void setup()
   // this does seem to slow counting of motion events used for DetectionDuration above
   accelgyro.setWakeFrequency(2);
   delay(50);
-
+  */
 
   // setting up ublox GPS
 
@@ -188,12 +233,30 @@ void setup()
 void loop()
 {
 
-  if (accelgyro.getZeroMotionDetected() && sleepOnNoMotion)
+  /* BMA400 sleep/wake detect*/
+  if(BMA400_wake_flag)
   {
-  Serial.println("Zero motion detected");
-    
-  startDeepSleep(0);
+    BMA400_wake_flag = false; // clear the wake flag
+    InMotion = true;          // set motion state latch
+    BMA400.activateNoMotionInterrupt();  
+    attachInterrupt(BMA400_intPin2, myinthandler2, RISING);  // attach no-motion interrupt for INT2 pin output of BMA400 
+
   }
+
+  if(BMA400_sleep_flag)
+  {
+    BMA400_sleep_flag = false;            // clear the sleep flag
+    InMotion = false;                     // set motion state latch
+    detachInterrupt(BMA400_intPin2);       // Detach the BMA400 "Go to sleep" interrupt so it doesn't spuriously wake the STM32L4
+    BMA400.deactivateNoMotionInterrupt(); // disable no-motion interrupt to save power
+   
+    if (sleepOnNoMotion)
+    {
+      startDeepSleep(0); 
+    }
+   
+  }/* end of sleep/wake detect */
+  
   
   if (millis() < startTime + (wakeTime * 1000) || !savePower || firstFix)
   {
@@ -230,7 +293,6 @@ void loop()
       {
         SIV = ubloxGPS.getSIV();
         Serial.println("scanning for GPS satellites: SIV " + String(SIV));
-        Serial.println(accelgyro.getZeroMotionDetected());
         // change firstFix state to true here?
         delay(1000);      
       }
@@ -358,6 +420,19 @@ void loop()
       startDeepSleep(espSleepDuration);
     }
   }
+}
+
+void myinthandler1()
+{
+  BMA400_wake_flag = true; 
+  Serial.println("** BMA400 is awake! **");
+}
+
+
+void myinthandler2()
+{
+  BMA400_sleep_flag = true;
+  Serial.println("** BMA400 is asleep! **");
 }
 
 
