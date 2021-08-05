@@ -1,4 +1,4 @@
-(module BMA400 (layer F.Cu) (tedit 60CDF3F2)
+(module BMA400 (layer F.Cu) (tedit 6107D863)
   (fp_text reference REF** (at 0 -2.2) (layer F.SilkS)
     (effects (font (size 1 1) (thickness 0.15)))
   )
@@ -9,6 +9,7 @@
   (fp_line (start 1 -1) (end -1 -1) (layer F.SilkS) (width 0.12))
   (fp_line (start -1 -1) (end -1 1) (layer F.SilkS) (width 0.12))
   (fp_line (start -1 1) (end 1 1) (layer F.SilkS) (width 0.12))
+  (fp_circle (center -1.55 -1.07) (end -1.64 -0.96) (layer F.SilkS) (width 0.12))
   (pad 1 smd rect (at -0.9 -0.75) (size 0.6 0.28) (layers F.Cu F.Paste F.Mask))
   (pad 2 smd rect (at -0.9 -0.25) (size 0.6 0.28) (layers F.Cu F.Paste F.Mask))
   (pad 3 smd rect (at -0.9 0.25) (size 0.6 0.28) (layers F.Cu F.Paste F.Mask))

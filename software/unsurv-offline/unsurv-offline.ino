@@ -6,9 +6,12 @@
 // new USB power meter
 // 13 mah over 1h with gps powerSave 40s sleep 2s active <- good GPS connection?
 
-// TODO validate SD card data
+// TODO validate SD card input data
 
-#include "MPU6050.h"
+// attribute  Copyright2 2018 Tlera Corporation for BMA400 Code
+
+// #include "MPU6050.h"
+#include "BMA400.h"
 #include "Wire.h"
 #include "LocationUtils.h"
 #include "StorageUtils.h"
@@ -27,10 +30,14 @@
 
 #define SEARCH_DURATION 120
 
-#define BITMASK_PIN_25 0x2000000
+#define BITMASK_PIN_25 0x2000000 // needed for ESP32 deepsleep
 
-MPU6050 accelgyro(0x68); // <-- use for AD0 low
-int16_t ax, ay, az;
+//BMA400 definitions
+#define BMA400_intPin1 25   // interrupt1 pin definitions, wake-up from STANDBY pin
+#define BMA400_intPin2 26   // interrupt2 pin definitions, data ready or sleep interrupt
+
+// MPU6050 accelgyro(0x68); // <-- use for AD0 low
+// int16_t ax, ay, az;
 esp_sleep_wakeup_cause_t wakeup_reason;
 
 
