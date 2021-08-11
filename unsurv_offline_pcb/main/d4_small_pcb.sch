@@ -253,17 +253,6 @@ F 3 "" H 2450 5850 50  0001 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L power:+3.3V #PWR011
-U 1 1 5E40FAF5
-P 4800 1950
-F 0 "#PWR011" H 4800 1800 50  0001 C CNN
-F 1 "+3.3V" H 4815 2123 50  0000 C CNN
-F 2 "" H 4800 1950 50  0001 C CNN
-F 3 "" H 4800 1950 50  0001 C CNN
-	1    4800 1950
-	-1   0    0    1   
-$EndComp
-$Comp
 L Device:R R4
 U 1 1 5E41108F
 P 4100 2200
@@ -1430,19 +1419,6 @@ F 3 "~" H 2900 1900 50  0001 C CNN
 	1    2900 1900
 	0    1    1    0   
 $EndComp
-$Comp
-L Jumper:SolderJumper_2_Open JP2
-U 1 1 60D6A832
-P 4400 1950
-F 0 "JP2" H 4400 2155 50  0000 C CNN
-F 1 "SolderJumper_2_Open" H 4400 2064 50  0000 C CNN
-F 2 "Jumper:SolderJumper-2_P1.3mm_Open_RoundedPad1.0x1.5mm" H 4400 1950 50  0001 C CNN
-F 3 "~" H 4400 1950 50  0001 C CNN
-	1    4400 1950
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	4550 1950 4800 1950
 Wire Wire Line
 	2900 2600 2900 2800
 Wire Wire Line
@@ -1672,4 +1648,17 @@ Wire Wire Line
 Connection ~ 10050 3700
 Wire Wire Line
 	10050 3700 10150 3700
+$Comp
+L power:+3.3V #PWR011
+U 1 1 5E40FAF5
+P 4800 1950
+F 0 "#PWR011" H 4800 1800 50  0001 C CNN
+F 1 "+3.3V" H 4815 2123 50  0000 C CNN
+F 2 "" H 4800 1950 50  0001 C CNN
+F 3 "" H 4800 1950 50  0001 C CNN
+	1    4800 1950
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	4800 1950 4250 1950
 $EndSCHEMATC

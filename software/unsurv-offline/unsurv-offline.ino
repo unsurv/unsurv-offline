@@ -46,7 +46,7 @@ float ax, ay, az;       // variables to hold latest sensor data values
 float offset[3];        // accel bias offsets
 
 // Logic flags to keep track of device states
-bool BMA400_wake_flag = false;
+bool BMA400_wake_flag = true;
 bool BMA400_sleep_flag = false;
 bool InMotion = false;
 
@@ -59,7 +59,7 @@ esp_sleep_wakeup_cause_t wakeup_reason;
 
 
 boolean enableNfc = false;
-boolean sleepOnNoMotion = true;
+boolean sleepOnNoMotion = false;
 boolean calibrateBMA400 = false;
 // enables a on/off cycle for the whole device specified with "espSleepDuration" and "wakeTime"
 boolean savePower = true;
@@ -107,20 +107,6 @@ void setup()
   pinMode(BMA400_intPin1, INPUT);  // define BMA400 wake and sleep interrupt pins as L082 inputs
   pinMode(BMA400_intPin2, INPUT);
 
-  if (calibrateBMA400) 
-  {
-   BMA400.selfTestBMA400();                                             // perform sensor self test
-   BMA400.resetBMA400();                                                // software reset before initialization
-   delay(1000);                                                         // give some time to read the screen
-   BMA400.CompensationBMA400(Ascale, SR, normal_Mode, OSR, acc_filter, offset); // quickly estimate offset bias in normal mode
-  }
-
-  BMA400.initBMA400(Ascale, SR, power_Mode, OSR, acc_filter);
-
-  attachInterrupt(BMA400_intPin1, myinthandler1, RISING);  // define wake-up interrupt for INT1 pin output of BMA400
-  attachInterrupt(BMA400_intPin2, myinthandler2, RISING);  // define data ready interrupt for INT2 pin output of BMA400 
-
-  BMA400.getStatus(); // read status of interrupts to clear
   
   wakeGPS();
   adc_power_on(); 
@@ -145,9 +131,33 @@ void setup()
   byte c = BMA400.getChipID();  // Read CHIP_ID register for BMA400
   if(c == 0x90) // check if all I2C sensors with WHO_AM_I have acknowledged
   {
-   Serial.println("BMA400 is online..."); Serial.println(" ");
+    Serial.println("BMA400 is online..."); Serial.println(" ");
+
+    delay(1000);
+    aRes = BMA400.getAres(Ascale);                                       // get sensor resolutions, only need to do this once
+    BMA400.resetBMA400();                                                // software reset before initialization
+    delay(100);      
+    BMA400.selfTestBMA400();                                             // perform sensor self test
+    BMA400.resetBMA400();                                                // software reset before initialization
+    delay(100);
+
+    
+
+    if (calibrateBMA400) 
+    {                                     
+      delay(100);                                                         // give some time to read the screen
+      BMA400.CompensationBMA400(Ascale, SR, normal_Mode, OSR, acc_filter, offset); // quickly estimate offset bias in normal mode
+    }
   }
 
+  BMA400.initBMA400(Ascale, SR, power_Mode, OSR, acc_filter);
+
+  attachInterrupt(BMA400_intPin1, myinthandler1, RISING);  // define wake-up interrupt for INT1 pin output of BMA400
+  attachInterrupt(BMA400_intPin2, myinthandler2, RISING);  // define data ready interrupt for INT2 pin output of BMA400 
+ 
+  
+  BMA400.getStatus(); // read status of interrupts to clear
+  delay(100);
   BMA400.activateNoMotionInterrupt();  
 
   /*
