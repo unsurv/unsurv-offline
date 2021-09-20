@@ -17,7 +17,7 @@
 #include "StorageUtils.h"
 #include "SurveillanceCamera.h"
 #include "NfcUtils.h"
-#include "SparkFun_Ublox_Arduino_Library.h" // http://librarymanager/All#SparkFun_Ublox_GPS
+#include "SparkFun_Ublox_Arduino_Library.h"
 #include "driver/adc.h"
 #include "esp_sleep.h"
 #include "Arduino_JSON.h"
