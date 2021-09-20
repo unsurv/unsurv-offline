@@ -72,6 +72,8 @@ void setup() {
   }
 
   attachInterrupt(BMA400_intPin1, myinthandler1, RISING);  // define wake-up interrupt for INT1 pin output of BMA400
+
+  wakeGPS();
   
   if (!ubloxGPS.begin()) //Connect to the Ublox module using Wire port
   {
@@ -94,7 +96,7 @@ void loop() {
   {
     if (SIV < MIN_SATS_IN_VIEW)
     {
-      wakeGPS();
+      
       ubloxGPS.powerSaveMode(false);
 
       while (SIV < MIN_SATS_IN_VIEW)
@@ -103,7 +105,9 @@ void loop() {
         // satellites in view
         SIV = ubloxGPS.getSIV();
         Serial.println("scanning for GPS satellites: SIV " + String(SIV));
+        digitalWrite(LED, HIGH);
         delay(1000);
+        digitalWrite(LED, LOW);
 
         if (double_tap_flag)
         {
