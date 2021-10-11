@@ -291,7 +291,6 @@ void startDeepSleep(int timer) {
     // accelgyro.setZeroMotionDetectionDuration(10);
     
     //Go to sleep now
-    Serial.println("Going to sleep now");
     digitalWrite(LED, LOW);
     pinMode(LED, INPUT); // power LED
   
@@ -299,7 +298,12 @@ void startDeepSleep(int timer) {
     ubloxGPS.powerOff(0); // 0 = indefinetly
     Serial.println("shutting down ublox module");
     delay(100);
-    adc_power_off();  
+    Serial.println("Going to sleep now");
+    adc_power_off();
+
+    esp_sleep_pd_config(ESP_PD_DOMAIN_RTC_PERIPH, ESP_PD_OPTION_OFF);
+    esp_sleep_pd_config(ESP_PD_DOMAIN_RTC_SLOW_MEM, ESP_PD_OPTION_OFF);
+    esp_sleep_pd_config(ESP_PD_DOMAIN_RTC_FAST_MEM, ESP_PD_OPTION_OFF);
     delay(100);
     esp_deep_sleep_start();
   }

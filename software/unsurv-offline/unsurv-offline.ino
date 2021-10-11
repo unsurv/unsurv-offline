@@ -450,8 +450,6 @@ void startDeepSleep(int timer) {
 
   if (timer != 0)
   {
-    
-    
     Serial.println("Setup ESP32 to sleep for " + String(timer) +" seconds");
     //ESP_BT.println("Setup ESP32 to sleep for " + String(espSleepDuration) +" seconds");
 
@@ -497,6 +495,7 @@ void startDeepSleep(int timer) {
   
     delay(100);
     ubloxGPS.powerOff(0); // 0 = indefinetly
+    Serial.println("shutting down ublox module");
     delay(100);
     adc_power_off();  
     delay(100);
