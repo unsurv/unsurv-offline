@@ -1,5 +1,9 @@
 # unsurv-offline
+
 This project is part of the unsurv framework to fight privacy invasive technologies in the offline world. unsurv-offline logs your encounters with surveillance cameras and creates a daily report for you via NFC to review in the unsurv-companion Android app.
+
+<img src="https://github.com/unsurv/unsurv-offline/blob/master/images/first.jpeg" alt="main PCB"
+	title="unsurv-offline" width="480" height="360" />
 
 Demo: https://vimeo.com/497241039
 
