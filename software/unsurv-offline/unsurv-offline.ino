@@ -28,7 +28,7 @@
 
 #define MIN_SATS_IN_VIEW 4
 
-#define SEARCH_DURATION 120
+#define SEARCH_DURATION 10
 
 #define BITMASK_PIN_25 0x2000000 // needed for ESP32 deepsleep
 
@@ -59,7 +59,7 @@ esp_sleep_wakeup_cause_t wakeup_reason;
 
 
 boolean enableNfc = false;
-boolean sleepOnNoMotion = false;
+boolean sleepOnNoMotion = true;
 boolean calibrateBMA400 = false;
 // enables a on/off cycle for the whole device specified with "espSleepDuration" and "wakeTime"
 boolean savePower = true;
