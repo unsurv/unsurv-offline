@@ -1,5 +1,7 @@
 # unsurv-offline
 
+Currently available on [crowdsupply](https://www.crowdsupply.com/unsurv-technologies/unsurv-offline)
+
 This project is part of the unsurv framework to fight privacy invasive technologies in the offline world. unsurv-offline logs your encounters with surveillance cameras and creates a daily report for you via NFC to review in the unsurv-companion Android app.
 
 <img src="https://github.com/unsurv/unsurv-offline/blob/master/images/first.jpeg" alt="main PCB"
@@ -7,7 +9,7 @@ This project is part of the unsurv framework to fight privacy invasive technolog
 
 Demo: https://vimeo.com/497241039
 
-Currently available on [crowdsupply](https://www.crowdsupply.com/unsurv-technologies/unsurv-offline)
+
 
 This device can easily be adapted to different use cases via the Arduino IDE. Arduino library + board integration are planned.
 
