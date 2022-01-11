@@ -1,4 +1,15 @@
-                    GNU GENERAL PUBLIC LICENSE
+ Board power design and RFM layout is based on the Sparkfun ESP32 thing (https://cdn.sparkfun.com/assets/learn_tutorials/5/0/7/esp32-thing-schematic.pdf) and ESP32 1-channel LoRa gateway (https://cdn.sparkfun.com/assets/5/3/1/9/c/ESP32_LoRa_1_Channel_Gateway.pdf) and is licensed under 
+ 
+ CC BY-SA 4.0
+ https://creativecommons.org/licenses/by-sa/4.0/
+ 
+ 
+ 
+ Rest if not stated otherwise is licensed by:
+ 
+ 
+ 
+                      GNU GENERAL PUBLIC LICENSE
                        Version 3, 29 June 2007
 
  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
