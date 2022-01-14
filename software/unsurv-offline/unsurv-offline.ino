@@ -234,9 +234,9 @@ void setup()
   Serial.println(jsonString);
   
      
-  updateNFC(jsonString);
+  // updateNFC(jsonString);
   
-  // updateNFC("Natus et libero sed possimus nam. Et illum a voluptas numquam consequatur et cum iure. Voluptas dolorem aspernatur est est neque ut fugit quisquam. Et ut placeat libero est voluptatem necessitatibus eum. ur et cum iure. Voluptas dolorem aspernatur est est neque ut fugit quisquam.  ur et cum iure. Voluptas dolorem aspernatur est est neque ut fugit quisquam.  ur et cum iure. Voluptas dolorem aspernatur est est neque ut fugit quisquam.  ur et cum iure. Voluptas dolorem aspernatur est est neque ut fugit quisquam.");
+  updateNFC("Natus et libero sed possimus nam. Et illum a voluptas numquam consequatur et cum iure. Voluptas dolorem aspernatur est est neque ut fugit quisquam. Et ut placeat libero est voluptatem necessitatibus eum. ur et cum iure. Voluptas dolorem aspernatur est est neque ut fugit quisquam.  ur et cum iure. Voluptas dolorem aspernatur est est neque ut fugit quisquam.  ur et cum iure. Voluptas dolorem aspernatur est est neque ut fugit quisquam.  ur et cum iure. Voluptas dolorem aspernatur est est neque ut fugit quisquam.");
   // updateNFC("loren ipsum asdasdasd");
 }
 

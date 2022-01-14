@@ -106,7 +106,7 @@ void loop() {
         SIV = ubloxGPS.getSIV();
         Serial.println("scanning for GPS satellites: SIV " + String(SIV));
         digitalWrite(LED, HIGH);
-        delay(1000);
+        delay(500);
         digitalWrite(LED, LOW);
 
         if (double_tap_flag)

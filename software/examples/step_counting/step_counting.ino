@@ -31,12 +31,14 @@ esp_sleep_wakeup_cause_t wakeup_reason;
 
 double latitude, longitude;
 long deviceAltitude;
-uint8_t step0, step1, step2;
+uint8_t step0, step1, step2, step_state;
 
 
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);
+
+  printWakeupReason();
 
   pinMode(LED, OUTPUT); // power LED
   pinMode(GPS_WAKEUP_PIN, INPUT); // set GPS int pin to input for now
@@ -52,19 +54,19 @@ void setup() {
   byte c = BMA400.getChipID();  // Read CHIP_ID register for BMA400
   Serial.print("BMA400 "); Serial.print("I AM "); Serial.print(c, HEX); Serial.print(" I should be "); Serial.println(0x90, HEX);
   Serial.println(" ");
-  delay(500);
-  if(c == 0x90) // check if all I2C sensors with WHO_AM_I have acknowledged
+  delay(100);
+  if(c == 0x90 && wakeup_reason != ESP_SLEEP_WAKEUP_TIMER) // check if all I2C sensors with WHO_AM_I have acknowledged
   {
     Serial.println("BMA400 is online..."); Serial.println(" ");
    
     BMA400.resetBMA400();                                                // software reset before initialization
-    delay(100);      
+    delay(50);      
     BMA400.selfTestBMA400();                                             // perform sensor self test
     BMA400.resetBMA400();                                                // software reset before initialization
-    delay(100);                                                         // give some time to read the screen
+    delay(50);                                                         // give some time to read the screen
     // BMA400.CompensationBMA400(Ascale, SR, normal_Mode, OSR, acc_filter, offset); // quickly estimate offset bias in normal mode
     BMA400.initBMA400forTapping(tap_sensitivity);          // Initialize sensor in desired mode for application       
-    delay(100);
+    delay(50);
     BMA400.enableStepCountNotWrist();              
   }
   else 
@@ -72,7 +74,7 @@ void setup() {
   if(c != 0x90) Serial.println(" BMA400 not functioning!");
   }
 
-    wakeGPS();
+  wakeGPS();
   
   if (!ubloxGPS.begin()) //Connect to the Ublox module using Wire port
   {
@@ -86,8 +88,23 @@ void setup() {
   ubloxGPS.powerSaveMode(true);
   ubloxGPS.saveConfiguration(); //Save the current settings to flash and BBR
 
-  logToSd("logFile.txt", "test");
+  // logToSd("logFile.txt", "test");
 
+  // resetting step counting
+
+  /*
+  BMA400.writeByte(BMA400_ADDRESS, BMA400_STEP_CNT0, 0x00);
+  delay(20);
+  BMA400.writeByte(BMA400_ADDRESS, BMA400_STEP_CNT1, 0x00);
+  delay(20);
+  BMA400.writeByte(BMA400_ADDRESS, BMA400_STEP_CNT2, 0x00);
+
+  delay(50);
+
+  Serial.println("STEPCOUNT0" + BMA400.readByte(BMA400_ADDRESS, BMA400_STEP_CNT0));
+  */
+
+  
 }
 
 void loop() {
@@ -106,6 +123,7 @@ void loop() {
         digitalWrite(LED, HIGH);
         delay(500);
         digitalWrite(LED, LOW);
+
       }
 
     }
@@ -117,7 +135,7 @@ void loop() {
       longitude = (double) ubloxGPS.getLongitude() / 10000000;
       deviceAltitude = ubloxGPS.getAltitude(); // in mm
       digitalWrite(LED, HIGH);
-      delay(3000);
+      delay(2000);
       digitalWrite(LED, LOW);
       uint8_t step0, step1, step2;
 
@@ -127,10 +145,12 @@ void loop() {
       delay(20);
       step2 = BMA400.readByte(BMA400_ADDRESS, BMA400_STEP_CNT2);
       delay(20);
+      step_state = BMA400.readByte(BMA400_ADDRESS, BMA400_STEP_STAT);
       
-      logToSd("logFile.txt", String(latitude, 6) + "," + String(longitude, 6) + "," + String(deviceAltitude) + "," + String(SIV) + "," + getDateTimeString() + "," + step0 + "," + step1 + "," + step2);
-      delay(10000); // TODO: remove delay and add sleep here
+      logToSd("logFile.txt", String(latitude, 6) + "," + String(longitude, 6) + "," + String(deviceAltitude) + "," + String(SIV) + "," + getDateTimeString() + "," + step0 + "," + step1 + "," + step2 + "," + step_state);
     }
+
+    startDeepSleep(30);
 
 
 }
@@ -187,4 +207,81 @@ void wakeGPS()
   delay(100);
   pinMode(GPS_WAKEUP_PIN , INPUT);
 
+}
+
+
+void printWakeupReason(){
+
+  wakeup_reason = esp_sleep_get_wakeup_cause();
+
+  switch(wakeup_reason)
+  {
+    case ESP_SLEEP_WAKEUP_EXT0 : Serial.println("Wakeup caused by external signal using RTC_IO"); break;
+    case ESP_SLEEP_WAKEUP_EXT1 : Serial.println("Wakeup caused by external signal using RTC_CNTL"); break;
+    case ESP_SLEEP_WAKEUP_TIMER : Serial.println("Wakeup caused by timer"); break;
+    case ESP_SLEEP_WAKEUP_TOUCHPAD : Serial.println("Wakeup caused by touchpad"); break;
+    case ESP_SLEEP_WAKEUP_ULP : Serial.println("Wakeup caused by ULP program"); break;
+    default : Serial.printf("Wakeup was not caused by deep sleep: %d\n",wakeup_reason); break;
+  }
+}
+
+void startDeepSleep(int timer) {
+
+  if (timer != 0)
+  {
+    Serial.println("Setup ESP32 to sleep for " + String(timer) +" seconds");
+    //ESP_BT.println("Setup ESP32 to sleep for " + String(espSleepDuration) +" seconds");
+
+    delay(50);
+    //Go to sleep now
+    digitalWrite(LED, LOW);
+    pinMode(LED, INPUT); // power LED
+    
+    esp_sleep_enable_timer_wakeup(timer * 1000000); // ys conversion
+    delay(100);
+    
+    // if timer is longer than 45 s switch gps completely off
+    if (timer > 45 * 1000000)
+    {
+      ubloxGPS.powerOff(0);
+    }
+    
+    delay(100);
+    // accelgyro.setZeroMotionDetectionDuration(10);
+    adc_power_off();
+
+    esp_sleep_pd_config(ESP_PD_DOMAIN_RTC_PERIPH, ESP_PD_OPTION_OFF);
+    esp_sleep_pd_config(ESP_PD_DOMAIN_RTC_SLOW_MEM, ESP_PD_OPTION_OFF);
+    esp_sleep_pd_config(ESP_PD_DOMAIN_RTC_FAST_MEM, ESP_PD_OPTION_OFF);
+    
+    delay(100);
+    esp_deep_sleep_start();
+  }
+  else
+  {
+    // wire mpu6050 int pin to GPIO25
+    // esp_sleep_enable_ext0_wakeup(GPIO_NUM_25, 1); //1 = High, 0 = Low < This keeps gpio stuff powered, no bueno
+     
+    esp_sleep_enable_ext1_wakeup(BITMASK_PIN_25, ESP_EXT1_WAKEUP_ANY_HIGH);
+  
+    // lower sensitivity to allow low frequency wakeups
+    // accelgyro.setZeroMotionDetectionDuration(10);
+    
+    //Go to sleep now
+    digitalWrite(LED, LOW);
+    pinMode(LED, INPUT); // power LED
+  
+    delay(100);
+    ubloxGPS.powerOff(0); // 0 = indefinetly
+    Serial.println("shutting down ublox module");
+    delay(100);
+    Serial.println("Going to sleep now");
+    adc_power_off();
+
+    esp_sleep_pd_config(ESP_PD_DOMAIN_RTC_PERIPH, ESP_PD_OPTION_OFF);
+    esp_sleep_pd_config(ESP_PD_DOMAIN_RTC_SLOW_MEM, ESP_PD_OPTION_OFF);
+    esp_sleep_pd_config(ESP_PD_DOMAIN_RTC_FAST_MEM, ESP_PD_OPTION_OFF);
+    delay(100);
+    esp_deep_sleep_start();
+  }
 }
