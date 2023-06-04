@@ -10,7 +10,7 @@
 
 // attribute  Copyright2 2018 Tlera Corporation for BMA400 Code
 
-// #include "MPU6050.h"
+#include "BQ25181.h"
 #include "BMA400.h"
 #include "Wire.h"
 #include "LocationUtils.h"
@@ -36,7 +36,7 @@
 #define BMA400_intPin1 25   // interrupt1 pin definitions, wake-up from STANDBY pin
 #define BMA400_intPin2 26   // interrupt2 pin definitions, data ready or sleep interrupt
 
-uint8_t Ascale = AFS_2G, SR = SR_200Hz, power_Mode = lowpower_Mode, OSR = osr0, acc_filter = acc_filt2;
+uint8_t Ascale = AFS_2G, SR = SR_50Hz, power_Mode = lowpower_Mode, OSR = osr0, acc_filter = acc_filt2;
 
 float aRes;             // scale resolutions per LSB for the sensor
 int16_t accelCount[3];  // Stores the 16-bit signed accelerometer sensor output
@@ -53,12 +53,13 @@ bool InMotion = false;
 BMA400 BMA400(BMA400_intPin1, BMA400_intPin2); // instantiate BMA400 class
 
 
-// MPU6050 accelgyro(0x68); // <-- use for AD0 low
-// int16_t ax, ay, az;
+// battery charging IC
+BQ25181 BQ25181(4.2);  // set battery voltage
+
 esp_sleep_wakeup_cause_t wakeup_reason;
 
 
-boolean enableNfc = false;
+boolean enableNfc = true;
 boolean sleepOnNoMotion = true;
 boolean calibrateBMA400 = false;
 // enables a on/off cycle for the whole device specified with "espSleepDuration" and "wakeTime"
@@ -66,7 +67,7 @@ boolean savePower = true;
 
 boolean logToSd = true;
 
-int espSleepDuration = 20; // in seconds
+int espSleepDuration = 30; // in seconds
 int wakeTime = 3; // in seconds
 
 SFE_UBLOX_GPS ubloxGPS;
@@ -97,8 +98,6 @@ void setup()
 
   //Print the wakeup reason for ESP32
   printWakeupReason();
-  
-  // setCpuFrequencyMhz(160);
  
   pinMode(LED, OUTPUT); // power LED
   digitalWrite(LED, HIGH);
@@ -106,7 +105,11 @@ void setup()
   // BMA 400 setup
   pinMode(BMA400_intPin1, INPUT);  // define BMA400 wake and sleep interrupt pins as L082 inputs
   pinMode(BMA400_intPin2, INPUT);
+  
+  BQ25181.setChargingCurrent(2); // 150 mA charging current
 
+  // lower CPU frequency
+  setCpuFrequencyMhz(80);
   
   wakeGPS();
   adc_power_on(); 
@@ -397,7 +400,7 @@ void loop()
 
       JSONVar contactArray = storageUtils.getContacts(10);    
       nfcData["c"] = contactArray;
-      Serial.println(JSON.stringify(nfcData));
+      // Serial.println(JSON.stringify(nfcData));
       jsonString = JSON.stringify(nfcData);
       
       updateNFC(jsonString);
@@ -455,8 +458,9 @@ void startDeepSleep(int timer) {
 
     delay(50);
     //Go to sleep now
+    pinMode(LED, OUTPUT); // power LED
     digitalWrite(LED, LOW);
-    pinMode(LED, INPUT); // power LED
+    
     
     esp_sleep_enable_timer_wakeup(timer * 1000000); // ys conversion
     delay(100);
@@ -490,8 +494,8 @@ void startDeepSleep(int timer) {
     
     //Go to sleep now
     Serial.println("Going to sleep now");
+    pinMode(LED, OUTPUT); // power LED
     digitalWrite(LED, LOW);
-    pinMode(LED, INPUT); // power LED
   
     delay(100);
     ubloxGPS.powerOff(0); // 0 = indefinetly
