@@ -355,7 +355,9 @@
     }
   },
   "libraries": {
-    "pinned_footprint_libs": [],
+    "pinned_footprint_libs": [
+      "unsurv_offline_pcb_footprints"
+    ],
     "pinned_symbol_libs": []
   },
   "meta": {
@@ -411,7 +413,7 @@
       "idf": "",
       "netlist": "d4_small_pcb.net",
       "specctra_dsn": "",
-      "step": "",
+      "step": "../123.stp",
       "vrml": ""
     },
     "page_layout_descr_file": ""

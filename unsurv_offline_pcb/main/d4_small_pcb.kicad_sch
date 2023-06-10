@@ -4579,7 +4579,7 @@
     (uuid 00000000-0000-0000-0000-000060e450dc)
     (property "Reference" "U7" (id 0) (at 138.43 182.245 0))
     (property "Value" "BMA400-I2C" (id 1) (at 137.795 162.9664 0))
-    (property "Footprint" "unsurv_offline_pcb_footprints:BMA400" (id 2) (at 132.08 162.56 0)
+    (property "Footprint" "unsurv_offline_pcb_footprints:BMA400_regular" (id 2) (at 132.08 162.56 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "" (id 3) (at 132.08 162.56 0)
@@ -5668,7 +5668,7 @@
     (uuid f7eaf71f-3a9e-446f-8394-662cc7ed5236)
     (property "Reference" "U2" (id 0) (at 199.2577 136.2667 0))
     (property "Value" "RF430CL330HIRGTR‎" (id 1) (at 199.2577 139.0418 0))
-    (property "Footprint" "unsurv_offline_pcb_footprints:RF430_3x3mm" (id 2) (at 189.23 130.81 0)
+    (property "Footprint" "unsurv_offline_pcb_footprints:RF430_3x3mm_regular" (id 2) (at 189.23 130.81 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "" (id 3) (at 189.23 130.81 0)
@@ -6039,7 +6039,7 @@
       (reference "U1") (unit 1) (value "TTGO-Micro32-ESP32") (footprint "unsurv_offline_pcb_footprints:TTGO-Micro32-ESP32")
     )
     (path "/f7eaf71f-3a9e-446f-8394-662cc7ed5236"
-      (reference "U2") (unit 1) (value "RF430CL330HIRGTR‎") (footprint "unsurv_offline_pcb_footprints:RF430_3x3mm")
+      (reference "U2") (unit 1) (value "RF430CL330HIRGTR‎") (footprint "unsurv_offline_pcb_footprints:RF430_3x3mm_regular")
     )
     (path "/00000000-0000-0000-0000-00005f75e10d"
       (reference "U3") (unit 1) (value "CAM-M8C-0-10") (footprint "digikey-footprints:GPS_Module_CAM-M8C-0")
@@ -6054,7 +6054,7 @@
       (reference "U6") (unit 1) (value "BQ25180") (footprint "unsurv:BQ25180")
     )
     (path "/00000000-0000-0000-0000-000060e450dc"
-      (reference "U7") (unit 1) (value "BMA400-I2C") (footprint "unsurv_offline_pcb_footprints:BMA400")
+      (reference "U7") (unit 1) (value "BMA400-I2C") (footprint "unsurv_offline_pcb_footprints:BMA400_regular")
     )
     (path "/1c324c06-2f0c-4b6e-b611-fa015d9dc623"
       (reference "U8") (unit 1) (value "RFM95W-868S2") (footprint "RF_Module:HOPERF_RFM9XW_SMD")

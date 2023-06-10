@@ -19,6 +19,7 @@
 #include "NfcUtils.h"
 #include "SparkFun_Ublox_Arduino_Library.h"
 #include "driver/adc.h"
+#include "driver/periph_ctrl.h"
 #include "esp_sleep.h"
 #include "Arduino_JSON.h"
 
