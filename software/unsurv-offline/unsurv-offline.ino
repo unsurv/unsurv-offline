@@ -111,6 +111,8 @@ void setup()
 
   // lower CPU frequency
   setCpuFrequencyMhz(80);
+
+  updateNFC("Natus et libero sed possimus nam. Et illum a voluptas numquam consequatur et cum iure.");
   
   wakeGPS();
   adc_power_on(); 

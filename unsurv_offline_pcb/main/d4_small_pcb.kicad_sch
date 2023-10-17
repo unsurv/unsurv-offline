@@ -3804,7 +3804,7 @@
     (in_bom yes) (on_board yes)
     (uuid 00000000-0000-0000-0000-00005f0139a0)
     (property "Reference" "D1_or1" (id 0) (at 273.8628 23.2664 0))
-    (property "Value" "LED" (id 1) (at 273.8628 20.955 0))
+    (property "Value" "LED1" (id 1) (at 273.8628 20.955 0))
     (property "Footprint" "digikey-footprints:LED_0603" (id 2) (at 273.685 17.78 0)
       (effects (font (size 1.27 1.27)) hide)
     )
@@ -3865,7 +3865,7 @@
     (property "Reference" "D2_g1" (id 0) (at 278.8412 48.1838 90)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "LED" (id 1) (at 278.8412 50.4952 90)
+    (property "Value" "LED2" (id 1) (at 278.8412 50.4952 90)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Footprint" "digikey-footprints:LED_0603" (id 2) (at 276.86 49.53 0)
@@ -6024,10 +6024,10 @@
       (reference "CARD1") (unit 1) (value "TF-101B") (footprint "unsurv_offline_pcb_footprints:TF-SMD_TF-101B")
     )
     (path "/00000000-0000-0000-0000-00005f0139a0"
-      (reference "D1_or1") (unit 1) (value "LED") (footprint "digikey-footprints:LED_0603")
+      (reference "D1_or1") (unit 1) (value "LED1") (footprint "digikey-footprints:LED_0603")
     )
     (path "/00000000-0000-0000-0000-00005f139fb7"
-      (reference "D2_g1") (unit 1) (value "LED") (footprint "digikey-footprints:LED_0603")
+      (reference "D2_g1") (unit 1) (value "LED2") (footprint "digikey-footprints:LED_0603")
     )
     (path "/93e060df-0aa6-4e35-bf97-cf5cae608bca"
       (reference "J1") (unit 1) (value "S2B-PH-SM4-TB_LF__SN_") (footprint "digikey-footprints:PinHeader_2x1mm_P2mm_SMD_RA")
