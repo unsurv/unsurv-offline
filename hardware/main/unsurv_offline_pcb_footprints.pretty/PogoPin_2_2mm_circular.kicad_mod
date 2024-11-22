@@ -1,9 +1,71 @@
-(module PogoPin_2_2mm_circular (layer F.Cu) (tedit 5F68CB1C)
-  (fp_text reference REF** (at 0 -10.75) (layer F.SilkS)
-    (effects (font (size 1 1) (thickness 0.15)))
-  )
-  (fp_text value PogoPin_2_2mm_circular (at 0 5.25) (layer F.Fab)
-    (effects (font (size 1 1) (thickness 0.15)))
-  )
-  (pad 1 smd circle (at 0 0) (size 2.2 2.2) (layers F.Cu F.Paste F.Mask))
+(footprint "PogoPin_2_2mm_circular"
+	(version 20240108)
+	(generator "pcbnew")
+	(generator_version "8.0")
+	(layer "F.Cu")
+	(property "Reference" "REF**"
+		(at 0 -10.75 0)
+		(layer "F.SilkS")
+		(uuid "0bbf30bd-1b49-4cd6-a045-bc09c04015a5")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Value" "PogoPin_2_2mm_circular"
+		(at 0 5.25 0)
+		(layer "F.Fab")
+		(uuid "8fe09b29-7516-4f8b-a085-00f75a7307d6")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Footprint" ""
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "a9944a3b-d6a5-44e9-8f0d-b949baffe72a")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Datasheet" ""
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "001c2f0f-0255-4341-b9cb-85eb1d91a1f1")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Description" ""
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "a9f41071-63b3-465d-8e74-29d1ba1575ad")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(attr through_hole)
+	(pad "1" smd circle
+		(at 0 0)
+		(size 2.2 2.2)
+		(layers "F.Cu" "F.Mask")
+		(uuid "d45e29ba-642b-42c8-adb4-dad48c3b7664")
+	)
 )
