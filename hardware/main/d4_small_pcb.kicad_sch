@@ -13424,12 +13424,13 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
-			(at 240.03 68.58 0)
+		(property "Description" "RF RCVR GNSS/GPS 1.575GHZ MODULE"
+			(at 245.11 43.18 0)
 			(effects
 				(font
-					(size 1.27 1.27)
+					(size 1.524 1.524)
 				)
+				(justify left)
 				(hide yes)
 			)
 		)
@@ -13485,16 +13486,6 @@
 		)
 		(property "DK_Detail_Page" "/product-detail/en/u-blox-america-inc/CAM-M8C-0-10/672-CAM-M8C-0-10CT-ND/6150677"
 			(at 245.11 45.72 0)
-			(effects
-				(font
-					(size 1.524 1.524)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-		(property "Description" "RF RCVR GNSS/GPS 1.575GHZ MODULE"
-			(at 245.11 43.18 0)
 			(effects
 				(font
 					(size 1.524 1.524)
@@ -18546,12 +18537,13 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
-			(at 22.225 29.845 0)
+		(property "Description" "CONN HEADER SMD R/A 2POS 2MM"
+			(at 17.145 55.245 0)
 			(effects
 				(font
-					(size 1.27 1.27)
+					(size 1.524 1.524)
 				)
+				(justify left)
 				(hide yes)
 			)
 		)
@@ -18607,16 +18599,6 @@
 		)
 		(property "DK_Detail_Page" "/product-detail/en/jst-sales-america-inc/S2B-PH-SM4-TB(LF)(SN)/455-1749-1-ND/926846"
 			(at 17.145 52.705 0)
-			(effects
-				(font
-					(size 1.524 1.524)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-		(property "Description" "CONN HEADER SMD R/A 2POS 2MM"
-			(at 17.145 55.245 0)
 			(effects
 				(font
 					(size 1.524 1.524)
@@ -18953,7 +18935,7 @@
 				)
 			)
 		)
-		(property "Footprint" "unsurv_offline_pcb_footprints:BMA400_regular"
+		(property "Footprint" "unsurv:BMA400_regular"
 			(at 132.08 162.56 0)
 			(effects
 				(font
@@ -19730,12 +19712,13 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
-			(at 174.625 86.36 0)
+		(property "Description" "CONN U.FL RCPT STR 50 OHM SMD"
+			(at 179.705 60.96 0)
 			(effects
 				(font
-					(size 1.27 1.27)
+					(size 1.524 1.524)
 				)
+				(justify left)
 				(hide yes)
 			)
 		)
@@ -19791,16 +19774,6 @@
 		)
 		(property "DK_Detail_Page" "/product-detail/en/hirose-electric-co-ltd/U.FL-R-SMT-1(10)/H11891CT-ND/2504612"
 			(at 179.705 63.5 0)
-			(effects
-				(font
-					(size 1.524 1.524)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-		(property "Description" "CONN U.FL RCPT STR 50 OHM SMD"
-			(at 179.705 60.96 0)
 			(effects
 				(font
 					(size 1.524 1.524)
