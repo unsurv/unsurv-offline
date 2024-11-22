@@ -591,10 +591,6 @@
       },
       {
         "netclass": "Board_0-Default",
-        "pattern": "Board_0-unconnected-(U7-PAD-Pad17)_5"
-      },
-      {
-        "netclass": "Board_0-Default",
         "pattern": "Board_0-unconnected-(U3-RES-Pad2)"
       },
       {
@@ -623,10 +619,6 @@
       },
       {
         "netclass": "Board_0-Default",
-        "pattern": "Board_0-unconnected-(U7-PAD-Pad17)_6"
-      },
-      {
-        "netclass": "Board_0-Default",
         "pattern": "Board_0-unconnected-(USB1-Shield-Pad6)"
       },
       {
@@ -644,10 +636,6 @@
       {
         "netclass": "Board_0-Default",
         "pattern": "Board_0-39"
-      },
-      {
-        "netclass": "Board_0-Default",
-        "pattern": "Board_0-unconnected-(U7-PAD-Pad17)_2"
       },
       {
         "netclass": "Board_0-Default",
@@ -703,15 +691,7 @@
       },
       {
         "netclass": "Board_0-Default",
-        "pattern": "Board_0-unconnected-(U7-PAD-Pad17)_1"
-      },
-      {
-        "netclass": "Board_0-Default",
         "pattern": "Board_0-32"
-      },
-      {
-        "netclass": "Board_0-Default",
-        "pattern": "Board_0-unconnected-(U7-PAD-Pad17)"
       },
       {
         "netclass": "Board_0-Default",
@@ -800,10 +780,6 @@
       {
         "netclass": "Board_0-Default",
         "pattern": "Board_0-unconnected-(U6-XI-Pad7)"
-      },
-      {
-        "netclass": "Board_0-Default",
-        "pattern": "Board_0-unconnected-(U7-PAD-Pad17)_4"
       },
       {
         "netclass": "Board_0-Default",
@@ -971,10 +947,6 @@
       },
       {
         "netclass": "Board_1-Default",
-        "pattern": "Board_1-unconnected-(U7-PAD-Pad17)_6"
-      },
-      {
-        "netclass": "Board_1-Default",
         "pattern": "Board_1-DTR"
       },
       {
@@ -1007,19 +979,11 @@
       },
       {
         "netclass": "Board_1-Default",
-        "pattern": "Board_1-unconnected-(U7-PAD-Pad17)"
-      },
-      {
-        "netclass": "Board_1-Default",
         "pattern": "Board_1-unconnected-(U7-NC-Pad14)"
       },
       {
         "netclass": "Board_1-Default",
         "pattern": "Board_1-unconnected-(U6-~{DCD}-Pad12)"
-      },
-      {
-        "netclass": "Board_1-Default",
-        "pattern": "Board_1-unconnected-(U7-PAD-Pad17)_4"
       },
       {
         "netclass": "Board_1-Default",
@@ -1143,10 +1107,6 @@
       },
       {
         "netclass": "Board_1-Default",
-        "pattern": "Board_1-unconnected-(U7-PAD-Pad17)_1"
-      },
-      {
-        "netclass": "Board_1-Default",
         "pattern": "Board_1-unconnected-(U3-LNA_EN-Pad30)"
       },
       {
@@ -1171,19 +1131,11 @@
       },
       {
         "netclass": "Board_1-Default",
-        "pattern": "Board_1-unconnected-(U7-PAD-Pad17)_5"
-      },
-      {
-        "netclass": "Board_1-Default",
         "pattern": "Board_1-unconnected-(U2-NC-Pad32)"
       },
       {
         "netclass": "Board_1-Default",
         "pattern": "Board_1-33"
-      },
-      {
-        "netclass": "Board_1-Default",
-        "pattern": "Board_1-unconnected-(U7-PAD-Pad17)_2"
       },
       {
         "netclass": "Board_1-Default",
@@ -1195,19 +1147,11 @@
       },
       {
         "netclass": "Board_2-Default",
-        "pattern": "Board_2-unconnected-(U7-PAD-Pad17)_2"
-      },
-      {
-        "netclass": "Board_2-Default",
         "pattern": "Board_2-ANT"
       },
       {
         "netclass": "Board_2-Default",
         "pattern": "Board_2-unconnected-(U6-~{CTS}-Pad9)"
-      },
-      {
-        "netclass": "Board_2-Default",
-        "pattern": "Board_2-unconnected-(U7-PAD-Pad17)_6"
       },
       {
         "netclass": "Board_2-Default",
@@ -1375,10 +1319,6 @@
       },
       {
         "netclass": "Board_2-Default",
-        "pattern": "Board_2-unconnected-(U7-PAD-Pad17)_4"
-      },
-      {
-        "netclass": "Board_2-Default",
         "pattern": "Board_2-5"
       },
       {
@@ -1439,14 +1379,6 @@
       },
       {
         "netclass": "Board_2-Default",
-        "pattern": "Board_2-unconnected-(U7-PAD-Pad17)_1"
-      },
-      {
-        "netclass": "Board_2-Default",
-        "pattern": "Board_2-unconnected-(U7-PAD-Pad17)_5"
-      },
-      {
-        "netclass": "Board_2-Default",
         "pattern": "Board_2-Net-(U5-EN)"
       },
       {
@@ -1492,10 +1424,6 @@
       {
         "netclass": "Board_2-Default",
         "pattern": "Board_2-+3V3"
-      },
-      {
-        "netclass": "Board_2-Default",
-        "pattern": "Board_2-unconnected-(U7-PAD-Pad17)"
       },
       {
         "netclass": "Board_2-Default",
@@ -1663,10 +1591,6 @@
       },
       {
         "netclass": "Board_3-Default",
-        "pattern": "Board_3-unconnected-(U7-PAD-Pad17)_2"
-      },
-      {
-        "netclass": "Board_3-Default",
         "pattern": "Board_3-unconnected-(U6-XO-Pad8)"
       },
       {
@@ -1759,14 +1683,6 @@
       },
       {
         "netclass": "Board_3-Default",
-        "pattern": "Board_3-unconnected-(U7-PAD-Pad17)_5"
-      },
-      {
-        "netclass": "Board_3-Default",
-        "pattern": "Board_3-unconnected-(U7-PAD-Pad17)"
-      },
-      {
-        "netclass": "Board_3-Default",
         "pattern": "Board_3-unconnected-(U3-RXD{slash}SPI_MOSI-Pad26)"
       },
       {
@@ -1780,10 +1696,6 @@
       {
         "netclass": "Board_3-Default",
         "pattern": "Board_3-Net-(U3-RF_IN)"
-      },
-      {
-        "netclass": "Board_3-Default",
-        "pattern": "Board_3-unconnected-(U7-PAD-Pad17)_6"
       },
       {
         "netclass": "Board_3-Default",
@@ -1863,10 +1775,6 @@
       },
       {
         "netclass": "Board_3-Default",
-        "pattern": "Board_3-unconnected-(U7-PAD-Pad17)_4"
-      },
-      {
-        "netclass": "Board_3-Default",
         "pattern": "Board_3-unconnected-(U2-IO12-Pad14)"
       },
       {
@@ -1876,10 +1784,6 @@
       {
         "netclass": "Board_3-Default",
         "pattern": "Board_3-unconnected-(U3-RES-Pad28)"
-      },
-      {
-        "netclass": "Board_3-Default",
-        "pattern": "Board_3-unconnected-(U7-PAD-Pad17)_1"
       },
       {
         "netclass": "Board_3-Default",

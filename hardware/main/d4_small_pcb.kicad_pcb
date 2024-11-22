@@ -9541,7 +9541,7 @@
 			(at -1.4 -0.4 0)
 			(unlocked yes)
 			(layer "F.SilkS")
-			(uuid "14d81483-2a3b-416b-b6a0-8d601b642854")
+			(uuid "2087932a-85ef-42b5-a73c-59c6bcb4850c")
 			(effects
 				(font
 					(size 0.5 0.5)
@@ -9553,7 +9553,7 @@
 			(at 0 1.91 90)
 			(unlocked yes)
 			(layer "F.Fab")
-			(uuid "f6ba9bff-1469-4f08-b57f-f860cdfee2f8")
+			(uuid "1201667c-6457-4a13-b780-1ad61331b5c5")
 			(effects
 				(font
 					(size 1 1)
@@ -9565,7 +9565,7 @@
 			(at 0 0 90)
 			(layer "F.Fab")
 			(hide yes)
-			(uuid "e42a5fd9-0c14-442a-8084-9848c760384d")
+			(uuid "f82089e0-691e-42e4-ba5d-6d95b9d1770b")
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9577,7 +9577,7 @@
 			(at 0 0 90)
 			(layer "F.Fab")
 			(hide yes)
-			(uuid "c7087a80-ce7f-4113-97d1-532b68fd1734")
+			(uuid "00b920dc-6c8c-4786-b40d-d8658050c46c")
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9589,7 +9589,7 @@
 			(at 0 0 90)
 			(layer "F.Fab")
 			(hide yes)
-			(uuid "50312f4e-ac38-4dec-89b9-0924ca85aabc")
+			(uuid "33fee24d-2083-40e1-a6d5-96edb3aa4bce")
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9610,7 +9610,7 @@
 			)
 			(fill none)
 			(layer "F.SilkS")
-			(uuid "f4f43437-ceb8-4c25-bf6e-f83d32d2d43a")
+			(uuid "7cfad611-0151-4a3a-ac11-5af70899771a")
 		)
 		(fp_circle
 			(center -1.55 -1.07)
@@ -9621,7 +9621,7 @@
 			)
 			(fill none)
 			(layer "F.SilkS")
-			(uuid "468eeadb-5c15-4d2e-b16a-9bb277dd2d03")
+			(uuid "f4d111f6-9220-44cb-a9e4-1a88b78c4e2b")
 		)
 		(pad "1" smd rect
 			(at -0.75 0.775 90)
@@ -9631,7 +9631,7 @@
 			(pinfunction "ADDR")
 			(pintype "input")
 			(solder_paste_margin -0.025)
-			(uuid "c9672190-4762-446b-9c06-157c4d47364c")
+			(uuid "9fc90329-df2a-435d-9f08-a0a804b236da")
 		)
 		(pad "2" smd rect
 			(at -0.25 0.775 90)
@@ -9641,7 +9641,7 @@
 			(pinfunction "SDA")
 			(pintype "input")
 			(solder_paste_margin -0.025)
-			(uuid "ef934452-8ca3-4ffe-8498-538d2822fc50")
+			(uuid "0184072b-57ea-406a-984c-2b2a088e4237")
 		)
 		(pad "3" smd rect
 			(at 0.25 0.775 90)
@@ -9651,7 +9651,7 @@
 			(pinfunction "VDDIO")
 			(pintype "input")
 			(solder_paste_margin -0.025)
-			(uuid "5cb6e2a2-fb20-4a61-9941-567b7ad33b82")
+			(uuid "7163fac5-2613-4919-abd6-ec25b4a62541")
 		)
 		(pad "4" smd rect
 			(at 0.75 0.775 90)
@@ -9661,7 +9661,7 @@
 			(pinfunction "NC")
 			(pintype "no_connect")
 			(solder_paste_margin -0.025)
-			(uuid "33a17b5c-4ac7-45ad-bec8-4d9de0c410b7")
+			(uuid "e3a83799-9ff1-4e68-a09d-425cbe8a3831")
 		)
 		(pad "5" smd rect
 			(at 0.775 0.25 180)
@@ -9671,7 +9671,7 @@
 			(pinfunction "INT1")
 			(pintype "input")
 			(solder_paste_margin -0.025)
-			(uuid "bdecb694-e9e9-4fad-b6a5-0586816f9519")
+			(uuid "47918d1b-81cd-45d0-9b5a-dcd47110fe21")
 		)
 		(pad "6" smd rect
 			(at 0.775 -0.25 180)
@@ -9681,7 +9681,7 @@
 			(pinfunction "INT2")
 			(pintype "input")
 			(solder_paste_margin -0.025)
-			(uuid "6d765dcf-2e60-45c6-bbd0-db4e25f108b4")
+			(uuid "63195a1b-b1c2-49c2-99bf-e411d14cebcd")
 		)
 		(pad "7" smd rect
 			(at 0.75 -0.775 90)
@@ -9691,7 +9691,7 @@
 			(pinfunction "VDD")
 			(pintype "input")
 			(solder_paste_margin -0.025)
-			(uuid "6c9266ee-1260-435a-9a9d-c314eef4bfd0")
+			(uuid "4a1c28ad-1f19-4510-a56b-641ec5dc3325")
 		)
 		(pad "8" smd rect
 			(at 0.25 -0.775 90)
@@ -9701,7 +9701,7 @@
 			(pinfunction "GND")
 			(pintype "input")
 			(solder_paste_margin -0.025)
-			(uuid "fb0ec230-8882-42fc-acf8-26444f858432")
+			(uuid "9b676991-d424-4ff2-8eaf-0a744ac63fbe")
 		)
 		(pad "9" smd rect
 			(at -0.25 -0.775 90)
@@ -9711,7 +9711,7 @@
 			(pinfunction "GND")
 			(pintype "input")
 			(solder_paste_margin -0.025)
-			(uuid "8892082c-1c38-4625-88fc-e4a3b318b111")
+			(uuid "8b02921e-ed3f-42d8-89e3-86384debfa75")
 		)
 		(pad "10" smd rect
 			(at -0.75 -0.775 90)
@@ -9721,7 +9721,7 @@
 			(pinfunction "VDDIO")
 			(pintype "input")
 			(solder_paste_margin -0.025)
-			(uuid "38eb8538-e136-4f9d-8d8d-a2164860376e")
+			(uuid "6fdcbbf0-1f98-4b5a-b6d1-4264b0b4f7e4")
 		)
 		(pad "11" smd rect
 			(at -0.775 -0.25 180)
@@ -9731,7 +9731,7 @@
 			(pinfunction "NC")
 			(pintype "no_connect")
 			(solder_paste_margin -0.025)
-			(uuid "fb8c0bda-5a76-4338-bbb6-f72129e9d8dd")
+			(uuid "66c97649-e674-4b56-a2d4-b6e05a64c211")
 		)
 		(pad "12" smd rect
 			(at -0.775 0.25 180)
@@ -9741,7 +9741,7 @@
 			(pinfunction "SCL")
 			(pintype "input")
 			(solder_paste_margin -0.025)
-			(uuid "1b17ae05-a97d-4f39-b4ee-93302410c6bb")
+			(uuid "0914fe1e-0f88-4322-ac16-129ca09782ba")
 		)
 	)
 	(footprint "TestPoint:TestPoint_Pad_D1.0mm"
@@ -10080,7 +10080,7 @@
 			(at -1.15 -1.8 0)
 			(unlocked yes)
 			(layer "F.SilkS")
-			(uuid "156b9b34-7a5e-431c-b96d-f205659f3a6a")
+			(uuid "b47e3a5f-c8d3-47d2-846c-1e788b802980")
 			(effects
 				(font
 					(size 0.5 0.5)
@@ -10092,7 +10092,7 @@
 			(at 0 1.75 -90)
 			(unlocked yes)
 			(layer "F.Fab")
-			(uuid "64398fe2-8e16-4630-afa8-cdb8bcd78408")
+			(uuid "6847e64c-a62b-4ca1-b69e-7e13b4a35ba0")
 			(effects
 				(font
 					(size 1 1)
@@ -10104,7 +10104,7 @@
 			(at 0 0 -90)
 			(layer "F.Fab")
 			(hide yes)
-			(uuid "57cc4507-e77e-4214-a453-32926bfa2af4")
+			(uuid "3d3b8938-2071-4e5a-b186-2cd50a7fdab6")
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10116,7 +10116,7 @@
 			(at 0 0 -90)
 			(layer "F.Fab")
 			(hide yes)
-			(uuid "a56bf684-7327-4dc8-a26e-4eebdc55e588")
+			(uuid "dc1f1cb3-7277-439b-b935-2b5f71004056")
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10128,7 +10128,7 @@
 			(at 0 0 -90)
 			(layer "F.Fab")
 			(hide yes)
-			(uuid "315d00b0-afaf-4903-a543-1b52af595967")
+			(uuid "13a33b79-10e6-41e7-9e49-c2ab104135e4")
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10165,106 +10165,186 @@
 		(sheetfile "d4_small_pcb.kicad_sch")
 		(attr smd)
 		(fp_rect
+			(start -0.275 0.525)
+			(end -0.125 0.675)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(fill solid)
+			(layer "F.Paste")
+			(uuid "11ef355f-b3d2-4936-9df2-4462b73e7cff")
+		)
+		(fp_rect
+			(start 0.125 0.525)
+			(end 0.275 0.675)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(fill solid)
+			(layer "F.Paste")
+			(uuid "e9a16357-3ba6-4893-9d62-135a991f0337")
+		)
+		(fp_rect
+			(start -0.275 0.125)
+			(end -0.125 0.275)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(fill solid)
+			(layer "F.Paste")
+			(uuid "88492192-983c-461a-86eb-e7c1e2771429")
+		)
+		(fp_rect
+			(start 0.125 0.125)
+			(end 0.275 0.275)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(fill solid)
+			(layer "F.Paste")
+			(uuid "dc4b230f-8a80-4eba-b6cc-158067873c96")
+		)
+		(fp_rect
+			(start -0.275 -0.275)
+			(end -0.125 -0.125)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(fill solid)
+			(layer "F.Paste")
+			(uuid "37161606-8317-4eed-a79d-3bd87a818f15")
+		)
+		(fp_rect
+			(start 0.125 -0.275)
+			(end 0.275 -0.125)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(fill solid)
+			(layer "F.Paste")
+			(uuid "1604cb2b-333b-4d59-813a-d8a205795b22")
+		)
+		(fp_rect
+			(start -0.275 -0.675)
+			(end -0.125 -0.525)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(fill solid)
+			(layer "F.Paste")
+			(uuid "f0380479-b343-4789-b392-f1ee23562707")
+		)
+		(fp_rect
+			(start 0.125 -0.675)
+			(end 0.275 -0.525)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(fill solid)
+			(layer "F.Paste")
+			(uuid "8b809b89-4eab-4aa3-b346-fa5e27fad589")
+		)
+		(fp_rect
 			(start -0.5 -1)
 			(end 0.5 1)
 			(stroke
-				(width 0.1)
+				(width 0.12)
 				(type solid)
 			)
 			(fill none)
 			(layer "F.SilkS")
-			(uuid "71328365-a61c-4ee8-8da8-8ff30ec39f3b")
+			(uuid "ccdae0d1-fe13-4da3-b0c3-8aea0876be39")
 		)
 		(fp_circle
 			(center -0.75 -1)
-			(end -0.75 -0.75)
+			(end -0.75 -0.875)
 			(stroke
-				(width 0.1)
+				(width 0.12)
 				(type solid)
 			)
 			(fill none)
 			(layer "F.SilkS")
-			(uuid "9e6af595-02c3-4994-8e60-c4fb0b95907d")
+			(uuid "e0cb10b7-979d-444d-8587-bcd281fe4c31")
 		)
-		(pad "1" smd roundrect
+		(pad "1" smd circle
 			(at -0.2 -0.6 270)
-			(size 0.25 0.25)
-			(layers "F.Cu" "F.Paste" "F.Mask")
-			(roundrect_rratio 0.25)
+			(size 0.23 0.23)
+			(layers "F.Cu" "F.Mask")
 			(net 81 "36")
 			(pinfunction "INT")
 			(pintype "input")
-			(uuid "a99cf1cb-01c9-4fa6-82b4-433158585257")
+			(uuid "d0739f7d-40ef-41e1-af5e-42e6e37c4569")
 		)
-		(pad "2" smd roundrect
+		(pad "2" smd circle
 			(at -0.2 -0.2 270)
-			(size 0.25 0.25)
-			(layers "F.Cu" "F.Paste" "F.Mask")
-			(roundrect_rratio 0.25)
+			(size 0.23 0.23)
+			(layers "F.Cu" "F.Mask")
 			(net 22 "SCL")
 			(pinfunction "SCL")
 			(pintype "input")
-			(uuid "72346202-8f79-4930-9c0c-02d17ba76058")
+			(uuid "d4b783e9-d792-4cdc-9101-d5dca6b6b322")
 		)
-		(pad "3" smd roundrect
+		(pad "3" smd circle
 			(at -0.2 0.2 270)
-			(size 0.25 0.25)
-			(layers "F.Cu" "F.Paste" "F.Mask")
-			(roundrect_rratio 0.25)
+			(size 0.23 0.23)
+			(layers "F.Cu" "F.Mask")
 			(net 21 "SDA")
 			(pinfunction "SDA")
 			(pintype "input")
-			(uuid "370b22e0-d78a-4f33-8411-89cff877ea9e")
+			(uuid "5e315751-63fc-4f60-8343-201f4de4bbdf")
 		)
-		(pad "4" smd roundrect
+		(pad "4" smd circle
 			(at -0.2 0.6 270)
-			(size 0.25 0.25)
-			(layers "F.Cu" "F.Paste" "F.Mask")
-			(roundrect_rratio 0.25)
+			(size 0.23 0.23)
+			(layers "F.Cu" "F.Mask")
 			(net 36 "Net-(U1-TS{slash}MR)")
 			(pinfunction "TS/MR")
 			(pintype "input")
-			(uuid "d75712c8-a3c4-4465-86d4-e89a001ef0b9")
+			(uuid "c56bb558-cd9f-4af2-9521-38db6c302e99")
 		)
-		(pad "5" smd roundrect
+		(pad "5" smd circle
 			(at 0.2 -0.6 270)
-			(size 0.25 0.25)
-			(layers "F.Cu" "F.Paste" "F.Mask")
-			(roundrect_rratio 0.25)
+			(size 0.23 0.23)
+			(layers "F.Cu" "F.Mask")
 			(net 5 "+5V")
 			(pinfunction "IN")
 			(pintype "input")
-			(uuid "08c4ac54-adea-4da0-aeb0-c47dd0dd4982")
+			(uuid "23628927-fb7f-4cd8-a6b7-120ad21090bc")
 		)
-		(pad "6" smd roundrect
+		(pad "6" smd circle
 			(at 0.2 -0.2 270)
-			(size 0.25 0.25)
-			(layers "F.Cu" "F.Paste" "F.Mask")
-			(roundrect_rratio 0.25)
+			(size 0.23 0.23)
+			(layers "F.Cu" "F.Mask")
 			(net 80 "VCC")
 			(pinfunction "SYS")
 			(pintype "input")
-			(uuid "8f73ad67-eeb4-435c-9fbe-ccad28ce2320")
+			(uuid "6988da30-9e9e-47f1-874b-ebccded27e82")
 		)
-		(pad "7" smd roundrect
+		(pad "7" smd circle
 			(at 0.2 0.2 270)
-			(size 0.25 0.25)
-			(layers "F.Cu" "F.Paste" "F.Mask")
-			(roundrect_rratio 0.25)
+			(size 0.23 0.23)
+			(layers "F.Cu" "F.Mask")
 			(net 3 "+BATT")
 			(pinfunction "BAT")
 			(pintype "input")
-			(uuid "44af9e3c-18b1-4348-a6d9-bd1fb6285fc6")
+			(uuid "293dad20-e936-487e-b82b-a3045a547c98")
 		)
-		(pad "8" smd roundrect
+		(pad "8" smd circle
 			(at 0.2 0.6 270)
-			(size 0.25 0.25)
-			(layers "F.Cu" "F.Paste" "F.Mask")
-			(roundrect_rratio 0.25)
+			(size 0.23 0.23)
+			(layers "F.Cu" "F.Mask")
 			(net 4 "GND")
 			(pinfunction "GND")
 			(pintype "input")
-			(uuid "4554a866-a792-434f-ba41-4ff096d44134")
+			(uuid "4d195886-0ef5-42fc-8902-84875da11180")
 		)
 	)
 	(footprint "Resistor_SMD:R_0603_1608Metric"
