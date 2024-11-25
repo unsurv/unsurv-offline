@@ -17088,7 +17088,7 @@
 				)
 			)
 		)
-		(property "Footprint" "unsurv:BQ25180"
+		(property "Footprint" "unsurv_offline_pcb_footprints:BQ25180"
 			(at 78.105 31.115 0)
 			(effects
 				(font
@@ -18935,7 +18935,7 @@
 				)
 			)
 		)
-		(property "Footprint" "unsurv:BMA400_regular"
+		(property "Footprint" "unsurv_offline_pcb_footprints:BMA400_regular"
 			(at 132.08 162.56 0)
 			(effects
 				(font

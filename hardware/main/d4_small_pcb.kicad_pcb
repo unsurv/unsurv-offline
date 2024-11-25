@@ -5746,7 +5746,7 @@
 			)
 		)
 		(property "Footprint" "digikey-footprints:GPS_Module_CAM-M8C-0"
-			(at 0 0 -90)
+			(at 0 0 90)
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "1f221265-6712-46e5-84c0-5a965ec75bf3")
@@ -5758,7 +5758,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.u-blox.com/sites/default/files/CAM-M8-FW3_DataSheet_%28UBX-15031574%29.pdf"
-			(at 0 0 -90)
+			(at 0 0 90)
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "425dd01f-fa21-4ac9-86b4-650975bcade6")
@@ -6382,7 +6382,7 @@
 			(pintype "power_in")
 			(uuid "55f164e1-9fb0-44c7-b126-82ea5f3a297c")
 		)
-		(model "${KICAD6_3DMODEL_DIR}/imported/CAM-M8.STEP"
+		(model "${KICAD8_3DMODEL_DIR}/imported/CAM-M8.STEP"
 			(offset
 				(xyz 5.1 -10.8 -7.2)
 			)
