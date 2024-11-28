@@ -10,7 +10,7 @@
     },
     "cuts": {
         "type": "mousebites",
-        "drill": "0.2mm",
+        "drill": "0.25mm",
         "spacing": "0.35mm"
     },
     "framing": {
