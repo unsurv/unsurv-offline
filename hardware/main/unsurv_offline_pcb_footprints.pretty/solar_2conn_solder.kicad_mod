@@ -1,0 +1,112 @@
+(footprint "solar_2conn_solder"
+	(version 20240108)
+	(generator "pcbnew")
+	(generator_version "8.0")
+	(layer "F.Cu")
+	(property "Reference" "REF**"
+		(at 0 -6.1 0)
+		(unlocked yes)
+		(layer "F.SilkS")
+		(uuid "59b3e4e7-e131-4a64-8630-29cb7f41db8d")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Value" "solar_2conn_solder"
+		(at 0 5.5 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(uuid "87592533-ff1d-46e7-a643-17a37cb67690")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Footprint" ""
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "135f4bb5-953b-4784-96dc-971b6cf46cff")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Datasheet" ""
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "7ca07dba-ed37-48aa-a7af-90a3bc564b64")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Description" ""
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "4f7d6dc2-0996-4b09-8532-7fa7585edd47")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(attr smd)
+	(fp_text user "SOLAR+"
+		(at -3.5 2.4 90)
+		(unlocked yes)
+		(layer "F.SilkS")
+		(uuid "551a7c44-721f-4411-8bed-e308399fc9f4")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+			(justify left bottom)
+		)
+	)
+	(fp_text user "SOLAR-"
+		(at 4.8 2.4 90)
+		(unlocked yes)
+		(layer "F.SilkS")
+		(uuid "fe478500-0058-4141-abc6-9d32bc465f71")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+			(justify left bottom)
+		)
+	)
+	(pad "1" smd roundrect
+		(at -2 0 90)
+		(size 5 2)
+		(layers "F.Cu" "F.Paste" "F.Mask")
+		(roundrect_rratio 0.25)
+		(thermal_bridge_angle 45)
+		(uuid "56ac5610-5ac3-4f88-83f1-00603374bf72")
+	)
+	(pad "2" smd roundrect
+		(at 2 0 90)
+		(size 5 2)
+		(layers "F.Cu" "F.Paste" "F.Mask")
+		(roundrect_rratio 0.25)
+		(thermal_bridge_angle 45)
+		(uuid "4c598def-0c74-4a7f-8dc1-3b83c0f79068")
+	)
+)
