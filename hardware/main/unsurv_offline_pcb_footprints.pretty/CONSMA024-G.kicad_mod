@@ -86,8 +86,21 @@
 			(type default)
 		)
 		(fill none)
-		(layer "Edge.Cuts")
+		(layer "F.CrtYd")
 		(uuid "340502dc-8a77-4a6e-b75e-e190310c2d41")
+	)
+	(fp_text user "BOARD CUT"
+		(at -4.1 8.8 0)
+		(unlocked yes)
+		(layer "F.CrtYd")
+		(uuid "2a96957b-9e7d-4f11-a391-cbdcd99605b1")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+			(justify left bottom)
+		)
 	)
 	(pad "1" smd roundrect
 		(at 0 -2.1 180)
