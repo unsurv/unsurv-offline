@@ -1,0 +1,106 @@
+(footprint "EG1270 switch"
+	(version 20260206)
+	(generator "pcbnew")
+	(generator_version "10.0")
+	(layer "F.Cu")
+	(property "Reference" "REF**"
+		(at 0 -2.5 0)
+		(unlocked yes)
+		(layer "F.SilkS")
+		(uuid "7706569d-e553-423e-a60d-b092b3ee32d8")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Value" "EG1270 switch"
+		(at 0 3.45 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(uuid "58d522c5-8c0b-4b39-87ed-f670317244aa")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Datasheet" ""
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "4528b1a9-7ba9-4b45-b6b7-8369e4c5cbd0")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Description" ""
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "226d9f61-0606-4653-8611-f76be41e6159")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(attr through_hole)
+	(duplicate_pad_numbers_are_jumpers no)
+	(fp_rect
+		(start -4.25 -1.75)
+		(end 4.25 1.75)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.SilkS")
+		(uuid "4e320b44-3ebe-41d6-9d0e-c3283d167805")
+	)
+	(fp_text user "${REFERENCE}"
+		(at 0 4.95 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(uuid "5debcbaf-166b-4839-9c0d-9b45ed576036")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(pad "1" thru_hole circle
+		(at -2.5 0)
+		(size 1.6 1.6)
+		(drill 0.8)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "befe6be9-37b4-432e-87a5-496f316fb290")
+	)
+	(pad "2" thru_hole circle
+		(at 0 0)
+		(size 1.6 1.6)
+		(drill 0.8)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "42078306-f4dd-4ade-9156-bc4e862a78c7")
+	)
+	(pad "3" thru_hole circle
+		(at 2.5 0)
+		(size 1.6 1.6)
+		(drill 0.8)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "cef168f8-19eb-4246-a627-bad3f719eff5")
+	)
+	(embedded_fonts no)
+)

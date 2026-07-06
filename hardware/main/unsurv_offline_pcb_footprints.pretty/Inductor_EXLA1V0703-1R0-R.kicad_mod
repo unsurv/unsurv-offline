@@ -1,0 +1,96 @@
+(footprint "Inductor_EXLA1V0703-1R0-R"
+	(version 20260206)
+	(generator "pcbnew")
+	(generator_version "10.0")
+	(layer "F.Cu")
+	(property "Reference" "REF**"
+		(at 0 -12.8 0)
+		(unlocked yes)
+		(layer "F.SilkS")
+		(uuid "31c9d8ed-ab92-4f73-ac3a-22a1e09ffa8c")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Value" "Inductor_EXLA1V0703-1R0-R"
+		(at 0 12 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(uuid "2fd5cf52-dd58-430b-a346-fab331bf0654")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Datasheet" ""
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "41ca50aa-351e-4af3-9444-f85e41fe5c9f")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Description" ""
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "4beba169-e52c-48fa-b178-2d396503f1dd")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(attr through_hole)
+	(duplicate_pad_numbers_are_jumpers no)
+	(fp_rect
+		(start -4.2 -4)
+		(end 4.2 4)
+		(stroke
+			(width 0.12)
+			(type default)
+		)
+		(fill no)
+		(layer "F.SilkS")
+		(uuid "4ab4fb6a-fe56-404c-99c6-d80dd59f538a")
+	)
+	(fp_text user "${REFERENCE}"
+		(at 0 13.5 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(uuid "ce0b8d7a-040c-43e5-ba05-80ac24d5f5ca")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(pad "1" smd roundrect
+		(at 0 -2.55)
+		(size 7.2 2.3)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.15)
+		(uuid "6f7dde47-08b8-42db-91ae-c206cc8624e7")
+	)
+	(pad "2" smd roundrect
+		(at 0 2.55)
+		(size 7.2 2.3)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.15)
+		(uuid "fd5ab62e-4cb8-4744-a3f0-c7813109550a")
+	)
+	(embedded_fonts no)
+)
